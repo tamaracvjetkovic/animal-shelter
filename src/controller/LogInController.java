@@ -16,22 +16,13 @@ public class LogInController {
         return user;
     }
 
-    public User signUp(String name, String lastname, String email, String birthDate, String username, String password){
+    public User signUp(String name, String lastname, String email, Date birthDate, String username, String password){
         User user = UsersList.getInstance().getByUsername(username);
         if(user!=null){
             return null;    //user already exists
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        try {
-            Date date = Date.from(Instant.from(LocalDate.parse(birthDate, formatter)));
-            System.out.println("Parsed Date: " + date);
-            user = UsersList.getInstance().createUser(name,lastname,email, date,username,password,UserState.MEMBER);
-
-        } catch (DateTimeParseException e) {
-            System.out.println("Doslo je do greske pri parsovanje datuma u registraciji");
-            return null;
-        }
+        user = UsersList.getInstance().createUser(name,lastname,email, birthDate,username,password,UserState.MEMBER);
         return user;
     }
 }

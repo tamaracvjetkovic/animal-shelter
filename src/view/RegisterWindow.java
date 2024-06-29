@@ -1,5 +1,9 @@
 package view;
 
+import controller.LogInController;
+import domain.enums.UserState;
+import domain.model.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
@@ -73,13 +77,18 @@ public class RegisterWindow extends JFrame {
 
             // Validate and process registration (for example, print values)
             if (validateInputs(username, password, name, lastName, email, birthdate)) {
-                System.out.println("Registration successful!");
-                System.out.println("Username: " + username);
-                System.out.println("Password: " + password); // In practice, handle securely
-                System.out.println("Name: " + name);
-                System.out.println("Last Name: " + lastName);
-                System.out.println("Email: " + email);
-                System.out.println("Birthdate: " + birthdate);
+                LogInController controller = new LogInController();
+                User user = controller.signUp(name,lastName,email,birthdate,username,password);
+                if(user == null){
+                    JOptionPane.showMessageDialog(this, "Choose another username.");
+                }else{
+                    if(user.getUserState() == UserState.MEMBER){
+
+                    }else if(user.getUserState() == UserState.VOLUNTEER){
+
+                    }
+                    this.dispose();
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Please fill out all fields correctly.");
             }
