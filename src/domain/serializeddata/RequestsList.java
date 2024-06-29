@@ -1,17 +1,14 @@
-package domain.model.podaci;
+package domain.serializeddata;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
-import domain.enums.UserState;
-import domain.model.Account;
 import domain.model.Post;
 import domain.model.Request;
 import domain.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 @XStreamAlias("requestsList")
 public class RequestsList {

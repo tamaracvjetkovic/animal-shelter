@@ -2,12 +2,8 @@ package controller;
 
 import domain.enums.UserState;
 import domain.model.User;
-import domain.model.podaci.UsersList;
+import domain.serializeddata.UsersList;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public class LogInController {

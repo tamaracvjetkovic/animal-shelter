@@ -1,11 +1,10 @@
-package domain.model.podaci;
+package domain.serializeddata;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import domain.enums.UserState;
 import domain.model.Account;
 
 @XStreamAlias("accountsList")

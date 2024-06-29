@@ -2,11 +2,7 @@ package controller;
 
 import domain.enums.RequestState;
 import domain.model.*;
-import domain.model.podaci.RequestsList;
-import domain.serializeddata.AnimalList;
-import domain.serializeddata.BreedList;
-import domain.serializeddata.PostList;
-import dtos.PostDTO;
+import domain.serializeddata.RequestsList;
 
 import java.util.ArrayList;
 
