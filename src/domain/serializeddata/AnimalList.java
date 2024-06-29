@@ -45,4 +45,14 @@ public class AnimalList {
         this.animals.add(animal);
         return animal;
     }
+
+    public Animal getAnimal(int id) {
+        for (Animal animal : animals) {
+            if (animal.getId() == id) {
+                return animal;
+            }
+        }
+
+        return null;
+    }
 }

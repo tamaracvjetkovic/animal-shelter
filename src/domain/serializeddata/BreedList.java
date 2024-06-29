@@ -45,4 +45,14 @@ public class BreedList {
         this.breeds.add(breed);
         return breed;
     }
+
+    public Breed getBreedByAnimalId(int animalId) {
+        for (Breed breed : breeds) {
+            if(breed.getAnimals().contains(animalId)) {
+                return breed;
+            }
+        }
+
+        return null;
+    }
 }
