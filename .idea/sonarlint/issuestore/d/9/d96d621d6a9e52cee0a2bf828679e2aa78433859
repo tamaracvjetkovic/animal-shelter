@@ -1,0 +1,10 @@
+
+…
+java:S1319"jThe type of "multimedia" should be an interface such as "List" rather than the implementation "ArrayList".(ÌÜ ¥üÿÿÿÿ
+‹
+java:S1319G"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(æ¢Ô‘øÿÿÿÿ
+…
+java:S1319J"jThe type of "multimedia" should be an interface such as "List" rather than the implementation "ArrayList".(ãšåøÿÿÿÿ
+V	java:S107"AConstructor has 9 parameters, which is greater than 7 authorized.(ˆø‘
+M
+java:S1135"2Complete the task associated to this TODO comment.(ƒŠ® úÿÿÿÿ
