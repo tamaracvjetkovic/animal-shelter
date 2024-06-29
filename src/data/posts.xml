@@ -1,13 +1,3 @@
 <postList>
-  <posts>
-    <post>
-      <id>1</id>
-      <animalId>1</animalId>
-      <commentsIds>
-        <int>1</int>
-        <int>2</int>
-        <int>3</int>
-      </commentsIds>
-    </post>
-  </posts>
+  <posts/>
 </postList>
