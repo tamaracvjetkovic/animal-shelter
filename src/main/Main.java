@@ -19,7 +19,7 @@ public class Main {
             Serialization serialization = new Serialization();
             serialization.load();
             System.out.println(AnimalList.getInstance().getAnimals());
-            // MainWindow mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
 //            PostList.getInstance().addPost(new Post(PostList.getInstance().generateId(), 1,
 //                    new ArrayList<>(Arrays.asList(1,2,3))));
 //            AnimalList.getInstance().addAnimal(new Animal(1, "Jezic", "braon", new Date(), 0,

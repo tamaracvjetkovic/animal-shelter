@@ -1,13 +1,19 @@
 package view;
 
+import controller.FeedController;
+import dtos.PostDTO;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 
 public class MainWindow extends JFrame {
+    private FeedController feedController;
 
     public MainWindow() {
+        feedController = new FeedController();
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 580);
         setLayout(new BorderLayout());
@@ -53,7 +59,7 @@ public class MainWindow extends JFrame {
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
 
-        for (int i = 0; i < 15; i++) {
+        for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds()) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
@@ -63,7 +69,7 @@ public class MainWindow extends JFrame {
             // pet image
             JLabel petImageLabel;
             try {
-                ImageIcon petImage = new ImageIcon("src/images/mali_zje.png");
+                ImageIcon petImage = new ImageIcon(post.getPicture());
                 Image img = petImage.getImage();
 
                 Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
@@ -86,12 +92,12 @@ public class MainWindow extends JFrame {
             petInfoPanel.setBackground(petPanelColor);
 
             petInfoPanel.add(new JLabel(" "));
-            petInfoPanel.add(new JLabel("Name: Zic zic"));
-            petInfoPanel.add(new JLabel("Breed: Zje (ali mali)"));
-            petInfoPanel.add(new JLabel("Color: Brown"));
-            petInfoPanel.add(new JLabel("Date: 24.12.2022."));
+            petInfoPanel.add(new JLabel("Name: " + post.getName()));
+            petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
+            petInfoPanel.add(new JLabel("Color: " + post.getColor()));
+            petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
-            petInfoPanel.add(new JLabel("Status: Available"));
+            petInfoPanel.add(new JLabel("Status: " + post.getStatus()));
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
 
