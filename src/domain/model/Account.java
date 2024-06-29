@@ -1,12 +1,13 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.UserState;
-
+@XStreamAlias("account")
 public class Account {
 	private Integer id;
 	private String username;
 	private String password;
-
+	public Account(){}
 	public Account(Integer id, String username, String password) {
 		super();
 		this.id = id;

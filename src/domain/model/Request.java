@@ -1,9 +1,11 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
 
 import java.time.LocalDateTime;
+@XStreamAlias("request")
 
 public class Request {
     private Integer id;

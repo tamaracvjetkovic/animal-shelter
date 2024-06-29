@@ -1,9 +1,11 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.UserState;
 
 import java.util.ArrayList;
 import java.util.Date;
+@XStreamAlias("user")
 
 public class User {
 	private Integer id;
@@ -78,5 +80,19 @@ public class User {
 
 	public void setPostsIds(ArrayList<Integer> postsIds) {
 		this.postsIds = postsIds;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", lastname='" + lastname + '\'' +
+				", email='" + email + '\'' +
+				", birthDate=" + birthDate +
+				", accountId=" + accountId +
+				", userState=" + userState +
+				", postsIds=" + postsIds +
+				'}';
 	}
 }
