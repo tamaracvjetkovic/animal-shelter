@@ -30,4 +30,7 @@ public class FeedController {
 
         return posts;
     }
+    public Post getById(Integer id){
+        return PostList.getInstance().getById(id);
+    }
 }
