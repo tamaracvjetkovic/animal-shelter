@@ -1,5 +1,7 @@
 package domain.model;
 
+import domain.enums.UserState;
+
 import java.util.Date;
 
 public class User {
@@ -9,8 +11,9 @@ public class User {
 	private String email;
 	private Date birthDate;
 	private Integer accountId;
-	
-	public User(Integer id, String name, String lastname, String email, Date birthDate, Integer accountId) {
+	private UserState userState;
+
+	public User(Integer id, String name, String lastname, String email, Date birthDate, Integer accountId, UserState state) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,6 +21,7 @@ public class User {
 		this.email = email;
 		this.birthDate = birthDate;
 		this.accountId = accountId;
+		this.userState = state;
 	}
 	public User(){};
 	public Integer getId() {
@@ -55,5 +59,13 @@ public class User {
 	}
 	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
+	}
+
+	public UserState getUserState() {
+		return userState;
+	}
+
+	public void setUserState(UserState userState) {
+		this.userState = userState;
 	}
 }

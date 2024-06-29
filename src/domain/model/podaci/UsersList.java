@@ -51,8 +51,8 @@ public class UsersList {
         this.users.add(user);
     }
     public User createUser(String name, String lastname, String email,Date birthDate,String username, String password,UserState state){
-        Account acc = AccountsList.getInstance().createAccount(username,password,state);
-        User u = new User(generateId(), name,lastname, email, birthDate, acc.getId());
+        Account acc = AccountsList.getInstance().createAccount(username,password);
+        User u = new User(generateId(), name,lastname, email, birthDate, acc.getId(),state);
         addUser(u);
         return u;
     }

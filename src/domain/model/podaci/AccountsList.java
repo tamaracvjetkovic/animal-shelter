@@ -48,8 +48,8 @@ public class AccountsList {
     public void addAccount(Account account) {
         this.accounts.add(account);
     }
-    public Account createAccount(String username, String password, UserState state){
-        Account acc = new Account(generateId(),username,password,state);
+    public Account createAccount(String username, String password){
+        Account acc = new Account(generateId(),username,password);
         addAccount(acc);
         return acc;
     }
