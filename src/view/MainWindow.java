@@ -127,6 +127,15 @@ public class MainWindow extends JFrame {
 
         center(this);
         setVisible(true);
+
+        registerButton.addActionListener(e -> {
+            this.dispose();
+            RegisterWindow registerWindow = new RegisterWindow();
+        });
+        loginButton.addActionListener(e->{
+            this.dispose();
+            LoginWindow loginWindow = new LoginWindow();
+        });
     }
 
     private static void center(Component component) {
