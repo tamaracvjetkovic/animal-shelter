@@ -2,7 +2,7 @@ package domain.model;
 
 import java.util.Date;
 
-public abstract class User {
+public class User {
 	private Integer id;
 	private String name;
 	private String lastname;
@@ -19,6 +19,7 @@ public abstract class User {
 		this.birthDate = birthDate;
 		this.accountId = accountId;
 	}
+	public User(){};
 	public Integer getId() {
 		return id;
 	}
