@@ -1,7 +1,10 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.util.ArrayList;
 
+@XStreamAlias("species")
 public class Species {
 	private Integer id;
 	private String name;

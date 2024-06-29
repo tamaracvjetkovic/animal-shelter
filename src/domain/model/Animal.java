@@ -3,8 +3,10 @@ package domain.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.AnimalState;
 
+@XStreamAlias("animal")
 public class Animal {
 	private Integer id;
 	private String name;
