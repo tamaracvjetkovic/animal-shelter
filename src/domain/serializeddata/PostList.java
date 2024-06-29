@@ -2,6 +2,7 @@ package domain.serializeddata;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.model.Post;
+import domain.model.User;
 
 import java.util.ArrayList;
 
@@ -44,5 +45,13 @@ public class PostList {
     public Post addPost(Post post) {
         this.posts.add(post);
         return post;
+    }
+    public Post getById(Integer id){
+        for(Post post : posts){
+            if(post.getId() == id){
+                return post;
+            }
+        }
+        return null;
     }
 }
