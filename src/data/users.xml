@@ -1,0 +1,34 @@
+<usersList>
+    <users>
+        <user>
+            <id>1</id>
+            <name>John</name>
+            <lastname>Doe</lastname>
+            <email>john.doe@example.com</email>
+            <birthDate>2000-01-01</birthDate>
+            <accountId>1</accountId>
+            <userState>MEMBER</userState>
+            <postsIds />
+        </user>
+        <user>
+            <id>2</id>
+            <name>Alice</name>
+            <lastname>Smith</lastname>
+            <email>alice.smith@example.com</email>
+            <birthDate>1995-05-15</birthDate>
+            <accountId>2</accountId>
+            <userState>MEMBER</userState>
+            <postsIds />
+        </user>
+        <user>
+            <id>3</id>
+            <name>Michael</name>
+            <lastname>Johnson</lastname>
+            <email>michael.johnson@example.com</email>
+            <birthDate>1988-11-30</birthDate>
+            <accountId>3</accountId>
+            <userState>VOLUNTEER</userState>
+            <postsIds />
+        </user>
+    </users>
+</usersList>

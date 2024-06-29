@@ -1,0 +1,19 @@
+<accountsList>
+    <accounts>
+        <account>
+            <id>1</id>
+            <username>user1</username>
+            <password>pass1</password>
+        </account>
+        <account>
+            <id>2</id>
+            <username>user2</username>
+            <password>pass2</password>
+        </account>
+        <account>
+            <id>3</id>
+            <username>user3</username>
+            <password>pass3</password>
+        </account>
+    </accounts>
+</accountsList>
