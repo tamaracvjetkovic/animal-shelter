@@ -2,6 +2,7 @@ package domain.model;
 
 import domain.enums.UserState;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
@@ -12,6 +13,7 @@ public class User {
 	private Date birthDate;
 	private Integer accountId;
 	private UserState userState;
+	private ArrayList<Integer> postsIds;
 
 	public User(Integer id, String name, String lastname, String email, Date birthDate, Integer accountId, UserState state) {
 		super();
@@ -22,6 +24,7 @@ public class User {
 		this.birthDate = birthDate;
 		this.accountId = accountId;
 		this.userState = state;
+		this.postsIds = new ArrayList<>();
 	}
 	public User(){};
 	public Integer getId() {
@@ -67,5 +70,13 @@ public class User {
 
 	public void setUserState(UserState userState) {
 		this.userState = userState;
+	}
+
+	public ArrayList<Integer> getPostsIds() {
+		return postsIds;
+	}
+
+	public void setPostsIds(ArrayList<Integer> postsIds) {
+		this.postsIds = postsIds;
 	}
 }
