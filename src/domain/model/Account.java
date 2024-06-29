@@ -2,13 +2,13 @@ package domain.model;
 
 import domain.enums.UserState;
 
-public class UserAccount{
+public class Account {
 	private Integer id;
 	private String username;
 	private String password;
 	private UserState userState;
 	
-	public UserAccount(Integer id, String username, String password, UserState userState) {
+	public Account(Integer id, String username, String password, UserState userState) {
 		super();
 		this.id = id;
 		this.username = username;
