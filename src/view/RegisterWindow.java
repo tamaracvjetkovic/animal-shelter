@@ -86,6 +86,8 @@ public class RegisterWindow extends JFrame {
 
                     }else if(user.getUserState() == UserState.VOLUNTEER){
 
+                    }else{
+                        MainWindow mainWindow = new MainWindow();
                     }
                     this.dispose();
                 }
