@@ -88,4 +88,13 @@ public class RequestsList {
             }
         }
     }
+    public ArrayList<Request> getPendingByUser(User user){
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        for (Request request : requests) {
+            if (request.getState() == RequestState.PENDING && request.getUserId() == user.getId()) {
+                reqs.add(request);
+            }
+        }
+        return reqs;
+    }
 }

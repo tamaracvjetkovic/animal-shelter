@@ -1,10 +1,7 @@
 package controller;
 
 import domain.enums.RequestState;
-import domain.model.Animal;
-import domain.model.Breed;
-import domain.model.Post;
-import domain.model.Request;
+import domain.model.*;
 import domain.model.podaci.RequestsList;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
@@ -24,5 +21,8 @@ public class RequestsController {
         }
 
         return reqs;
+    }
+    private ArrayList<Request> getPendingByUser(User user){
+        return RequestsList.getInstance().getPendingByUser(user);
     }
 }
