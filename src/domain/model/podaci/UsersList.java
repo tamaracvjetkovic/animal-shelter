@@ -66,4 +66,12 @@ public class UsersList {
         }
         return null;
     }
+    public User getById(Integer id){
+        for(User user : users){
+            if(user.getId() == id){
+                return user;
+            }
+        }
+        return null;
+    }
 }
