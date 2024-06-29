@@ -1,5 +1,9 @@
 package view;
 
+import controller.LogInController;
+import domain.enums.UserState;
+import domain.model.User;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -79,7 +83,18 @@ public class LoginWindow extends JFrame {
                 JOptionPane.showMessageDialog(this, "Please fill in all the fields.");
             }else{
              //TO-DO: LOGIN FUNCTION
-                this.dispose();
+                LogInController controller = new LogInController();
+                User user =  controller.logIn(username,password);
+                if(user == null){
+                    JOptionPane.showMessageDialog(this, "User doesn't exist.");
+                }else{
+                    if(user.getUserState() == UserState.MEMBER){
+
+                    }else if(user.getUserState() == UserState.VOLUNTEER){
+
+                    }
+                    this.dispose();
+                }
             }
         });
 

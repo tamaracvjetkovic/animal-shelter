@@ -6,14 +6,12 @@ public class Account {
 	private Integer id;
 	private String username;
 	private String password;
-	private UserState userState;
-	
-	public Account(Integer id, String username, String password, UserState userState) {
+
+	public Account(Integer id, String username, String password) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.userState = userState;
 	}
 	public Integer getId() {
 		return id;
@@ -33,15 +31,9 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public UserState getUserType() {
-		return userState;
-	}
-	public void setUserType(UserState userType) {
-		this.userState = userType;
-	}
 	@Override
 	public String toString() {
-		return "UserAccount [id=" + id + ", username=" + username + ", password=" + password + ", userType=" + userState
+		return "UserAccount [id=" + id + ", username=" + username + ", password=" + password
 				+ "]";
 	}
 	

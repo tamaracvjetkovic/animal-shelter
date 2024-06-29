@@ -6,6 +6,7 @@ import domain.model.Post;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.PostList;
 import serialization.Serialization;
+import view.LoginWindow;
 import view.MainWindow;
 
 import javax.swing.*;
