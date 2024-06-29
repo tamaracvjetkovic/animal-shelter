@@ -3,6 +3,8 @@ package domain.model;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
 
+import java.time.LocalDateTime;
+
 public class Request {
     private Integer id;
     private RequestState state;
@@ -11,6 +13,7 @@ public class Request {
     private Integer postId;
     private Integer approved;
     private Integer rejected;
+    private LocalDateTime sentAt;
 
     public Request(Integer id,RequestState state,RequestType type, Integer userId, Integer postId) {
         this.state = state;
@@ -19,6 +22,7 @@ public class Request {
         this.postId = postId;
         this.approved = 0;
         this.rejected = 0;
+        this.sentAt = LocalDateTime.now();
     }
     public Request (){}
 
@@ -71,6 +75,14 @@ public class Request {
 
     public Integer getPostId() {
         return postId;
+    }
+
+    public LocalDateTime getSentAt() {
+        return sentAt;
+    }
+
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
     }
 
     public void setPostId(Integer postId) {
