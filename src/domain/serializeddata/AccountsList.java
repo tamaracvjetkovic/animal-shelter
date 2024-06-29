@@ -64,14 +64,11 @@ public class AccountsList {
         return accountList.get(0);
     }
     public Account getById(Integer id) {
-        ArrayList<Account> accountList = (ArrayList<Account>) accounts
-                .stream()
-                .filter(account -> account.getId()==id)
-                .collect(Collectors.toList());
-        if (accountList.size() == 0) {
-            return null;
+        for (Account account : accounts) {
+            if (account.getId().equals(id)) {
+                return account;
+            }
         }
-
-        return accountList.get(0);
+        return null;
     }
 }

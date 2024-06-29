@@ -58,7 +58,7 @@ public class UsersList {
         User u = new User();
         for(User user : users){
             Account acc = AccountsList.getInstance().getById(user.getAccountId());
-            if(acc.getUsername().equals(username)){
+            if(acc !=null && acc.getUsername().equals(username)){
                 return user;
             }
         }
