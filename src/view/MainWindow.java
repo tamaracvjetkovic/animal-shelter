@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 
 public class MainWindow extends JFrame {
+
     private JPanel panel1;
     private JLabel testLabel;
 
