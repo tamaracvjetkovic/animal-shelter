@@ -1,5 +1,7 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.util.ArrayList;
 
 public class Species {

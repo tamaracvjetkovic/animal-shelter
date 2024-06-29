@@ -1,0 +1,15 @@
+<animalList>
+  <animals>
+    <animal>
+      <id>1</id>
+      <name>Jezic</name>
+      <colour>braon</colour>
+      <born>2024-06-29 19:06:35.250 UTC</born>
+      <addressId>0</addressId>
+      <state>NOTADOPTED</state>
+      <multimedia/>
+      <breedId>0</breedId>
+      <speciesId>1</speciesId>
+    </animal>
+  </animals>
+</animalList>
