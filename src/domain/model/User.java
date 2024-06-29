@@ -79,4 +79,11 @@ public class User {
 	public void setPostsIds(ArrayList<Integer> postsIds) {
 		this.postsIds = postsIds;
 	}
+
+	@Override
+	public String toString() {
+		return "name='" + name + '\'' +
+				", lastname='" + lastname + '\'' +
+				", email='" + email + '\'' +"";
+	}
 }
