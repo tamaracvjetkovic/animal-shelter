@@ -9,6 +9,7 @@ import domain.model.Post;
 import domain.model.Request;
 import domain.model.User;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class RequestsList {
     }
 
     public static RequestsList getInstance() {
+        update
         if (instance == null) {
             instance = new RequestsList();
         }
@@ -68,5 +70,23 @@ public class RequestsList {
     }
     public void decreaseRejected(Request req){
         req.decreaseRejected();
+    }
+
+
+    private void updateVolunteeringRequests() {
+        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime threeDaysAgo = currentDate.minusDays(3);
+
+        for (Request request : requests) {
+            if (request.getType() == RequestType.VOLUNTEERING && request.getSentAt() != null) {
+                if (request.getSentAt().isBefore(threeDaysAgo)) {
+                    if (request.getRejected() > request.getApproved() || request.getApproved() < 3) {
+                        request.setState(RequestState.REJECTED);
+                    } else {
+                        request.setState(RequestState.APPROVED);
+                    }
+                }
+            }
+        }
     }
 }
