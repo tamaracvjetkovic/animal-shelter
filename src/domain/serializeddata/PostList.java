@@ -54,4 +54,13 @@ public class PostList {
         }
         return null;
     }
+    public ArrayList<Post> getByUser(User user){
+        ArrayList<Post> res = new ArrayList<Post>();
+        for(Post post : posts){
+            if(user.getPostsIds().contains(post.getId())){
+                res.add(post);
+            }
+        }
+        return res;
+    }
 }
