@@ -26,7 +26,6 @@ public class RequestsList {
     }
 
     public static RequestsList getInstance() {
-        update
         if (instance == null) {
             instance = new RequestsList();
         }
