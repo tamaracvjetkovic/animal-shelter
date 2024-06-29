@@ -41,7 +41,7 @@ public class UserAccount{
 	}
 	@Override
 	public String toString() {
-		return "UserAccount [id=" + id + ", username=" + username + ", password=" + password + ", userType=" + userType
+		return "UserAccount [id=" + id + ", username=" + username + ", password=" + password + ", userType=" + userState
 				+ "]";
 	}
 	
