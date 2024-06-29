@@ -4,6 +4,7 @@ import domain.enums.RequestState;
 import domain.enums.RequestType;
 
 public class Request {
+    private Integer id;
     private RequestState state;
     private RequestType type;
     private Integer userId;
@@ -11,7 +12,7 @@ public class Request {
     private Integer approved;
     private Integer rejected;
 
-    public Request(RequestState state,RequestType type, Integer userId, Integer postId) {
+    public Request(Integer id,RequestState state,RequestType type, Integer userId, Integer postId) {
         this.state = state;
         this.type = type;
         this.userId = userId;
@@ -20,6 +21,14 @@ public class Request {
         this.rejected = 0;
     }
     public Request (){}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public RequestType getType() {
         return type;

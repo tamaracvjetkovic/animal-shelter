@@ -53,7 +53,7 @@ public class RequestsList {
         this.requests.add(request);
     }
     public Request createRequest(User user, Post post, RequestState state, RequestType type){
-        Request r = new Request(state,type, user.getId(), post.getId());
+        Request r = new Request(generateId(),state,type, user.getId(), post.getId());
         addRequest(r);
         return r;
     }
