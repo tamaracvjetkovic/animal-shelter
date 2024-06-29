@@ -30,7 +30,13 @@ public class FeedController {
 
         return posts;
     }
-    public Post getById(Integer id){
-        return PostList.getInstance().getById(id);
+    public PostDTO getById(Integer id){
+        Post post = PostList.getInstance().getById(id);
+        if (post == null) {return null;}
+        int animalId = post.getAnimalId();
+        Animal animal = AnimalList.getInstance().getAnimal(animalId);
+        Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+        return new PostDTO(animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+                    animal.getColour(), animal.getBorn().toString(), animal.getState().toString());
     }
 }
