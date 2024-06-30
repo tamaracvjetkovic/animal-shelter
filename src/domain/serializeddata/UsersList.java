@@ -16,7 +16,7 @@ public class UsersList {
     @XStreamAlias("users")
     private ArrayList<User> users;
 
-    private UsersList() {
+    public UsersList() {
         this.users = new ArrayList<User>();
     }
 
