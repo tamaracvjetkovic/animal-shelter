@@ -81,6 +81,7 @@ public class User {
 	public void setPostsIds(ArrayList<Integer> postsIds) {
 		this.postsIds = postsIds;
 	}
+	public void addPostId(Integer postId){this.postsIds.add(postId);}
 
 	@Override
 	public String toString() {
