@@ -6,6 +6,8 @@ import domain.model.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -61,7 +63,12 @@ public class RegisterWindow extends JFrame {
 
         // Center the frame on the screen
         setLocationRelativeTo(null);
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainWindow mainWindow = new MainWindow();
+            }
+        });
         // Set frame visible
         setVisible(true);
 
@@ -78,15 +85,15 @@ public class RegisterWindow extends JFrame {
             // Validate and process registration (for example, print values)
             if (validateInputs(username, password, name, lastName, email, birthdate)) {
                 LogInController controller = new LogInController();
-                User user = controller.signUp(name,lastName,email,birthdate,username,password);
-                if(user == null){
+                User user = controller.signUp(name, lastName, email, birthdate, username, password);
+                if (user == null) {
                     JOptionPane.showMessageDialog(this, "Choose another username.");
-                }else{
-                    if(user.getUserState() == UserState.MEMBER){
+                } else {
+                    if (user.getUserState() == UserState.MEMBER) {
                         MemberWindow memberWindow = new MemberWindow(user);
-                    }else if(user.getUserState() == UserState.VOLUNTEER){
+                    } else if (user.getUserState() == UserState.VOLUNTEER) {
                         VolunteerWindow volunteerWindow = new VolunteerWindow(user);
-                    }else{
+                    } else {
                         MainWindow mainWindow = new MainWindow();
                     }
                     this.dispose();
