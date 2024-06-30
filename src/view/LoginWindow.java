@@ -13,7 +13,7 @@ public class LoginWindow extends JFrame {
         setTitle("Login Form");
 
         // Set the default close operation
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Set the size of the frame
         setSize(300, 200);
@@ -96,7 +96,7 @@ public class LoginWindow extends JFrame {
                         MemberWindow memberWindow = new MemberWindow(user);
                     }
                     else if (user.getUserState() == UserState.VOLUNTEER) {
-
+                        VolunteerWindow volunteerWindow = new VolunteerWindow(user);
                     }
                     else {
                         MainWindow mainWindow = new MainWindow();
