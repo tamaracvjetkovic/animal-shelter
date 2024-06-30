@@ -66,7 +66,7 @@ public class UsersList {
     }
     public User getById(Integer id){
         for(User user : users){
-            if(user.getId() == id){
+            if(user.getId().equals(id)){
                 return user;
             }
         }
