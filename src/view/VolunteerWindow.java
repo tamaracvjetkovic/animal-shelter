@@ -251,7 +251,15 @@ public class VolunteerWindow extends JFrame {
             createPostDialog.setVisible(true);
             refresh();
         });
+
+        JButton addBreedAndSpeciesButton = new JButton("Add breed and species");
+        addBreedAndSpeciesButton.addActionListener(e -> {
+            BreedAndSpeciesDialog breedAndSpeciesDialog = new BreedAndSpeciesDialog(this);
+            breedAndSpeciesDialog.setVisible(true);
+            refresh();
+        });
         searchPanel.add(addPostButton);
+        searchPanel.add(addBreedAndSpeciesButton);
 
         petPanel.add(searchPanel, BorderLayout.SOUTH);
 
