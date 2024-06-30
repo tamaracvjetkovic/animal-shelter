@@ -12,6 +12,8 @@ import domain.serializeddata.UsersList;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 public class RequestsController {
     public ArrayList<Request> getPendingRequests() {
@@ -159,6 +161,12 @@ public class RequestsController {
         AnimalList.getInstance().addAnimal(req.getUpdatedAnimal());     //create animal
         PostList.getInstance().createPost(req.getUpdatedAnimal().getId()); // create post for animal
         user.addCreatedPostId(req.getPostId());            //post added to users created posts
+
+    }
+    public void animalRegistration(User user, String name, String color, Date born, Integer addressId, AnimalState state, ArrayList<String> multimedia, Integer breedId, Integer speciesId){
+        Animal animal = AnimalList.getInstance().createAnimal(name,color,born,addressId,state,multimedia,breedId,speciesId);
+        Post post =PostList.getInstance().createPost(animal.getId());
+        user.addCreatedPostId(post.getId());            //post added to users created posts
 
     }
 
