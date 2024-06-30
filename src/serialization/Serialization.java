@@ -2,7 +2,6 @@ package serialization;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.DateConverter;
-import com.thoughtworks.xstream.converters.extended.ToAttributedValueConverter;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
 import java.io.BufferedInputStream;
@@ -13,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Date;
 
 import domain.serializeddata.*;
 
@@ -31,6 +29,8 @@ public class Serialization {
         xstream.processAnnotations(AccountsList.class);
         xstream.processAnnotations(UsersList.class);
         xstream.processAnnotations(RequestsList.class);
+        xstream.processAnnotations(MessagesList.class);
+
 
 //        xstream.processAnnotations(JelaLista.class);
 //        xstream.processAnnotations(CenovnikLista.class);
@@ -43,6 +43,7 @@ public class Serialization {
         File accountsFile = new File("src/data/accounts.xml");
         File usersFile = new File("src/data/users.xml");
         File requestsFile = new File("src/data/requests.xml");
+        File messagesFile = new File("src/data/messages.xml");
 
 //        File fajlKorisnici = new File("./podaci/korisnici.xml");
 //        File fajlTipoviJela = new File("./podaci/tipoviJela.xml");
@@ -54,6 +55,7 @@ public class Serialization {
         OutputStream osAccounts = new BufferedOutputStream(new FileOutputStream(accountsFile));
         OutputStream osUsers = new BufferedOutputStream(new FileOutputStream(usersFile));
         OutputStream osRequests = new BufferedOutputStream(new FileOutputStream(requestsFile));
+        OutputStream osMessages = new BufferedOutputStream(new FileOutputStream(messagesFile));
 //        OutputStream osKorisnici = new BufferedOutputStream(new FileOutputStream(fajlKorisnici));
 //        OutputStream osTipoviJela = new BufferedOutputStream(new FileOutputStream(fajlTipoviJela));
 //        OutputStream osJela = new BufferedOutputStream(new FileOutputStream(fajlJela));
@@ -65,6 +67,8 @@ public class Serialization {
             xstream.toXML(AccountsList.getInstance(), osAccounts);
             xstream.toXML(UsersList.getInstance(), osUsers);
             xstream.toXML(RequestsList.getInstance(), osRequests);
+            xstream.toXML(MessagesList.getInstance(), osMessages);
+
 //            xstream.toXML(KorisniciLista.getInstance(), osKorisnici);
 //            xstream.toXML(TipJelaLista.getInstance(), osTipoviJela);
 //            xstream.toXML(JelaLista.getInstance(), osJela);
@@ -76,6 +80,7 @@ public class Serialization {
             osAccounts.close();
             osUsers.close();
             osRequests.close();
+            osMessages.close();
 //            osKorisnici.close();
 //            osTipoviJela.close();
 //            osJela.close();
@@ -90,6 +95,8 @@ public class Serialization {
         File accountsFile = new File("src/data/accounts.xml");
         File usersFile = new File("src/data/users.xml");
         File requestsFile = new File("src/data/requests.xml");
+        File messagesFile = new File("src/data/messages.xml");
+
 //        File fajlKorisnici = new File("./podaci/korisnici.xml");
 //        File fajlTipoviJela = new File("./podaci/tipoviJela.xml");
 //        File fajlJela = new File("./podaci/jela.xml");
@@ -100,6 +107,8 @@ public class Serialization {
         InputStream isAccounts = new BufferedInputStream(new FileInputStream(accountsFile));
         InputStream isUsers = new BufferedInputStream(new FileInputStream(usersFile));
         InputStream isRequests = new BufferedInputStream(new FileInputStream(requestsFile));
+        InputStream isMessages = new BufferedInputStream(new FileInputStream(messagesFile));
+
 //        InputStream isKorisnici = new BufferedInputStream(new FileInputStream(fajlKorisnici));
 //        InputStream isTipoviJela = new BufferedInputStream(new FileInputStream(fajlTipoviJela));
 //        InputStream isJela = new BufferedInputStream(new FileInputStream(fajlJela));
@@ -110,6 +119,7 @@ public class Serialization {
         AccountsList accountsList = null;
         UsersList usersList = null;
         RequestsList requestsList = null;
+        MessagesList messagesList = null;
 //        KorisniciLista korisniciLista = null;
 //        TipJelaLista tipJelaLista = null;
 //        JelaLista jelaLista = null;
@@ -121,6 +131,8 @@ public class Serialization {
             accountsList = ((AccountsList) xstream.fromXML(isAccounts));
             usersList = ((UsersList) xstream.fromXML(isUsers));
             requestsList = ((RequestsList) xstream.fromXML(isRequests));
+            messagesList = ((MessagesList) xstream.fromXML(isMessages));
+
 //            korisniciLista = ((KorisniciLista) xstream.fromXML(isKorisnici));
 //            tipJelaLista = ((TipJelaLista) xstream.fromXML(isTipoviJela));
 //            jelaLista = ((JelaLista) xstream.fromXML(isJela));
@@ -132,6 +144,7 @@ public class Serialization {
             isAccounts.close();
             isUsers.close();
             isRequests.close();
+            isMessages.close();
 //            isKorisnici.close();
 //            isTipoviJela.close();
 //            isJela.close();
@@ -143,6 +156,7 @@ public class Serialization {
         AccountsList.setInstance(accountsList);
         UsersList.setInstance(usersList);
         RequestsList.setInstance(requestsList);
+        MessagesList.setInstance(messagesList);
 //        KorisniciLista.setInstance(korisniciLista);
 //        TipJelaLista.setInstance(tipJelaLista);
 //        JelaLista.setInstance(jelaLista);
