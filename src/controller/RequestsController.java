@@ -5,10 +5,7 @@ import domain.enums.RequestState;
 import domain.enums.RequestType;
 import domain.enums.UserState;
 import domain.model.*;
-import domain.serializeddata.AnimalList;
-import domain.serializeddata.PostList;
-import domain.serializeddata.RequestsList;
-import domain.serializeddata.UsersList;
+import domain.serializeddata.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,8 +51,10 @@ public class RequestsController {
         // AnimalList.getInstance().updateAnimal(newAnimal);
     }
 
-    public void requestPostRegistration(User user, Animal newAnimal) {
+    public void requestPostRegistration(User user, Animal newAnimal, Address address) {
         int id = RequestsList.getInstance().generateId();
+        address = AddressList.getInstance().createAddress(address);
+        newAnimal.setAddressId(address.getId());
         RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
                 RequestType.ANIMAL_REGISTRATION, user.getId(), null, newAnimal, null));
     }

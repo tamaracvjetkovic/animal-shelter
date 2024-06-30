@@ -3,6 +3,7 @@ package view;
 import controller.FeedController;
 import controller.RequestsController;
 import domain.enums.AnimalState;
+import domain.model.Address;
 import domain.model.Animal;
 import domain.model.User;
 
@@ -18,6 +19,9 @@ public class CreatePostDialog extends JDialog {
     private JTextField nameField;
     private JTextField colorField;
     private JTextField pictureField;
+    private JTextField cityField;
+    private JTextField streetField;
+    private JTextField numberField;
     private JComboBox<String> breedPicker;
     private JComboBox<String> speciesPicker;
     private JTextField birthDateField;
@@ -92,6 +96,33 @@ public class CreatePostDialog extends JDialog {
 
         gbc.gridx = 0;
         gbc.gridy++;
+        JLabel cityLabel = new JLabel("City:");
+        panel.add(cityLabel, gbc);
+        gbc.gridx++;
+        cityField = new JTextField();
+        cityField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
+        panel.add(cityField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel streetLabel = new JLabel("Street:");
+        panel.add(streetLabel, gbc);
+        gbc.gridx++;
+        streetField = new JTextField();
+        streetField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
+        panel.add(streetField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel numberLabel = new JLabel("Street Number:");
+        panel.add(numberLabel, gbc);
+        gbc.gridx++;
+        numberField = new JTextField();
+        numberField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
+        panel.add(numberField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         JButton saveButton = new JButton("Create post");
@@ -103,6 +134,9 @@ public class CreatePostDialog extends JDialog {
             String selectedPicker2 = (String) speciesPicker.getSelectedItem();
             String birthDateText = birthDateField.getText();
             Date birthDate = null;
+            String city = cityField.getText();
+            String street = streetField.getText();
+            String number = numberField.getText();
 
             // Parse date string to Date object
             try {
@@ -114,14 +148,17 @@ public class CreatePostDialog extends JDialog {
                 return;
             }
 
-            if(name.isEmpty() || color.isEmpty() || pictureUrl.isEmpty() || selectedPicker1.isEmpty() || selectedPicker2.isEmpty() || birthDateText.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill all the required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            if(name.isEmpty() || color.isEmpty() || pictureUrl.isEmpty() || selectedPicker1.isEmpty() ||
+                    selectedPicker2.isEmpty() || birthDateText.isEmpty() || city.isEmpty() ||
+                    street.isEmpty() || number.isEmpty() || !number.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Please fill all the required fields with right values.", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 // Process the data here (e.g., save to database or display)
                 requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
                         AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)),
-                        feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)));
+                        feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)),
+                        new Address(0, city, street, Integer.parseInt(number)));
 
                 // Close the dialog
                 dispose();
