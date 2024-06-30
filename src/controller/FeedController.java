@@ -115,4 +115,8 @@ public class FeedController {
 
         return -1;
     }
+
+    public Animal getAnimalFromPost(PostDTO postDTO) {
+       return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
+    }
 }

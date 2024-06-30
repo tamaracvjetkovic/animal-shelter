@@ -278,13 +278,18 @@ public class MemberWindow extends JFrame {
             petPostPanel.add(petInfoPanel, gbc);
 
             // "Edit" button
-            JButton viewButton = new JButton("Edit");
-            viewButton.setFocusable(false);
-            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
-            viewButton.setForeground(Color.WHITE);  // Set the text color
-            viewButton.setFocusPainted(false);
-            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            JButton editButton = new JButton("Edit");
+            editButton.setFocusable(false);
+            editButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            editButton.setForeground(Color.WHITE);  // Set the text color
+            editButton.setFocusPainted(false);
+            editButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            editButton.addActionListener(e -> {
+                EditPostDialog editPostDialog = new EditPostDialog(this, user, feedController.getAnimalFromPost(post), post.getId());
+                editPostDialog.setVisible(true);
+            });
 
             // set constraints for the view button
             gbc.gridx = 2;
@@ -294,7 +299,7 @@ public class MemberWindow extends JFrame {
             gbc.anchor = GridBagConstraints.CENTER;
             gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
 
-            petPostPanel.add(viewButton, gbc);
+            petPostPanel.add(editButton, gbc);
 
             // create a line separator - separates pets
             JPanel lineSeparator = new JPanel();

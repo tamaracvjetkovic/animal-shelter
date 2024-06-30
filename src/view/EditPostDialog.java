@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class CreatePostDialog extends JDialog {
+public class EditPostDialog extends JDialog {
     private JTextField nameField;
     private JTextField colorField;
     private JTextField pictureField;
@@ -24,7 +24,7 @@ public class CreatePostDialog extends JDialog {
     private FeedController feedController;
     private RequestsController requestsController;
 
-    public CreatePostDialog(JFrame parent, User user) {
+    public EditPostDialog(JFrame parent, User user, Animal animal, int postId) {
         super(parent, "Post Information", true);
         feedController = new FeedController();
         requestsController = new RequestsController();
@@ -41,7 +41,7 @@ public class CreatePostDialog extends JDialog {
         JLabel nameLabel = new JLabel("Name:");
         panel.add(nameLabel, gbc);
         gbc.gridx++;
-        nameField = new JTextField();
+        nameField = new JTextField(animal.getName());
         nameField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(nameField, gbc);
 
@@ -50,7 +50,7 @@ public class CreatePostDialog extends JDialog {
         JLabel colorLabel = new JLabel("Color:");
         panel.add(colorLabel, gbc);
         gbc.gridx++;
-        colorField = new JTextField();
+        colorField = new JTextField(animal.getColour());
         colorField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(colorField, gbc);
 
@@ -59,7 +59,7 @@ public class CreatePostDialog extends JDialog {
         JLabel pictureLabel = new JLabel("Picture URL:");
         panel.add(pictureLabel, gbc);
         gbc.gridx++;
-        pictureField = new JTextField();
+        pictureField = new JTextField(animal.getMultimedia().get(0));
         pictureField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(pictureField, gbc);
 
@@ -70,6 +70,7 @@ public class CreatePostDialog extends JDialog {
         gbc.gridx++;
         breedPicker = new JComboBox<>(feedController.getBreedsForPicker());
         breedPicker.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
+        breedPicker.setSelectedItem("Jez"); // for now hard coded
         panel.add(breedPicker, gbc);
 
         gbc.gridx = 0;
@@ -78,6 +79,7 @@ public class CreatePostDialog extends JDialog {
         panel.add(picker2Label, gbc);
         gbc.gridx++;
         speciesPicker = new JComboBox<>(feedController.getSpeciesForPicker());
+        speciesPicker.setSelectedItem("Jezic Zje"); // for now hard coded
         speciesPicker.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(speciesPicker, gbc);
 
@@ -86,7 +88,7 @@ public class CreatePostDialog extends JDialog {
         JLabel birthDateLabel = new JLabel("Birth Date (yyyy-MM-dd):");
         panel.add(birthDateLabel, gbc);
         gbc.gridx++;
-        birthDateField = new JTextField();
+        birthDateField = new JTextField(animal.getBorn().toString());
         birthDateField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(birthDateField, gbc);
 
@@ -94,7 +96,7 @@ public class CreatePostDialog extends JDialog {
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        JButton saveButton = new JButton("Create post");
+        JButton saveButton = new JButton("Edit post");
         saveButton.addActionListener(e -> {
             String name = nameField.getText();
             String color = colorField.getText();
@@ -119,7 +121,7 @@ public class CreatePostDialog extends JDialog {
             }
             else {
                 // Process the data here (e.g., save to database or display)
-                requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
+                requestsController.requestPostUpdate(user, postId, new Animal(0, name, color, birthDate, 0,
                         AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)), feedController.getBreedId(selectedPicker1), 0));
 
                 // Close the dialog

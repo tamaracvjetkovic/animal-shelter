@@ -41,10 +41,10 @@ public class RequestsController {
                 RequestType.TEMPORARY_CARE, user.getId(), post.getId(), null, reason));
     }
 
-    public void requestPostUpdate(User user, Post post, Animal newAnimal) {
+    public void requestPostUpdate(User user, int postId, Animal newAnimal) {
         int id = RequestsList.getInstance().generateId();
         RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
-                RequestType.POST_EDITING, user.getId(), post.getId(), newAnimal, null));
+                RequestType.POST_EDITING, user.getId(), postId, newAnimal, null));
         // AnimalList.getInstance().updateAnimal(newAnimal);
     }
 
