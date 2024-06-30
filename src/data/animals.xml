@@ -4,7 +4,7 @@
       <id>1</id>
       <name>Zje ali mali</name>
       <colour>Brown</colour>
-      <born>2024-06-29 19:06:35.250 UTC</born>
+      <born>2024-06-29</born>
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
@@ -17,7 +17,7 @@
       <id>2</id>
       <name>Jezic</name>
       <colour>Brown</colour>
-      <born>2024-06-29 19:09:35.250 UTC</born>
+      <born>2024-06-29</born>
       <addressId>0</addressId>
       <state>ADOPTED</state>
       <multimedia>
@@ -30,7 +30,7 @@
       <id>3</id>
       <name>Zje</name>
       <colour>Brown</colour>
-      <born>2024-06-29 19:12:35.250 UTC</born>
+      <born>2024-06-29</born>
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
@@ -43,7 +43,7 @@
       <id>4</id>
       <name>Zicko</name>
       <colour>Brown</colour>
-      <born>2024-06-29 19:18:35.250 UTC</born>
+      <born>2024-06-29</born>
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
@@ -56,7 +56,7 @@
       <id>5</id>
       <name>Bocko</name>
       <colour>Brown</colour>
-      <born>2024-06-29 19:30:35.250 UTC</born>
+      <born>2024-06-29</born>
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>

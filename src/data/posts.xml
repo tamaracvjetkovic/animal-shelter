@@ -3,27 +3,27 @@
     <post>
       <id>1</id>
       <animalId>1</animalId>
-      <commentsIds />
+      <commentsIds/>
     </post>
     <post>
       <id>2</id>
       <animalId>2</animalId>
-      <commentsIds />
+      <commentsIds/>
     </post>
     <post>
       <id>3</id>
       <animalId>3</animalId>
-      <commentsIds />
+      <commentsIds/>
     </post>
     <post>
       <id>4</id>
       <animalId>4</animalId>
-      <commentsIds />
+      <commentsIds/>
     </post>
     <post>
       <id>5</id>
       <animalId>5</animalId>
-      <commentsIds />
+      <commentsIds/>
     </post>
   </posts>
 </postList>
