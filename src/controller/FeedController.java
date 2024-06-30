@@ -105,4 +105,14 @@ public class FeedController {
     public String[] getSpeciesForPicker() {
         return new String[] {"Jezic Zje"};
     }
+
+    public int getBreedId(String name) {
+        for(Breed breed : BreedList.getInstance().getBreeds()) {
+            if(breed.getName().equalsIgnoreCase(name)) {
+                return 1; // because breed doesnt have ID?
+            }
+        }
+
+        return -1;
+    }
 }

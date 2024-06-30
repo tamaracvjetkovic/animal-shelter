@@ -48,9 +48,9 @@ public class RequestsController {
         // AnimalList.getInstance().updateAnimal(newAnimal);
     }
 
-    public void requestPostRegistration(User user, Post post, Animal newAnimal) {
+    public void requestPostRegistration(User user, Animal newAnimal) {
         int id = RequestsList.getInstance().generateId();
         RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
-                RequestType.ANIMAL_REGISTRATION, user.getId(), post.getId(), newAnimal, null));
+                RequestType.ANIMAL_REGISTRATION, user.getId(), null, newAnimal, null));
     }
 }

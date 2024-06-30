@@ -219,7 +219,7 @@ public class MemberWindow extends JFrame {
         JButton addPostButton = new JButton("Add post");
 
         addPostButton.addActionListener(e -> {
-            CreatePostDialog createPostDialog = new CreatePostDialog(this);
+            CreatePostDialog createPostDialog = new CreatePostDialog(this, user);
             createPostDialog.setVisible(true);
         });
 

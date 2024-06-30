@@ -1,11 +1,17 @@
 package view;
 
 import controller.FeedController;
+import controller.RequestsController;
+import domain.enums.AnimalState;
+import domain.model.Animal;
+import domain.model.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class CreatePostDialog extends JDialog {
@@ -16,10 +22,12 @@ public class CreatePostDialog extends JDialog {
     private JComboBox<String> speciesPicker;
     private JTextField birthDateField;
     private FeedController feedController;
+    private RequestsController requestsController;
 
-    public CreatePostDialog(JFrame parent) {
+    public CreatePostDialog(JFrame parent, User user) {
         super(parent, "Post Information", true);
         feedController = new FeedController();
+        requestsController = new RequestsController();
         setSize(500, 350);  // Adjusted size for larger text fields
         setLocationRelativeTo(parent);
 
@@ -107,12 +115,8 @@ public class CreatePostDialog extends JDialog {
             }
 
             // Process the data here (e.g., save to database or display)
-            System.out.println("Name: " + name);
-            System.out.println("Color: " + color);
-            System.out.println("Picture URL: " + pictureUrl);
-            System.out.println("Picker 1: " + selectedPicker1);
-            System.out.println("Picker 2: " + selectedPicker2);
-            System.out.println("Birth Date: " + birthDate);
+            requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
+                    AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)), feedController.getBreedId(selectedPicker1), 0));
 
             // Close the dialog
             dispose();
