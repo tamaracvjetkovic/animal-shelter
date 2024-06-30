@@ -11,13 +11,11 @@ import java.awt.event.ActionListener;
 public class UserProfileDialog extends JDialog {
     private LogInController logInController;
     private User user;
-    private Frame parent;
 
     public UserProfileDialog(Frame parent, User user) {
         super(parent, "User Profile", true);
         logInController = new LogInController();
         this.user = user;
-        this.parent = parent;
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -43,14 +41,6 @@ public class UserProfileDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updatePassword();
-            }
-        });
-
-        JButton signOutButton = new JButton("Sign Out");
-        signOutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signOut();
             }
         });
 
@@ -96,9 +86,6 @@ public class UserProfileDialog extends JDialog {
         gbc.anchor = GridBagConstraints.CENTER;
         add(updatePasswordButton, gbc);
 
-        gbc.gridy = 7; // Position the Sign Out button below the Update Password button
-        add(signOutButton, gbc);
-
         pack();
         setLocationRelativeTo(parent);
     }
@@ -125,17 +112,6 @@ public class UserProfileDialog extends JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "Passwords do not match. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
-    }
-
-    private void signOut() {
-        int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out?", "Sign Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-        if (result == JOptionPane.YES_OPTION) {
-            MainWindow mainWindow = new MainWindow();
-            dispose(); // Close the dialog
-            parent.dispose();
-            // Optionally, you can redirect to the login screen or main application screen here
         }
     }
 }
