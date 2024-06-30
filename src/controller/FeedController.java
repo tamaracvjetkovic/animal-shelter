@@ -1,14 +1,14 @@
 package controller;
 
-import domain.model.Breed;
-import domain.model.Post;
-import domain.model.Animal;
+import domain.model.*;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
 import domain.serializeddata.PostList;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FeedController {
 
@@ -28,6 +28,43 @@ public class FeedController {
             posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
                     animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
         }
+
+        return posts;
+    }
+
+    public ArrayList<PostDTO> getAllPostsWithAnimalsAndBreeds(User user) {
+        ArrayList<PostDTO> posts = new ArrayList<>();
+
+        for(Post post : PostList.getInstance().getPosts()) {
+            if (user.getPostsIds().contains(post.getId())) {
+                int animalId = post.getAnimalId();
+
+                Animal animal = AnimalList.getInstance().getAnimal(animalId);
+                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+
+                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+            }
+        }
+
+        return posts;
+    }
+
+    public ArrayList<PostDTO> getAllPostsUserAdopted(User user) {
+        ArrayList<PostDTO> posts = new ArrayList<>();
+
+        // to be added, since currently we dont know which posts are adopted in the user
+//        for(Post post : PostList.getInstance().getPosts()) {
+//            if (user.getPostsIds().contains(post.getId())) {
+//                int animalId = post.getAnimalId();
+//
+//                Animal animal = AnimalList.getInstance().getAnimal(animalId);
+//                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+//
+//                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+//                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+//            }
+//        }
 
         return posts;
     }
@@ -72,5 +109,33 @@ public class FeedController {
     public void addComment(PostDTO postDTO, String comment) {
         // creating comment... should add saving it and serializing
         PostList.getInstance().addComment(postDTO.getId(), 0);
+    }
+
+    public String[] getBreedsForPicker() {
+        String[] breeds = new String[BreedList.getInstance().getBreeds().size()];
+        int i = 0;
+        for(Breed breed : BreedList.getInstance().getBreeds()) {
+            breeds[i++] = breed.getName();
+        }
+
+        return breeds;
+    }
+
+    public String[] getSpeciesForPicker() {
+        return new String[] {"Jezic Zje"};
+    }
+
+    public int getBreedId(String name) {
+        for(Breed breed : BreedList.getInstance().getBreeds()) {
+            if(breed.getName().equalsIgnoreCase(name)) {
+                return 1; // because breed doesnt have ID?
+            }
+        }
+
+        return -1;
+    }
+
+    public Animal getAnimalFromPost(PostDTO postDTO) {
+       return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
     }
 }

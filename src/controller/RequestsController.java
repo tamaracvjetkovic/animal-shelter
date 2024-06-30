@@ -29,20 +29,28 @@ public class RequestsController {
                 RequestType.VOLUNTEERING, user.getId(), null, null, reason));
     }
 
-    public void requestAnimalAdoption(User user, Post post) {
-        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.ADOPTION);
+    public void requestAnimalAdoption(User user, Post post, String reason) {
+        int id = RequestsList.getInstance().generateId();
+        RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
+                RequestType.ADOPTION, user.getId(), post.getId(), null, reason));
     }
 
-    public void requestAnimalTemporaryCare(User user, Post post) {
-        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.TEMPORARY_CARE);
+    public void requestAnimalTemporaryCare(User user, Post post, String reason) {
+        int id = RequestsList.getInstance().generateId();
+        RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
+                RequestType.TEMPORARY_CARE, user.getId(), post.getId(), null, reason));
     }
 
-    public void requestPostUpdate(User user, Post post) {
-        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.POST_EDITING);
+    public void requestPostUpdate(User user, int postId, Animal newAnimal) {
+        int id = RequestsList.getInstance().generateId();
+        RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
+                RequestType.POST_EDITING, user.getId(), postId, newAnimal, null));
         // AnimalList.getInstance().updateAnimal(newAnimal);
     }
 
-    public void requestPostRegistration(User user, Post post) {
-        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.ANIMAL_REGISTRATION);
+    public void requestPostRegistration(User user, Animal newAnimal) {
+        int id = RequestsList.getInstance().generateId();
+        RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
+                RequestType.ANIMAL_REGISTRATION, user.getId(), null, newAnimal, null));
     }
 }
