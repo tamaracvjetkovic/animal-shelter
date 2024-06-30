@@ -52,6 +52,11 @@ public class MemberWindow extends JFrame {
         viewProfileButton.setBorder(new EmptyBorder(0, 0, 0, 10));
         viewProfileButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        viewProfileButton.addActionListener(e -> {
+            UserProfileDialog userProfileDialog = new UserProfileDialog(this, this.user);
+            userProfileDialog.setVisible(true);
+        });
+
         // "send volunteer request" button with icon
         JButton volunteerRequestButton = new JButton();
         try {
