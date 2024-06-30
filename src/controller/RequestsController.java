@@ -157,7 +157,10 @@ public class RequestsController {
             System.out.println("User je null u animaRegistrationApproved u RequestsController.");
             return;
         }
-        AnimalList.getInstance().addAnimal(req.getUpdatedAnimal());     //create animal
+        Animal a = req.getUpdatedAnimal();
+        AnimalList animalList = AnimalList.getInstance();
+        a.setId(animalList.getInstance().generateId());
+        AnimalList.getInstance().addAnimal(a);     //create animal
         PostList.getInstance().createPost(req.getUpdatedAnimal().getId()); // create post for animal
         user.addCreatedPostId(req.getPostId());            //post added to users created posts
 
