@@ -6,13 +6,17 @@ import dtos.PostDTO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class MainWindow extends JFrame {
     private FeedController feedController;
+    private ArrayList<PostDTO> posts;
 
     public MainWindow() {
         feedController = new FeedController();
+
+        posts = feedController.getAllPostsWithAnimalsAndBreeds();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450, 580);
@@ -54,12 +58,21 @@ public class MainWindow extends JFrame {
 
         topPanel.add(titleLabel, BorderLayout.CENTER);
 
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JTextField searchField = new JTextField("Search...", 15);
+        JButton searchButton = new JButton("Search");
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        topPanel.add(searchPanel, BorderLayout.SOUTH);
+
         // scrollable panel for pet posts
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
 
-        for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds()) {
+        for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
@@ -135,6 +148,15 @@ public class MainWindow extends JFrame {
         loginButton.addActionListener(e->{
             this.dispose();
             LoginWindow loginWindow = new LoginWindow();
+        });
+        searchButton.addActionListener(e -> {
+            // probably doesn't work, will debug tomorrow
+            posts.clear();
+            String[] tokens = searchField.getText().split(" ");
+
+            for(String token : tokens) {
+                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+            }
         });
     }
 
