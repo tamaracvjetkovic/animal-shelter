@@ -550,5 +550,7 @@ public class VolunteerWindow extends JFrame {
         // Revalidate and repaint to refresh the UI
         requestsPanel.revalidate();
         requestsPanel.repaint();
+        petsPanel.revalidate();
+        petsPanel.repaint();
     }
 }
