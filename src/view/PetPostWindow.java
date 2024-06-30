@@ -256,7 +256,6 @@ public class PetPostWindow extends JFrame {
         ArrayList<Comment> comments = feedController.getAllCommentsByPost(currentPost);
         for (int i = 0; i < comments.size(); i++)
         {
-            System.out.println(comments.get(i));
             JLabel commentLabel = new JLabel(comments.get(i).getMessage());
             commentLabel.setBorder(new EmptyBorder(2, 3, 2, 3));
             commentLabel.setBackground(new Color(243, 243, 243));
