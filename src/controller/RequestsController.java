@@ -36,4 +36,13 @@ public class RequestsController {
     public void requestAnimalTemporaryCare(User user, Post post) {
         RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.TEMPORARY_CARE);
     }
+
+    public void requestPostUpdate(User user, Post post) {
+        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.POST_EDITING);
+        // AnimalList.getInstance().updateAnimal(newAnimal);
+    }
+
+    public void requestPostRegistration(User user, Post post) {
+        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.ANIMAL_REGISTRATION);
+    }
 }
