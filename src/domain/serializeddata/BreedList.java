@@ -12,7 +12,7 @@ public class BreedList {
     @XStreamAlias("breeds")
     private ArrayList<Breed> breeds;
 
-    private BreedList() {
+    public BreedList() {
         this.breeds = new ArrayList<Breed>();
     }
 
@@ -53,6 +53,15 @@ public class BreedList {
             }
         }
 
+        return null;
+    }
+
+    public Breed getById(int id){
+        for (Breed breed : breeds) {
+            if (breed.getId().equals(id)){
+                return breed;
+            }
+        }
         return null;
     }
 }

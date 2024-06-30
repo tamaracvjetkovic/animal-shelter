@@ -1,0 +1,28 @@
+<messagesList>
+  <messages>
+    <message>
+      <text>Welcome to the Animal Shelter!</text>
+      <sentAt>2023-06-30T10:30:00</sentAt>
+      <owner>ANIMALSHELTER</owner>
+      <userId>1</userId>
+    </message>
+    <message>
+      <text>Thank you! I am happy to be here.</text>
+      <sentAt>2023-06-30T10:35:00</sentAt>
+      <owner>MEMBER</owner>
+      <userId>1</userId>
+    </message>
+    <message>
+      <text>How can I help with volunteering?</text>
+      <sentAt>2023-06-30T10:40:00</sentAt>
+      <owner>MEMBER</owner>
+      <userId>1</userId>
+    </message>
+    <message>
+      <text>We appreciate your interest in volunteering. You can start by filling out the volunteer application form on our website.</text>
+      <sentAt>2023-06-30T10:45:00</sentAt>
+      <owner>ANIMALSHELTER</owner>
+      <userId>1</userId>
+    </message>
+  </messages>
+</messagesList>
