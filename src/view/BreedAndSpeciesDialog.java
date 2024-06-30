@@ -152,18 +152,19 @@ public class BreedAndSpeciesDialog extends JDialog {
             submitted = true;
             JOptionPane.showMessageDialog(this, "Species: " + species + "\nBreed: " + breed);
             dispose();
-        }
-        SpeciesList speciesList = new SpeciesList();
-        Species s = speciesList.getInstance().getByName(species);
-        BreedList breedList = new BreedList();
-        Breed b = breedList.getInstance().addBreed(breed, s.getId());
-        ArrayList<Integer> bIds = s.getBreeds();
-        bIds.add(b.getId());
-        s.setBreeds(bIds);
+        } else {
+            SpeciesList speciesList = new SpeciesList();
+            Species s = speciesList.getInstance().getByName(species);
+            BreedList breedList = new BreedList();
+            Breed b = breedList.getInstance().addBreed(breed, s.getId());
+            ArrayList<Integer> bIds = s.getBreeds();
+            bIds.add(b.getId());
+            s.setBreeds(bIds);
 
-        submitted = true;
-        JOptionPane.showMessageDialog(this, "Species: " + species + "\nBreed: " + breed);
-        dispose();
+            submitted = true;
+            JOptionPane.showMessageDialog(this, "Species: " + species + "\nBreed: " + breed);
+            dispose();
+        }
     }
 
     private void onCancel() {
