@@ -1,10 +1,7 @@
 package controller;
 
 import domain.model.*;
-import domain.serializeddata.AnimalList;
-import domain.serializeddata.BreedList;
-import domain.serializeddata.CommentsList;
-import domain.serializeddata.PostList;
+import domain.serializeddata.*;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
