@@ -11,12 +11,13 @@ import dtos.PostDTO;
 import java.util.ArrayList;
 
 public class FeedController {
+
     public FeedController() {
 
     }
 
     public ArrayList<PostDTO> getAllPostsWithAnimalsAndBreeds() {
-        ArrayList<PostDTO> posts = new ArrayList<PostDTO>();
+        ArrayList<PostDTO> posts = new ArrayList<>();
 
         for(Post post : PostList.getInstance().getPosts()) {
             int animalId = post.getAnimalId();
@@ -30,7 +31,35 @@ public class FeedController {
 
         return posts;
     }
+
     public Post getById(Integer id){
         return PostList.getInstance().getById(id);
+    }
+
+    public ArrayList<PostDTO> getFilteredPosts(String name, String breed, String status, String color) {
+        ArrayList<PostDTO> filteredPosts = new ArrayList<>();
+
+        for (PostDTO post : getAllPostsWithAnimalsAndBreeds()) {
+            boolean matches = true;
+
+            if (!name.isEmpty() && !post.getName().equalsIgnoreCase(name)) {
+                matches = false;
+            }
+            if (!breed.isEmpty() && !post.getBreed().equalsIgnoreCase(breed)) {
+                matches = false;
+            }
+            if (!status.isEmpty() && !post.getStatus().equalsIgnoreCase(status)) {
+                matches = false;
+            }
+            if (!color.isEmpty() && !post.getColor().equalsIgnoreCase(color)) {
+                matches = false;
+            }
+
+            if (matches) {
+                filteredPosts.add(post);
+            }
+        }
+
+        return filteredPosts;
     }
 }

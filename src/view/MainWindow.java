@@ -121,7 +121,7 @@ public class MainWindow extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         // "Pet Ambulance" label
-        JLabel bottomLabel = new JLabel("Pet Ambulance", JLabel.CENTER);
+        JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);
         bottomLabel.setBorder(new EmptyBorder(5, 0, 8, 0));
         add(bottomLabel, BorderLayout.SOUTH);
 
