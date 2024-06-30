@@ -1,10 +1,19 @@
 <speciesList>
   <speciess>
     <species>
-      <id>0</id>
+      <id>1</id>
       <name>Jezic Zje</name>
-      <breedsIds/>
+      <breedsIds>
+        <int>1</int>
+      </breedsIds>
       <animalsIds/>
+    </species>
+    <species>
+      <id>2</id>
+      <name>Dog</name>
+      <breedsIds>
+        <int>2</int>
+      </breedsIds>
     </species>
   </speciess>
 </speciesList>

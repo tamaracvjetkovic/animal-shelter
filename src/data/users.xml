@@ -20,7 +20,9 @@
       <accountId>2</accountId>
       <userState>MEMBER</userState>
       <postsIds/>
-      <createdPostsIds/>
+      <createdPostsIds>
+        <null/>
+      </createdPostsIds>
     </user>
     <user>
       <id>3</id>
@@ -31,7 +33,9 @@
       <accountId>3</accountId>
       <userState>VOLUNTEER</userState>
       <postsIds/>
-      <createdPostsIds/>
+      <createdPostsIds>
+        <int>8</int>
+      </createdPostsIds>
     </user>
     <user>
       <id>4</id>
@@ -42,7 +46,10 @@
       <accountId>4</accountId>
       <userState>MEMBER</userState>
       <postsIds/>
-      <createdPostsIds/>
+      <createdPostsIds>
+        <null/>
+        <null/>
+      </createdPostsIds>
     </user>
   </users>
 </usersList>

@@ -1,9 +1,9 @@
 <breedList>
   <breeds>
     <breed>
-      <id>0</id>
+      <id>1</id>
       <name>Jez</name>
-      <speciesId>0</speciesId>
+      <speciesId>1</speciesId>
       <animalsIds>
         <int>1</int>
         <int>2</int>
@@ -11,6 +11,11 @@
         <int>4</int>
         <int>5</int>
       </animalsIds>
+    </breed>
+    <breed>
+      <id>2</id>
+      <name>Labrador</name>
+      <speciesId>2</speciesId>
     </breed>
   </breeds>
 </breedList>

@@ -5,12 +5,12 @@
       <name>Zje ali mali</name>
       <colour>Brown</colour>
       <born>2024-06-29</born>
-      <addressId>0</addressId>
+      <addressId>1</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
-      <breedId>0</breedId>
+      <breedId>1</breedId>
       <speciesId>1</speciesId>
     </animal>
     <animal>
@@ -18,12 +18,12 @@
       <name>Jezic</name>
       <colour>Brown</colour>
       <born>2024-06-29</born>
-      <addressId>0</addressId>
+      <addressId>1</addressId>
       <state>ADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
-      <breedId>0</breedId>
+      <breedId>1</breedId>
       <speciesId>1</speciesId>
     </animal>
     <animal>
@@ -31,12 +31,12 @@
       <name>Zje</name>
       <colour>Brown</colour>
       <born>2024-06-29</born>
-      <addressId>0</addressId>
+      <addressId>1</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
-      <breedId>0</breedId>
+      <breedId>1</breedId>
       <speciesId>1</speciesId>
     </animal>
     <animal>
@@ -44,12 +44,12 @@
       <name>Zicko</name>
       <colour>Brown</colour>
       <born>2024-06-29</born>
-      <addressId>0</addressId>
+      <addressId>1</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
-      <breedId>0</breedId>
+      <breedId>1</breedId>
       <speciesId>1</speciesId>
     </animal>
     <animal>
@@ -57,13 +57,65 @@
       <name>Bocko</name>
       <colour>Brown</colour>
       <born>2024-06-29</born>
-      <addressId>0</addressId>
+      <addressId>2</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
-      <breedId>0</breedId>
+      <breedId>1</breedId>
       <speciesId>1</speciesId>
+    </animal>
+    <animal>
+      <id>6</id>
+      <name>Jezic Zje</name>
+      <colour>Pink</colour>
+      <born>2022-10-20</born>
+      <addressId>1</addressId>
+      <state>NOTADOPTED</state>
+      <multimedia>
+        <string>src/images/pets/mali_zje.png</string>
+      </multimedia>
+      <breedId>1</breedId>
+      <speciesId>1</speciesId>
+    </animal>
+    <animal>
+      <id>7</id>
+      <name>ZicZic</name>
+      <colour>Pink</colour>
+      <born>2023-04-10</born>
+      <addressId>1</addressId>
+      <state>NOTADOPTED</state>
+      <multimedia>
+        <string>src/images/pets/mali_zje.png</string>
+      </multimedia>
+      <breedId>1</breedId>
+      <speciesId>1</speciesId>
+    </animal>
+    <animal>
+      <id>8</id>
+      <name>Alina</name>
+      <colour>Black</colour>
+      <born>2019-09-21</born>
+      <addressId>1</addressId>
+      <state>NOTADOPTED</state>
+      <multimedia>
+        <string>src/images/pets/mali_zje.png</string>
+      </multimedia>
+      <breedId>2</breedId>
+      <speciesId>2</speciesId>
+    </animal>
+    <animal>
+      <id>9</id>
+      <name>Linda</name>
+      <colour>Yellow</colour>
+      <born>2019-01-17</born>
+      <addressId>2</addressId>
+      <state>NOTADOPTED</state>
+      <multimedia>
+        <string>src/images/pets/mali_zje.png</string>
+      </multimedia>
+      <breedId>2</breedId>
+      <speciesId>2</speciesId>
     </animal>
   </animals>
 </animalList>

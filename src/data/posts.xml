@@ -27,7 +27,31 @@
     <post>
       <id>5</id>
       <animalId>5</animalId>
-      <likes>2</likes>
+      <likes>3</likes>
+      <commentsIds/>
+    </post>
+    <post>
+      <id>6</id>
+      <animalId>6</animalId>
+      <likes>0</likes>
+      <commentsIds/>
+    </post>
+    <post>
+      <id>7</id>
+      <animalId>7</animalId>
+      <likes>0</likes>
+      <commentsIds/>
+    </post>
+    <post>
+      <id>8</id>
+      <animalId>8</animalId>
+      <likes>0</likes>
+      <commentsIds/>
+    </post>
+    <post>
+      <id>9</id>
+      <animalId>9</animalId>
+      <likes>0</likes>
       <commentsIds/>
     </post>
   </posts>

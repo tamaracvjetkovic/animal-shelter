@@ -6,5 +6,11 @@
       <street>Cara Dusana</street>
       <number>72</number>
     </address>
+    <address>
+      <id>2</id>
+      <city>Novi Sad</city>
+      <street>Nikole Tesle</street>
+      <number>2</number>
+    </address>
   </adresses>
 </addressList>
