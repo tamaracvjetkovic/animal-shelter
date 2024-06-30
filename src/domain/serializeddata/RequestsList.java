@@ -3,6 +3,7 @@ package domain.serializeddata;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
+import domain.enums.UserState;
 import domain.model.Post;
 import domain.model.Request;
 import domain.model.User;
@@ -55,28 +56,28 @@ public class RequestsList {
         addRequest(r);
         return r;
     }
-    public void increaseApproved(Request req){
-        req.increaseApproved();
+    public void addApproved(Request req, User user){
+        req.addApproved(user.getId());
     }
-    public void decreaseApproved(Request req){
-        req.decreaseApproved();
+    public void decreaseApproved(Request req, User user){
+        req.removeApproved(user.getId());
     }
-    public void increaseRejected(Request req){
-        req.increaseRejected();
+    public void addRejected(Request req, User user){
+        req.addRejected(user.getId());
     }
-    public void decreaseRejected(Request req){
-        req.decreaseRejected();
+    public void decreaseRejected(Request req, User user){
+        req.removeRejected(user.getId());
     }
 
 
-    private void updateVolunteeringRequests() {
+    public void updateVolunteeringRequests() {
         LocalDateTime currentDate = LocalDateTime.now();
         LocalDateTime threeDaysAgo = currentDate.minusDays(3);
 
         for (Request request : requests) {
-            if (request.getType() == RequestType.VOLUNTEERING && request.getSentAt() != null) {
+            if (request.getType() == RequestType.VOLUNTEERING && request.getState() == RequestState.PENDING && request.getSentAt() != null) {
                 if (request.getSentAt().isBefore(threeDaysAgo)) {
-                    if (request.getRejected() > request.getApproved() || request.getApproved() < 3) {
+                    if (request.getRejected().size() > request.getApproved().size() || request.getApproved().size() < 3) {
                         request.setState(RequestState.REJECTED);
                     } else {
                         request.setState(RequestState.APPROVED);
@@ -93,5 +94,20 @@ public class RequestsList {
             }
         }
         return reqs;
+    }
+    public ArrayList<Request> getPendingForVolunteer(User user){
+        if(user.getUserState() != UserState.VOLUNTEER) {
+            return null;
+        }
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        for (Request request : requests) {
+            if (request.getState() == RequestState.PENDING && !hasUserVoted(request,user)) {        // if request is pending and volunteer hasn't voted yet add it to list
+                reqs.add(request);
+            }
+        }
+        return reqs;
+    }
+    public boolean hasUserVoted(Request req,User user) {
+        return req.getApproved().contains(user.getId()) || req.getRejected().contains(user.getId());
     }
 }
