@@ -5,7 +5,9 @@ import controller.RequestsController;
 import domain.enums.AnimalState;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
+import domain.model.Message;
 import domain.model.User;
+import domain.serializeddata.MessagesList;
 import domain.serializeddata.UsersList;
 import domain.model.Request;
 import dtos.PostDTO;
@@ -13,6 +15,8 @@ import dtos.PostDTO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class VolunteerWindow extends JFrame {
     private FeedController feedController;
@@ -89,12 +93,14 @@ public class VolunteerWindow extends JFrame {
 
         JPanel requests = createTabPanel("Requests");
         setUpRequestsPanel(requests);
-        JPanel panel3 = createTabPanel("This is the content of Tab 3");
+        JPanel messages = createTabPanel("Inbox");
+        setUpInboxPanel(messages);
+
 
         // Add panels to the tabbed pane
         tabbedPane.addTab("Animals", pets);
         tabbedPane.addTab("Requests", requests);
-        tabbedPane.addTab("Tab 3", panel3);
+        tabbedPane.addTab("Inbox", messages);
 
         // Add the tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
@@ -133,6 +139,62 @@ public class VolunteerWindow extends JFrame {
 
         // set the new location for the component
         component.setLocation(x, y);
+    }
+
+    private void setUpInboxPanel(JPanel messages) {
+        JPanel messagePanel = new JPanel();
+        messagePanel.setLayout(new BoxLayout(messagePanel, BoxLayout.Y_AXIS));
+        Color messagePanelColor = new Color(207, 198, 176, 234);
+
+        ArrayList<Message> userMessages = MessagesList.getInstance().getAll();
+
+        for (Message message : userMessages) {
+            JPanel messagePostPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+
+            // panel for message info
+            JPanel messageInfoPanel = new JPanel();
+            messageInfoPanel.setLayout(new BoxLayout(messageInfoPanel, BoxLayout.Y_AXIS));
+            messageInfoPanel.setBackground(messagePanelColor);
+
+            messageInfoPanel.add(new JLabel(" "));
+            messageInfoPanel.add(new JLabel("From: " + MessagesList.getInstance().messageFrom(message)));
+            messageInfoPanel.add(new JLabel("To: " +  MessagesList.getInstance().messageTo(message)));
+            messageInfoPanel.add(new JLabel("Content: " + message.getText()));
+            messageInfoPanel.add(new JLabel("Sent at: " + message.getSentAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+            messageInfoPanel.add(new JLabel(" "));
+
+            if (MessagesList.getInstance().messageFrom(message).equals("shelter")) {
+                messageInfoPanel.setAlignmentX(Component.RIGHT_ALIGNMENT); // Align components to the right
+            } else {
+                messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+            }
+            gbc.gridx = 0;
+            messagePostPanel.add(messageInfoPanel, gbc);
+
+            // create a line separator - separates messages
+            JPanel lineSeparator = new JPanel();
+            lineSeparator.setBackground(Color.GRAY);
+            lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 1px, width 0 to be adjusted by layout
+            gbc.gridy = 1;
+            messagePanel.add(lineSeparator, gbc);
+
+            messagePostPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
+            messagePostPanel.setBackground(messagePanelColor);
+
+            messagePanel.add(messagePostPanel);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(messagePanel);
+
+        // add the scrollable panel to the frame
+        messages.setLayout(new BorderLayout());
+        messages.add(scrollPane, BorderLayout.CENTER);
+        center(messages);
+        messages.setVisible(true);
     }
 
     private void setUpPetsPanel(JPanel pets) {
