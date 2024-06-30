@@ -9,8 +9,7 @@ import java.util.Date;
 
 public class LogInController {
     public User logIn(String username, String password) {
-        User user = UsersList.getInstance().getByUsername(username);
-        return user;
+        return UsersList.getInstance().getByUsernameAndPassword(username, password);
     }
 
     public User signUp(String name, String lastname, String email, Date birthDate, String username, String password){

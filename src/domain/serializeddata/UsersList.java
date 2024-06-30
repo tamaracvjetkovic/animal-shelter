@@ -72,4 +72,14 @@ public class UsersList {
         }
         return null;
     }
+
+    public User getByUsernameAndPassword(String username, String password) {
+        for(User user : users){
+            Account acc = AccountsList.getInstance().getById(user.getAccountId());
+            if(acc !=null && acc.getUsername().equals(username) && acc.getPassword().equals(password)){
+                return user;
+            }
+        }
+        return null;
+    }
 }

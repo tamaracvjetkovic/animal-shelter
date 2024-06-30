@@ -368,12 +368,12 @@ public class VolunteerWindow extends JFrame {
                 viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 viewButton.addActionListener(e -> {
                     if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
-                        PostDTO post = feedController.getById(request.getPostId());
+                        PostDTO post = feedController.getDTOById(request.getPostId());
                         PostDialog postDialog = new PostDialog(this, post);
                     } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
                         AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
                     } else if (request.getType() == RequestType.POST_EDITING) {
-                        PostDTO post = feedController.getById(request.getPostId());
+                        PostDTO post = feedController.getDTOById(request.getPostId());
                         AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
                     }
                 });
