@@ -14,7 +14,7 @@ public class AnimalList {
     @XStreamAlias("animals")
     private ArrayList<Animal> animals;
 
-    private AnimalList() {
+    public AnimalList() {
         this.animals = new ArrayList<Animal>();
     }
 

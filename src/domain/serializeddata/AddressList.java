@@ -12,7 +12,7 @@ public class AddressList {
     @XStreamAlias("adresses")
     private ArrayList<Address> addresses;
 
-    private AddressList() {
+    public AddressList() {
         this.addresses = new ArrayList<Address>();
     }
 

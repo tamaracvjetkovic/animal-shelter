@@ -13,7 +13,7 @@ public class PostList {
     @XStreamAlias("posts")
     private ArrayList<Post> posts;
 
-    private PostList() {
+    public PostList() {
         this.posts = new ArrayList<Post>();
     }
 
