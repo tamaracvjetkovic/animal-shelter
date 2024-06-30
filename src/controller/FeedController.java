@@ -4,6 +4,7 @@ import domain.model.*;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
 import domain.serializeddata.PostList;
+import domain.serializeddata.SpeciesList;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class FeedController {
             int animalId = post.getAnimalId();
 
             Animal animal = AnimalList.getInstance().getAnimal(animalId);
-            Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+            Breed breed = BreedList.getInstance().getById(animal.getBreedId());
 
             posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
                     animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
@@ -36,11 +37,11 @@ public class FeedController {
         ArrayList<PostDTO> posts = new ArrayList<>();
 
         for(Post post : PostList.getInstance().getPosts()) {
-            if (user.getPostsIds().contains(post.getId())) {
+            if (user.getCreatedPostsIds().contains(post.getId())) {
                 int animalId = post.getAnimalId();
 
                 Animal animal = AnimalList.getInstance().getAnimal(animalId);
-                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+                Breed breed = BreedList.getInstance().getById(animal.getBreedId());
 
                 posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
                         animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
@@ -53,18 +54,17 @@ public class FeedController {
     public ArrayList<PostDTO> getAllPostsUserAdopted(User user) {
         ArrayList<PostDTO> posts = new ArrayList<>();
 
-        // to be added, since currently we dont know which posts are adopted in the user
-//        for(Post post : PostList.getInstance().getPosts()) {
-//            if (user.getPostsIds().contains(post.getId())) {
-//                int animalId = post.getAnimalId();
-//
-//                Animal animal = AnimalList.getInstance().getAnimal(animalId);
-//                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
-//
-//                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
-//                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
-//            }
-//        }
+        for(Post post : PostList.getInstance().getPosts()) {
+            if (user.getPostsIds().contains(post.getId())) {
+                int animalId = post.getAnimalId();
+
+                Animal animal = AnimalList.getInstance().getAnimal(animalId);
+                Breed breed = BreedList.getInstance().getById(animal.getBreedId());
+
+                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+            }
+        }
 
         return posts;
     }
@@ -134,13 +134,29 @@ public class FeedController {
     }
 
     public String[] getSpeciesForPicker() {
-        return new String[] {"Jezic Zje"};
+        String[] speciess = new String[SpeciesList.getInstance().getSpeciess().size()];
+        int i = 0;
+        for(Species species : SpeciesList.getInstance().getSpeciess()) {
+            speciess[i++] = species.getName();
+        }
+
+        return speciess;
     }
 
     public int getBreedId(String name) {
         for(Breed breed : BreedList.getInstance().getBreeds()) {
             if(breed.getName().equalsIgnoreCase(name)) {
-                return 1; // because breed doesnt have ID?
+                return breed.getId();
+            }
+        }
+
+        return -1;
+    }
+
+    public int getSpeciesId(String name) {
+        for(Species species : SpeciesList.getInstance().getSpeciess()) {
+            if(species.getName().equalsIgnoreCase(name)) {
+                return species.getId();
             }
         }
 

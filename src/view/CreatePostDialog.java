@@ -120,7 +120,8 @@ public class CreatePostDialog extends JDialog {
             else {
                 // Process the data here (e.g., save to database or display)
                 requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
-                        AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)), feedController.getBreedId(selectedPicker1), 0));
+                        AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)),
+                        feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)));
 
                 // Close the dialog
                 dispose();

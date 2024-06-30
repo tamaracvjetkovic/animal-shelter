@@ -435,7 +435,7 @@ public class MemberWindow extends JFrame {
             petsAdoptedPanel.add(petPostPanel);
         }
 
-        tabbedPane.addTab("Pets I adopted", petsAdoptedPanel);
+        tabbedPane.addTab("My pets", petsAdoptedPanel);
 
         // fourth tab: Payments
         JPanel paymentsPanel = new JPanel();
