@@ -23,10 +23,10 @@ public class RequestsController {
         return RequestsList.getInstance().getPendingByUser(user);
     }
 
-    public void requestToBeVolunteer(User user) {
+    public void requestToBeVolunteer(User user, String reason) {
         int id = RequestsList.getInstance().generateId();
         RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
-                RequestType.VOLUNTEERING, user.getId(), null));
+                RequestType.VOLUNTEERING, user.getId(), null, null, reason));
     }
 
     public void requestAnimalAdoption(User user, Post post) {
