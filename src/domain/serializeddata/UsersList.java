@@ -16,7 +16,7 @@ public class UsersList {
     @XStreamAlias("users")
     private ArrayList<User> users;
 
-    private UsersList() {
+    public UsersList() {
         this.users = new ArrayList<User>();
     }
 
@@ -66,7 +66,7 @@ public class UsersList {
     }
     public User getById(Integer id){
         for(User user : users){
-            if(user.getId() == id){
+            if(user.getId().equals(id)){
                 return user;
             }
         }

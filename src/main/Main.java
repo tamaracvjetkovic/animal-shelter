@@ -1,5 +1,7 @@
 package main;
 
+import controller.RequestsController;
+import domain.serializeddata.RequestsList;
 import serialization.Serialization;
 import view.MainWindow;
 
@@ -11,6 +13,8 @@ public class Main {
         try {
             Serialization serialization = new Serialization();
             serialization.load();
+            RequestsController controller = new RequestsController();
+            controller.updateVolunteeringRequests();                //check if time is up for voting for volunteering requests
             MainWindow mainWindow = new MainWindow();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {

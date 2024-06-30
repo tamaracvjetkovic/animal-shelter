@@ -15,7 +15,7 @@ public class RegisterWindow extends JFrame {
         setTitle("Registration Form");
 
         // Set default close operation
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Create a JPanel with BoxLayout for vertical stacking
         JPanel mainPanel = new JPanel();
@@ -83,9 +83,9 @@ public class RegisterWindow extends JFrame {
                     JOptionPane.showMessageDialog(this, "Choose another username.");
                 }else{
                     if(user.getUserState() == UserState.MEMBER){
-
+                        MemberWindow memberWindow = new MemberWindow(user);
                     }else if(user.getUserState() == UserState.VOLUNTEER){
-
+                        VolunteerWindow volunteerWindow = new VolunteerWindow(user);
                     }else{
                         MainWindow mainWindow = new MainWindow();
                     }

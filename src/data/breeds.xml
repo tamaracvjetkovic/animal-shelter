@@ -1,6 +1,7 @@
 <breedList>
   <breeds>
     <breed>
+      <id>0</id>
       <name>Jez</name>
       <speciesId>0</speciesId>
       <animalsIds>

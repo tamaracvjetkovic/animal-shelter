@@ -16,6 +16,7 @@ public class User {
 	private Integer accountId;
 	private UserState userState;
 	private ArrayList<Integer> postsIds;
+	private ArrayList<Integer> createdPostsIds;
 
 	public User(Integer id, String name, String lastname, String email, Date birthDate, Integer accountId, UserState state) {
 		super();
@@ -81,6 +82,19 @@ public class User {
 	public void setPostsIds(ArrayList<Integer> postsIds) {
 		this.postsIds = postsIds;
 	}
+
+	public ArrayList<Integer> getCreatedPostsIds() {
+		return createdPostsIds;
+	}
+
+	public void setCreatedPostsIds(ArrayList<Integer> createdPostsIds) {
+		this.createdPostsIds = createdPostsIds;
+	}
+
+	public void addPostId(Integer postId){this.postsIds.add(postId);}
+	public void addCreatedPostId(Integer postId){this.createdPostsIds.add(postId);}
+	public void removePostId(Integer postId){this.postsIds.remove(postId);}
+	public void removeCreatedPostId(Integer postId){this.createdPostsIds.remove(postId);}
 
 	@Override
 	public String toString() {
