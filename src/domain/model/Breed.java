@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 @XStreamAlias("breed")
 public class Breed {
+	private Integer id;
 	private String name;
 	private Integer speciesId;
 	private ArrayList<Integer> animalsIds;
@@ -18,6 +19,13 @@ public class Breed {
 		this.name = name;
 		this.speciesId = species;
 		this.animalsIds = animals;
+	}
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
