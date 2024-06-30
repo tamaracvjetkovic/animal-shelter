@@ -48,7 +48,7 @@ public class PostList {
     }
     public Post getById(Integer id){
         for(Post post : posts){
-            if(post.getId() == id){
+            if(post.getId().equals(id)){
                 return post;
             }
         }

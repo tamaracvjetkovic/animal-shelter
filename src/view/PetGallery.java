@@ -16,6 +16,7 @@ public class PetGallery extends JFrame {
         galleryFrame.setLocationRelativeTo(null);
 
         JPanel galleryPanel = new JPanel();
+        galleryPanel.setBackground(new Color(213, 202, 179));
         galleryPanel.setLayout(new BoxLayout(galleryPanel, BoxLayout.Y_AXIS));
         JScrollPane galleryScrollPane = new JScrollPane(galleryPanel);
 

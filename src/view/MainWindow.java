@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
         // login button
         JButton loginButton = new JButton("Login");
         loginButton.setFocusable(false);
-        loginButton.setBackground(new Color(27, 198, 1));  // Set the background color
+        loginButton.setBackground(new Color(29, 193, 48));  // Set the background color
         loginButton.setForeground(Color.WHITE); // Set the text color
         loginButton.setFocusPainted(false);
         loginButton.setBorder(new EmptyBorder(6, 11, 6, 11));

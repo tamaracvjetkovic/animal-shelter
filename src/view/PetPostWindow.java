@@ -1,5 +1,7 @@
 package view;
 
+import controller.FeedController;
+import domain.model.User;
 import dtos.PostDTO;
 import util.UIUtils;
 
@@ -9,9 +11,12 @@ import java.awt.*;
 
 
 public class PetPostWindow extends JFrame {
+    private FeedController feedController;
+    int likes;
 
-    public PetPostWindow(PostDTO post) {
-        setWindowData();
+    public PetPostWindow(User user, PostDTO post) {
+        feedController = new FeedController();
+        setWindowData(post);
 
         // Top panel for pet name and breed
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -22,11 +27,13 @@ public class PetPostWindow extends JFrame {
 
         // Adding separator after top panel
         topPanel.add(new JSeparator(JSeparator.HORIZONTAL), BorderLayout.SOUTH);
+        topPanel.setBackground(new Color(207, 198, 176, 98));
 
         // Main panel for pet details, comments and buttons
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setBackground( new Color(172, 164, 146));
 
         // Pet view panel
         JPanel petViewPanel = new JPanel(new GridBagLayout());
@@ -50,6 +57,7 @@ public class PetPostWindow extends JFrame {
             Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             JLabel petImageLabel = new JLabel(new ImageIcon(scaledImg));
             picturePanel.add(petImageLabel, BorderLayout.CENTER);
+            picturePanel.setBackground(new Color(213, 202, 179));
         } catch (Exception e) {
             JLabel petImageLabel = new JLabel("Picture not found");
             petImageLabel.setPreferredSize(new Dimension(150, 150));
@@ -67,6 +75,7 @@ public class PetPostWindow extends JFrame {
         JPanel petInfoPanel = new JPanel();
         petInfoPanel.setLayout(new BoxLayout(petInfoPanel, BoxLayout.Y_AXIS));
         petInfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        petInfoPanel.setBackground(new Color(213, 202, 179));
 
         petInfoPanel.add(new JLabel("Pet name: " + post.getName()));
         petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
@@ -99,6 +108,7 @@ public class PetPostWindow extends JFrame {
 
         JPanel buttonsPanel = new JPanel(new BorderLayout());
         buttonsPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        buttonsPanel.setBackground(new Color(213, 202, 179));
 
         JButton galleryButton = new JButton();
         try {
@@ -107,7 +117,7 @@ public class PetPostWindow extends JFrame {
             Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             galleryButton.setIcon(new ImageIcon(scaledImg));
             galleryButton.setFocusable(false);
-            galleryButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            galleryButton.setBackground(new Color(213, 202, 179));  // Set the background color
             galleryButton.setForeground(Color.WHITE);  // Set the text color
             galleryButton.setFocusPainted(false);
             galleryButton.setBorder(new EmptyBorder(5, 10, 5, 10));
@@ -128,24 +138,27 @@ public class PetPostWindow extends JFrame {
             Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             likeButton.setIcon(new ImageIcon(scaledImg));
             likeButton.setFocusable(false);
-            likeButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            likeButton.setBackground(new Color(213, 202, 179));  // Set the background color
             likeButton.setForeground(Color.WHITE);  // Set the text color
             likeButton.setFocusPainted(false);
-            likeButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            likeButton.setBorder(new EmptyBorder(5, 0, 5, 0));
             likeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } catch (Exception e) {
             likeButton.setText("Like");
         }
-        likeButton.addActionListener(e -> {
-            // Implement like functionality here
-        });
 
-        int likes = 30;
         JLabel likesLabel = new JLabel(": " + likes);
 
         JPanel likePanel = new JPanel();
         likePanel.add(likeButton);
         likePanel.add(likesLabel);
+        likePanel.setBackground(new Color(213, 202, 179));
+
+        likeButton.addActionListener(e -> {
+            feedController.likePost(post);
+            likes++;
+            likesLabel.setText(": " + likes);
+        });
 
         buttonsPanel.add(likePanel, BorderLayout.SOUTH);
         petViewPanel.add(buttonsPanel, gbc);
@@ -158,6 +171,7 @@ public class PetPostWindow extends JFrame {
         // Comments panel
         JPanel commentsPanel = new JPanel();
         commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
+        //commentsPanel.setBackground(new Color(243, 230, 197));
 
         // Placeholder comments
         for (int i = 1; i <= 20; i++) { // Increased to 20 to better demonstrate scrolling
@@ -174,25 +188,48 @@ public class PetPostWindow extends JFrame {
         commentsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         commentsScrollPane.setPreferredSize(new Dimension(400, 250)); // Set preferred size for demonstration
         commentsScrollPane.setBorder(new EmptyBorder(10, 5, 5, 5));
+        //commentsScrollPane.setBackground(new Color(243, 230, 197));
 
         mainPanel.add(commentsScrollPane);
 
         // Buttons panel for liking, commenting and adopting
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        bottomPanel.setBackground(new Color(213, 202, 179));
 
         JPanel leftBottomPanel = new JPanel();
+        leftBottomPanel.setBackground(new Color(213, 202, 179));
         JButton addCommentButton = new JButton("Add Comment");
+        addCommentButton.setFocusable(false);
+        addCommentButton.setBackground(new Color(142, 119, 87));  // Set the background color
+        addCommentButton.setForeground(Color.WHITE); // Set the text color
+        addCommentButton.setFocusPainted(false);
+        addCommentButton.setBorder(new EmptyBorder(6, 11, 6, 11));
+        addCommentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addCommentButton.addActionListener(e -> {
             // Open a new dialog/form to add a comment
         });
         leftBottomPanel.add(addCommentButton);
 
         JPanel rightBottomPanel = new JPanel();
+        rightBottomPanel.setBackground(new Color(213, 202, 179));
         JButton adoptButton = new JButton("Adopt");
+        adoptButton.setFocusable(false);
+        adoptButton.setBackground(new Color(21, 179, 10));  // Set the background color
+        adoptButton.setForeground(Color.WHITE); // Set the text color
+        adoptButton.setFocusPainted(false);
+        adoptButton.setBorder(new EmptyBorder(6, 11, 6, 11));
+        adoptButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         adoptButton.addActionListener(e -> {
-            // Open a new dialog/form to adopt
+            ConfirmAdoptionWindow confirmAdoptionWindow = new ConfirmAdoptionWindow(user, post);
         });
+        if (!post.getStatus().equalsIgnoreCase("Not adopted")) {
+            adoptButton.setEnabled(false);
+            adoptButton.setBackground(new Color(122, 193, 117));
+            adoptButton.setText("<html><font color = white>Adopt</font></html>");
+        } else {
+            adoptButton.setEnabled(true);
+        }
         rightBottomPanel.add(adoptButton);
 
         bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
@@ -206,11 +243,12 @@ public class PetPostWindow extends JFrame {
         setVisible(true);
     }
 
-    private void setWindowData() {
+    private void setWindowData(PostDTO post) {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 380);
+        setSize(600, 450);
         setLayout(new BorderLayout());
         setTitle("Pet View");
         UIUtils.center(this);
+        likes = feedController.getById(post.getId()).getLikes();
     }
 }

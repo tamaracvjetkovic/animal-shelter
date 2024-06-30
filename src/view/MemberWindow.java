@@ -210,7 +210,7 @@ public class MemberWindow extends JFrame {
             viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             viewButton.addActionListener(e -> {
-                PetPostWindow petPostWindow = new PetPostWindow(post);
+                PetPostWindow petPostWindow = new PetPostWindow(user, post);
                 petPostWindow.setVisible(true);
             });
 
