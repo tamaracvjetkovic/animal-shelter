@@ -1,7 +1,12 @@
 package view;
 
 import controller.FeedController;
+import controller.RequestsController;
+import domain.enums.UserState;
+import domain.model.Post;
 import domain.model.User;
+import domain.serializeddata.RequestsList;
+import domain.serializeddata.UsersList;
 import dtos.PostDTO;
 import util.UIUtils;
 
@@ -9,12 +14,14 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 
 public class PetPostWindow extends JFrame {
     private FeedController feedController;
     int likes;
 
-    public PetPostWindow(User user, PostDTO post) {
+    public PetPostWindow(Frame parent,User user, PostDTO post) {
         feedController = new FeedController();
         setWindowData(post);
 
@@ -230,6 +237,31 @@ public class PetPostWindow extends JFrame {
         } else {
             adoptButton.setEnabled(true);
         }
+
+        JButton endFosterCareButton = new JButton("End foster care");
+        endFosterCareButton.setFocusable(false);
+        endFosterCareButton.setBackground(new Color(21, 179, 10));  // Set the background color
+        endFosterCareButton.setForeground(Color.WHITE); // Set the text color
+        endFosterCareButton.setFocusPainted(false);
+        endFosterCareButton.setBorder(new EmptyBorder(6, 11, 6, 11));
+        endFosterCareButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        endFosterCareButton.addActionListener(e -> {endFosterCare(post); if (parent instanceof VolunteerWindow) { // Replace ParentClass with the actual name of your parent class
+            ((VolunteerWindow) parent).refresh();
+            showMessageDialog(null, "Foster care is ended\n");
+            dispose();
+        }});
+        if(user.getUserState() == UserState.VOLUNTEER && post.getStatus().equalsIgnoreCase("In foster care")){
+            rightBottomPanel.add(endFosterCareButton);
+            if (!post.getStatus().equalsIgnoreCase("In foster care")) {
+                adoptButton.setEnabled(false);
+                adoptButton.setBackground(new Color(122, 193, 117));
+                adoptButton.setText("<html><font color = white>End foster care</font></html>");
+            } else {
+                adoptButton.setEnabled(true);
+            }
+        }
+
+
         rightBottomPanel.add(adoptButton);
 
         bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
@@ -250,5 +282,12 @@ public class PetPostWindow extends JFrame {
         setTitle("Pet View");
         UIUtils.center(this);
         likes = feedController.getById(post.getId()).getLikes();
+    }
+    public void endFosterCare(PostDTO post){
+        Post currentPost = feedController.getById(post.getId());
+        Integer animalId = currentPost.getAnimalId();
+        User user = UsersList.instance.getUserTakingCareOfAnimal(animalId);
+        RequestsController controller = new RequestsController();
+        controller.fosterCareEnded(user,currentPost);
     }
 }
