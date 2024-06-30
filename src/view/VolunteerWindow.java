@@ -5,6 +5,7 @@ import controller.RequestsController;
 import domain.enums.AnimalState;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
+import domain.model.User;
 import domain.serializeddata.UsersList;
 import domain.model.Request;
 import dtos.PostDTO;
@@ -16,34 +17,70 @@ import java.awt.*;
 public class VolunteerWindow extends JFrame {
     private FeedController feedController;
     private RequestsController requestsController;
-    public VolunteerWindow() {
+    private User user;
+
+    public VolunteerWindow(User user) {
         // Set the title of the frame
         setTitle("Volunteer");
         feedController = new FeedController();
         requestsController = new RequestsController();
+        this.user = user;
         // Set default close operation
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the size of the frame
-        setSize(450, 580);
-        JButton signOutButton = new JButton("Sign Out");
-        signOutButton.addActionListener(e -> {
-            // Handle sign out action (for example, show a confirmation dialog)
-            int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out?",
-                                                         "Confirm Sign Out", JOptionPane.YES_NO_OPTION);
-            if (response == JOptionPane.YES_OPTION) {
-                // Perform sign-out logic, e.g., close the application or log out the user
-                MainWindow mainWindow = new MainWindow();
-                dispose();
-            }
+        setSize(600, 600);
+
+        // top panel with login and register buttons
+        JPanel topPanel = new JPanel(new BorderLayout());
+        Color topPanelsColor = new Color(207, 198, 176, 98);
+        topPanel.setBackground(topPanelsColor);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        Color buttonPanelColor = new Color(181, 171, 145);
+        buttonPanel.setBackground(buttonPanelColor);
+
+        // change all buttons' background after focusing/clicking on them
+        UIManager.put("Button.select", buttonPanelColor);
+
+        // "view profile" button with icon
+        JButton viewProfileButton = new JButton();
+        try {
+            ImageIcon profileIcon = new ImageIcon("src/images/icons/profile_view.png"); // Specify the path to your PNG file
+            Image img = profileIcon.getImage();
+            Image scaledImg = img.getScaledInstance(30, 30, Image.SCALE_SMOOTH); // Adjust the size as needed
+            viewProfileButton.setIcon(new ImageIcon(scaledImg));
+        } catch (Exception e) {
+            viewProfileButton.setText("View Profile");
+        }
+        viewProfileButton.setBackground(buttonPanelColor);  // Set the background color
+        viewProfileButton.setBorder(null);
+        viewProfileButton.setFocusPainted(false);
+        viewProfileButton.setFocusable(false);
+        viewProfileButton.setBorder(new EmptyBorder(0, 0, 0, 10));
+        viewProfileButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        viewProfileButton.addActionListener(e -> {
+            UserProfileDialog userProfileDialog = new UserProfileDialog(this, this.user);
+            userProfileDialog.setVisible(true);
         });
 
-        // Create a panel for the "Sign Out" button
-        JPanel signOutPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        signOutPanel.add(signOutButton);
+        // adding the "view profile" and "volunteer request" buttons
+        buttonPanel.add(viewProfileButton);
+        buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
-        // Add the sign out panel to the top of the frame
-        add(signOutPanel, BorderLayout.NORTH);
+        topPanel.add(buttonPanel, BorderLayout.NORTH);
+
+        // title label
+        JLabel titleLabel = new JLabel("Welcome, " + user.getName() + " " + user.getLastname() + "!", JLabel.CENTER);
+        titleLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        titleLabel.setFont(new Font("Arial", Font.ITALIC, 14));
+
+        topPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Add the top panel to the top of the frame
+        add(topPanel, BorderLayout.NORTH);
         // Create the tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
         // Create tabs with panels
@@ -51,6 +88,7 @@ public class VolunteerWindow extends JFrame {
         setUpPetsPanel(pets);
 
         JPanel requests = createTabPanel("Requests");
+        setUpRequestsPanel(requests);
         JPanel panel3 = createTabPanel("This is the content of Tab 3");
 
         // Add panels to the tabbed pane
@@ -59,8 +97,17 @@ public class VolunteerWindow extends JFrame {
         tabbedPane.addTab("Tab 3", panel3);
 
         // Add the tabbed pane to the frame
-        add(tabbedPane);
+        add(tabbedPane, BorderLayout.CENTER);
 
+
+        tabbedPane.setBackgroundAt(0, new Color(202, 191, 168));
+        tabbedPane.setBackgroundAt(1, new Color(202, 191, 168));
+        tabbedPane.setBackgroundAt(2, new Color(202, 191, 168));
+
+        // "Animal Shelter ©" label at the bottom
+        JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);
+        bottomLabel.setBorder(new EmptyBorder(5, 0, 8, 0));
+        add(bottomLabel, BorderLayout.SOUTH);
         // Center the frame on the screen
         setLocationRelativeTo(null);
 
@@ -76,6 +123,7 @@ public class VolunteerWindow extends JFrame {
         panel.setSize(450, 580);
         return panel;
     }
+
     private static void center(Component component) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int w = component.getSize().width;
@@ -87,10 +135,27 @@ public class VolunteerWindow extends JFrame {
         component.setLocation(x, y);
     }
 
-    private void setUpPetsPanel(JPanel pets){
+    private void setUpPetsPanel(JPanel pets) {
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
+
+        // search panel
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        searchPanel.setBackground(new Color(207, 198, 176, 98));
+
+        JTextField searchField = new JTextField("Search...", 15);
+        JButton searchButton = new JButton("Search");
+        searchButton.setFocusable(false);
+        searchButton.setBackground(new Color(156, 148, 131, 255));  // Set the background color
+        searchButton.setForeground(Color.WHITE);  // Set the text color
+        searchButton.setFocusPainted(false);
+        searchButton.setBorder(new EmptyBorder(2, 10, 5, 10));
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        petPanel.add(searchPanel, BorderLayout.SOUTH);
 
         for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds()) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
@@ -130,11 +195,39 @@ public class VolunteerWindow extends JFrame {
             petInfoPanel.add(new JLabel("Color: " + post.getColor()));
             petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
-            petInfoPanel.add(new JLabel("Status: " + post.getStatus()));
+
+            JLabel adopted = new JLabel("Status: " + post.getStatus());
+            switch (post.getStatus()) {
+                case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
+                case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
+                case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
+                case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
+            }
+            petInfoPanel.add(adopted);
+
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
 
-            // Create a line separator
+            // "View" button
+            JButton viewButton = new JButton("View");
+            viewButton.setFocusable(false);
+            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            viewButton.setForeground(Color.WHITE);  // Set the text color
+            viewButton.setFocusPainted(false);
+            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            // set constraints for the view button
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            gbc.weightx = 0.0;
+            gbc.weighty = 0.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+            petPostPanel.add(viewButton, gbc);
+
+            // create a line separator - separates pets
             JPanel lineSeparator = new JPanel();
             lineSeparator.setBackground(Color.GRAY);
             lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 2px, width 0 to be adjusted by layout
@@ -155,68 +248,92 @@ public class VolunteerWindow extends JFrame {
         center(pets);
         pets.setVisible(true);
     }
-    private void setUpRequestsPanel(JPanel requests){
-        JPanel requstsPanel = new JPanel();
-        requstsPanel.setLayout(new BoxLayout(requstsPanel, BoxLayout.Y_AXIS));
+
+    private void setUpRequestsPanel(JPanel requests) {
+        JPanel reqPanel = new JPanel();
+        reqPanel.setLayout(new BoxLayout(reqPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
-        UsersList usersList = new UsersList();
-        for (Request req : requestsController.getPendingRequests()) {
-            JPanel requestPanel = new JPanel(new GridBagLayout());
+
+        for (Request request : requestsController.getPendingForVolunteer(user)) {
+            JPanel infoPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+
+            // buttons panel
+            JPanel buttonsPanel = createButtonPanel(request);
             gbc.gridx = 0;
-            requstsPanel.add(createButtonPanel(req), gbc);
+            infoPanel.add(buttonsPanel, gbc);
+
             // panel for pet info
-            JPanel infoPanel = new JPanel();
-            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-            infoPanel.setBackground(petPanelColor);
+            JPanel reqInfoPanel = new JPanel();
+            reqInfoPanel.setLayout(new BoxLayout(reqInfoPanel, BoxLayout.Y_AXIS));
+            reqInfoPanel.setBackground(petPanelColor);
 
-            infoPanel.add(new JLabel(" "));
-            infoPanel.add(new JLabel("Type: " + req.getType()));
-            infoPanel.add(new JLabel("User: "+  usersList.getById(req.getUserId()).toString()));
-            switch (req.getType()) {
-                case VOLUNTEERING:
-                     break; // terminates the case
-                case ADOPTION:
-                case TEMPORARY_CARE:
-                    PostDTO post = feedController.getById(req.getPostId());
-                    infoPanel.add(new JLabel(" "));
-                    infoPanel.add(new JLabel("Name: " + post.getName()));
-                    infoPanel.add(new JLabel("Breed: " + post.getBreed()));
-                    infoPanel.add(new JLabel("Color: " + post.getColor()));
-                    infoPanel.add(new JLabel("Date: " + post.getDate()));
-                    infoPanel.add(new JLabel(" "));
-                    infoPanel.add(new JLabel("Status: " + post.getStatus()));
-                    // code to be executed if expression equals value2
-                    break;
-                // you can have any number of case statements
-                case ANIMAL_REGISTRATION:
-                    // code to be executed if expression doesn't match any case
-                     break;
-                case POST_EDITING:
-                     break;
-                default:
-                    break;
+            JLabel type = new JLabel(request.getType().toString());
+            switch (request.getType().toString()) {
+                case "ADOPTION" -> type.setForeground(new Color(67, 177, 26));
+                case "TEMPORARY CARE" -> type.setForeground(new Color(214, 116, 3));
+                case "VOLUNTEERING" -> type.setForeground(new Color(9, 120, 188));
+                case "ANIMAL REGISTRATION" -> type.setForeground(new Color(221, 9, 9));
+                case "POST EDITING" -> type.setForeground(new Color(128, 0, 228));
             }
-            gbc.gridx = 1;
-            requestPanel.add(infoPanel, gbc);
+            reqInfoPanel.add(type);
 
-            // Create a line separator
+            reqInfoPanel.add(new JLabel(" "));
+            reqInfoPanel.add(new JLabel("User info: "));
+            UsersList usersList = new UsersList();
+            User reqUser = usersList.getInstance().getById(request.getUserId());
+            reqInfoPanel.add(new JLabel("Name: " + reqUser.getName()));
+            reqInfoPanel.add(new JLabel("Lastname: " + reqUser.getLastname()));
+            reqInfoPanel.add(new JLabel("Email: " + reqUser.getEmail()));
+            reqInfoPanel.add(new JLabel("Date of birth: " + reqUser.getBirthDate().toString()));
+            reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
+
+            gbc.gridx = 1;
+            infoPanel.add(reqInfoPanel, gbc);
+            if (!request.getType().toString().equals("VOLUNTEERING")) {
+                // "View" button
+                JButton viewButton = new JButton("View");
+                viewButton.setFocusable(false);
+                viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+                viewButton.setForeground(Color.WHITE);  // Set the text color
+                viewButton.setFocusPainted(false);
+                viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+                viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                viewButton.addActionListener(e -> {
+                    if (request.getType() == RequestType.ADOPTION) {
+                        AnimalDialog animalDialog = new AnimalDialog(this, feedController.getById(request.getPostId()));
+                    } else {
+                        // Handle approval for other types
+                    }
+                });
+                // set constraints for the view button
+                gbc.gridx = 2;
+                gbc.gridy = 0;
+                gbc.weightx = 0.0;
+                gbc.weighty = 0.0;
+                gbc.anchor = GridBagConstraints.CENTER;
+                gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+                infoPanel.add(viewButton, gbc);
+            }
+
+            // create a line separator - separates pets
             JPanel lineSeparator = new JPanel();
             lineSeparator.setBackground(Color.GRAY);
             lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 2px, width 0 to be adjusted by layout
             gbc.gridy = 1;
-            requstsPanel.add(lineSeparator, gbc);
+            reqPanel.add(lineSeparator, gbc);
 
-            requestPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
-            requestPanel.setBackground(petPanelColor);
+            infoPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
+            infoPanel.setBackground(petPanelColor);
 
-            requstsPanel.add(requestPanel);
+            reqPanel.add(infoPanel);
         }
 
-        JScrollPane scrollPane = new JScrollPane(requstsPanel);
+        JScrollPane scrollPane = new JScrollPane(reqPanel);
 
         // add the scrollable panel to the frame
         requests.setLayout(new BorderLayout());
@@ -224,51 +341,72 @@ public class VolunteerWindow extends JFrame {
         center(requests);
         requests.setVisible(true);
     }
+
     private JPanel createButtonPanel(Request r) {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Vertical box layout
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Set background color
+        Color petPanelColor = new Color(207, 198, 176, 234);
+        panel.setBackground(petPanelColor);
+
+        // Common properties for buttons
+        Dimension buttonSize = new Dimension(150, 40); // Fixed size for the buttons
 
         // Create the "Approve" button
         JButton approveButton = new JButton("Approve");
-        approveButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the button
+        approveButton.setBackground(new Color(67, 177, 26));
+        approveButton.setForeground(Color.WHITE);
+        approveButton.setPreferredSize(buttonSize);
+        approveButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        approveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         approveButton.setToolTipText("Click to approve");
 
         // Add action listener to the "Approve" button
         approveButton.addActionListener(e -> {
-            if(r.getType() == RequestType.VOLUNTEERING){
-                r.increaseApproved();
-            }else{
-                r.setState(RequestState.APPROVED);
-                if(r.getType() == RequestType.ADOPTION){
-                    feedController.getById(r.getPostId()).setStatus(AnimalState.ADOPTED.toString());
-                }else if(r.getType() == RequestType.TEMPORARY_CARE){
-                    feedController.getById(r.getPostId()).setStatus(AnimalState.INFOSTERCARE.toString());
-                }
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                // Handle approval for volunteering
+            } else {
+                // Handle approval for other types
             }
-            JOptionPane.showMessageDialog(this, "You have approved!");
+            JOptionPane.showMessageDialog(panel, "You have approved!");
         });
 
         // Create the "Reject" button
         JButton rejectButton = new JButton("Reject");
-        rejectButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the button
+        rejectButton.setBackground(new Color(221, 9, 9));
+        rejectButton.setForeground(Color.WHITE);
+        rejectButton.setPreferredSize(buttonSize);
+        rejectButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        rejectButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         rejectButton.setToolTipText("Click to reject");
 
         // Add action listener to the "Reject" button
         rejectButton.addActionListener(e -> {
-            if(r.getType() == RequestType.VOLUNTEERING){
-                r.increaseRejected();
-            }else{
-                r.setState(RequestState.REJECTED);
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                // Handle rejection for volunteering
+            } else {
+                // Handle rejection for other types
             }
-            JOptionPane.showMessageDialog(this, "You have rejected!");
+            JOptionPane.showMessageDialog(panel, "You have rejected!");
         });
 
-        // Add spacing and buttons to the panel
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Top spacing
-        panel.add(approveButton);
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing between buttons
-        panel.add(rejectButton);
-        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Bottom spacing
+        // Configure GridBagConstraints for buttons
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Space around buttons
+
+        // Center the buttons horizontally
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        // Add "Approve" button to the panel
+        gbc.gridy = 0;
+        panel.add(approveButton, gbc);
+
+        // Add "Reject" button to the panel
+        gbc.gridy = 1;
+        panel.add(rejectButton, gbc);
 
         return panel;
     }
