@@ -3,27 +3,27 @@ package domain.enums;
 public enum RequestType {
 	ADOPTION {
 		public String toString() {
-			return "Adoption";
+			return "ADOPTION";
 		}
 	},
 	TEMPORARY_CARE {
 		public String toString() {
-			return "Temporary Care";
+			return "TEMPORARY CARE";
 		}
 	},
 	VOLUNTEERING {
 		public String toString() {
-			return "Volunteering";
+			return "VOLUNTEERING";
 		}
 	},
 	ANIMAL_REGISTRATION {
 		public String toString() {
-			return "Animal Registration";
+			return "ANIMAL REGISTRATION";
 		}
 	},
 	POST_EDITING {
 		public String toString() {
-			return "Post Editing";
+			return "POST EDITING";
 		}
 	}
 }
