@@ -16,8 +16,11 @@ public class Request {
     private Integer approved;
     private Integer rejected;
     private LocalDateTime sentAt;
+    private Animal updatedAnimal;
+    private String additionalText;
 
-    public Request(Integer id,RequestState state,RequestType type, Integer userId, Integer postId) {
+    public Request(Integer id, RequestState state, RequestType type, Integer userId, Integer postId,
+                   Animal animal, String additionalText) {
         this.state = state;
         this.type = type;
         this.userId = userId;
@@ -25,6 +28,8 @@ public class Request {
         this.approved = 0;
         this.rejected = 0;
         this.sentAt = LocalDateTime.now();
+        this.updatedAnimal = animal;
+        this.additionalText = additionalText;
     }
     public Request (){}
 
@@ -103,5 +108,19 @@ public class Request {
         rejected--;
     }
 
+    public Animal getUpdatedAnimal() {
+        return updatedAnimal;
+    }
 
+    public void setUpdatedAnimal(Animal updatedAnimal) {
+        this.updatedAnimal = updatedAnimal;
+    }
+
+    public String getAdditionalText() {
+        return additionalText;
+    }
+
+    public void setAdditionalText(String additionalText) {
+        this.additionalText = additionalText;
+    }
 }

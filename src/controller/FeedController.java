@@ -25,7 +25,7 @@ public class FeedController {
             Animal animal = AnimalList.getInstance().getAnimal(animalId);
             Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
 
-            posts.add(new PostDTO(animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+            posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
                     animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
         }
 
@@ -61,5 +61,16 @@ public class FeedController {
         }
 
         return filteredPosts;
+    }
+
+    public void likePost(PostDTO postDTO) {
+        // one person can like the post many times...
+        // it can be improved, but this is currently according to the class diagram
+        PostList.getInstance().likePost(postDTO.getId());
+    }
+
+    public void addComment(PostDTO postDTO, String comment) {
+        // creating comment... should add saving it and serializing
+        PostList.getInstance().addComment(postDTO.getId(), 0);
     }
 }

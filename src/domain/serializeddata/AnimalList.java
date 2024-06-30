@@ -55,4 +55,16 @@ public class AnimalList {
 
         return null;
     }
+
+    public void updateAnimal(Animal newAnimal) {
+        Animal animal = getAnimal(newAnimal.getId());
+        animal.setName(newAnimal.getName());
+        animal.setAddressId(newAnimal.getAddressId());
+        animal.setBorn(newAnimal.getBorn());
+        animal.setState(newAnimal.getState());
+        animal.setBreedId(newAnimal.getBreedId());
+        animal.setColour(newAnimal.getColour());
+        animal.setMultimedia(newAnimal.getMultimedia());
+        animal.setSpeciesId(newAnimal.getSpeciesId());
+    }
 }

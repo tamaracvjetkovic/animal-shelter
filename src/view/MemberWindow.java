@@ -1,6 +1,7 @@
 package view;
 
 import controller.FeedController;
+import controller.RequestsController;
 import domain.model.User;
 import dtos.PostDTO;
 import util.UIUtils;
@@ -11,10 +12,14 @@ import java.awt.*;
 
 public class MemberWindow extends JFrame {
 
+    private User user;
     private FeedController feedController;
+    private RequestsController requestsController;
 
     public MemberWindow(User user) {
+        this.user = user;
         feedController = new FeedController();
+        requestsController = new RequestsController();
         setWindowData();
 
         // top panel with login and register buttons
@@ -47,6 +52,11 @@ public class MemberWindow extends JFrame {
         viewProfileButton.setBorder(new EmptyBorder(0, 0, 0, 10));
         viewProfileButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        viewProfileButton.addActionListener(e -> {
+            UserProfileDialog userProfileDialog = new UserProfileDialog(this, this.user);
+            userProfileDialog.setVisible(true);
+        });
+
         // "send volunteer request" button with icon
         JButton volunteerRequestButton = new JButton();
         try {
@@ -64,6 +74,17 @@ public class MemberWindow extends JFrame {
         volunteerRequestButton.setBorder(new EmptyBorder(0, 0, 0, 16));
         volunteerRequestButton.setFocusable(false);
         volunteerRequestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        volunteerRequestButton.addActionListener(e -> {
+            VolunteeringRequestDialog volunteeringRequestDialog = new VolunteeringRequestDialog(this);
+            volunteeringRequestDialog.setVisible(true);
+            String reason = volunteeringRequestDialog.getText();
+
+            if(reason != null) {
+                // add text to a request?
+                requestsController.requestToBeVolunteer(this.user, reason);
+            }
+        });
 
         // adding the "view profile" and "volunteer request" buttons
         buttonPanel.add(viewProfileButton);

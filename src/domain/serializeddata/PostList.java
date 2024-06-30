@@ -63,4 +63,14 @@ public class PostList {
         }
         return res;
     }
+
+    public void likePost(int postId) {
+        Post post = getById(postId);
+        post.setLikes(post.getLikes() + 1);
+    }
+
+    public void addComment(int postId, int commentId) {
+        Post post = getById(postId);
+        post.getCommentsIds().add(commentId);
+    }
 }

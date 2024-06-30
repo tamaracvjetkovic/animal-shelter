@@ -8,16 +8,25 @@ import java.util.ArrayList;
 public class Post {
 	private Integer id;
 	private Integer animalId;
+	private Integer likes;
 	private ArrayList<Integer> commentsIds;
 	public Post() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Post(Integer id, Integer animalId, ArrayList<Integer> commentsIds) {
+	public Post(Integer id, Integer animalId, Integer likes, ArrayList<Integer> commentsIds) {
 		super();
 		this.id = id;
 		this.animalId = animalId;
+		this.likes = likes;
 		this.commentsIds = commentsIds;
+	}
+	public Integer getLikes() {
+		return likes;
+	}
+
+	public void setLikes(Integer likes) {
+		this.likes = likes;
 	}
 	public Integer getId() {
 		return id;
