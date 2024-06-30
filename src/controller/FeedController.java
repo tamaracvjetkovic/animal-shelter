@@ -50,6 +50,25 @@ public class FeedController {
         return posts;
     }
 
+    public ArrayList<PostDTO> getAllPostsUserAdopted(User user) {
+        ArrayList<PostDTO> posts = new ArrayList<>();
+
+        // to be added, since currently we dont know which posts are adopted in the user
+//        for(Post post : PostList.getInstance().getPosts()) {
+//            if (user.getPostsIds().contains(post.getId())) {
+//                int animalId = post.getAnimalId();
+//
+//                Animal animal = AnimalList.getInstance().getAnimal(animalId);
+//                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+//
+//                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+//                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+//            }
+//        }
+
+        return posts;
+    }
+
     public Post getById(Integer id){
         return PostList.getInstance().getById(id);
     }
