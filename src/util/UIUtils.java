@@ -16,7 +16,6 @@ public class UIUtils {
         int x = (dim.width - w) / 2;
         int y = (dim.height - h) / 2;
 
-        // sets new location for the component
         component.setLocation(x, y);
     }
 }
