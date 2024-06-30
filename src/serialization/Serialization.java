@@ -30,6 +30,8 @@ public class Serialization {
         xstream.processAnnotations(UsersList.class);
         xstream.processAnnotations(RequestsList.class);
         xstream.processAnnotations(MessagesList.class);
+        xstream.processAnnotations(AddressList.class);
+        xstream.processAnnotations(SpeciesList.class);
 
 
 //        xstream.processAnnotations(JelaLista.class);
@@ -44,6 +46,8 @@ public class Serialization {
         File usersFile = new File("src/data/users.xml");
         File requestsFile = new File("src/data/requests.xml");
         File messagesFile = new File("src/data/messages.xml");
+        File addressesFile = new File("src/data/addresses.xml");
+        File speciesFile = new File("src/data/species.xml");
 
 //        File fajlKorisnici = new File("./podaci/korisnici.xml");
 //        File fajlTipoviJela = new File("./podaci/tipoviJela.xml");
@@ -56,6 +60,8 @@ public class Serialization {
         OutputStream osUsers = new BufferedOutputStream(new FileOutputStream(usersFile));
         OutputStream osRequests = new BufferedOutputStream(new FileOutputStream(requestsFile));
         OutputStream osMessages = new BufferedOutputStream(new FileOutputStream(messagesFile));
+        OutputStream osAddresses = new BufferedOutputStream(new FileOutputStream(addressesFile));
+        OutputStream osSpecies = new BufferedOutputStream(new FileOutputStream(speciesFile));
 //        OutputStream osKorisnici = new BufferedOutputStream(new FileOutputStream(fajlKorisnici));
 //        OutputStream osTipoviJela = new BufferedOutputStream(new FileOutputStream(fajlTipoviJela));
 //        OutputStream osJela = new BufferedOutputStream(new FileOutputStream(fajlJela));
@@ -68,6 +74,8 @@ public class Serialization {
             xstream.toXML(UsersList.getInstance(), osUsers);
             xstream.toXML(RequestsList.getInstance(), osRequests);
             xstream.toXML(MessagesList.getInstance(), osMessages);
+            xstream.toXML(AddressList.getInstance(), osAddresses);
+            xstream.toXML(SpeciesList.getInstance(), osSpecies);
 
 //            xstream.toXML(KorisniciLista.getInstance(), osKorisnici);
 //            xstream.toXML(TipJelaLista.getInstance(), osTipoviJela);
@@ -81,6 +89,8 @@ public class Serialization {
             osUsers.close();
             osRequests.close();
             osMessages.close();
+            osAddresses.close();
+            osSpecies.close();
 //            osKorisnici.close();
 //            osTipoviJela.close();
 //            osJela.close();
@@ -96,6 +106,8 @@ public class Serialization {
         File usersFile = new File("src/data/users.xml");
         File requestsFile = new File("src/data/requests.xml");
         File messagesFile = new File("src/data/messages.xml");
+        File addressesFile = new File("src/data/addresses.xml");
+        File speciesFile = new File("src/data/species.xml");
 
 //        File fajlKorisnici = new File("./podaci/korisnici.xml");
 //        File fajlTipoviJela = new File("./podaci/tipoviJela.xml");
@@ -108,6 +120,8 @@ public class Serialization {
         InputStream isUsers = new BufferedInputStream(new FileInputStream(usersFile));
         InputStream isRequests = new BufferedInputStream(new FileInputStream(requestsFile));
         InputStream isMessages = new BufferedInputStream(new FileInputStream(messagesFile));
+        InputStream isAddresses = new BufferedInputStream(new FileInputStream(addressesFile));
+        InputStream isSpecies = new BufferedInputStream(new FileInputStream(speciesFile));
 
 //        InputStream isKorisnici = new BufferedInputStream(new FileInputStream(fajlKorisnici));
 //        InputStream isTipoviJela = new BufferedInputStream(new FileInputStream(fajlTipoviJela));
@@ -120,6 +134,8 @@ public class Serialization {
         UsersList usersList = null;
         RequestsList requestsList = null;
         MessagesList messagesList = null;
+        AddressList addressList = null;
+        SpeciesList speciesList = null;
 //        KorisniciLista korisniciLista = null;
 //        TipJelaLista tipJelaLista = null;
 //        JelaLista jelaLista = null;
@@ -132,6 +148,8 @@ public class Serialization {
             usersList = ((UsersList) xstream.fromXML(isUsers));
             requestsList = ((RequestsList) xstream.fromXML(isRequests));
             messagesList = ((MessagesList) xstream.fromXML(isMessages));
+            addressList = ((AddressList) xstream.fromXML(isAddresses));
+            speciesList = ((SpeciesList) xstream.fromXML(isSpecies));
 
 //            korisniciLista = ((KorisniciLista) xstream.fromXML(isKorisnici));
 //            tipJelaLista = ((TipJelaLista) xstream.fromXML(isTipoviJela));
@@ -145,6 +163,8 @@ public class Serialization {
             isUsers.close();
             isRequests.close();
             isMessages.close();
+            isAddresses.close();
+            isSpecies.close();
 //            isKorisnici.close();
 //            isTipoviJela.close();
 //            isJela.close();
@@ -157,6 +177,8 @@ public class Serialization {
         UsersList.setInstance(usersList);
         RequestsList.setInstance(requestsList);
         MessagesList.setInstance(messagesList);
+        AddressList.setInstance(addressList);
+        SpeciesList.setInstance(speciesList);
 //        KorisniciLista.setInstance(korisniciLista);
 //        TipJelaLista.setInstance(tipJelaLista);
 //        JelaLista.setInstance(jelaLista);
