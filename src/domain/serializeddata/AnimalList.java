@@ -1,9 +1,11 @@
 package domain.serializeddata;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import domain.enums.AnimalState;
 import domain.model.Animal;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @XStreamAlias("animalList")
 public class AnimalList {
@@ -44,6 +46,10 @@ public class AnimalList {
     public Animal addAnimal(Animal animal) {
         this.animals.add(animal);
         return animal;
+    }
+    public Animal createAnimal(String name, String color, Date born, Integer addressId, AnimalState state, ArrayList<String> multimedia, Integer breedId, Integer speciesId) {
+        Animal animal = new Animal(generateId(),name,color,born,addressId,state,multimedia,breedId,speciesId);
+        return addAnimal(animal);
     }
 
     public Animal getAnimal(int id) {

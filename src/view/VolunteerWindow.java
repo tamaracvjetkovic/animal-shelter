@@ -25,6 +25,7 @@ public class VolunteerWindow extends JFrame {
     private JPanel requestsPanel;
     private JPanel petsPanel;
 
+
     public VolunteerWindow(User user) {
         // Set the title of the frame
         setTitle("Volunteer");
@@ -114,6 +115,8 @@ public class VolunteerWindow extends JFrame {
         // Create tabs with panels
         petsPanel = createTabPanel("Pets Feed");
         setUpPetsPanel(petsPanel);
+        JPanel postsRegistration = createTabPanel("Inbox");
+        setUpPostRegistrationPanel(postsRegistration);
 
         requestsPanel = createTabPanel("Requests");
         setUpRequestsPanel(requestsPanel);
@@ -121,8 +124,11 @@ public class VolunteerWindow extends JFrame {
         setUpInboxPanel(messages);
 
 
+
+
         // Add panels to the tabbed pane
         tabbedPane.addTab("Animals", petsPanel);
+        tabbedPane.addTab("Make post", postsRegistration);
         tabbedPane.addTab("Requests", requestsPanel);
         tabbedPane.addTab("Inbox", messages);
 
@@ -163,6 +169,21 @@ public class VolunteerWindow extends JFrame {
 
         // set the new location for the component
         component.setLocation(x, y);
+    }
+    public void setUpPostRegistrationPanel(JPanel postsRegistration){
+        // second tab: My posts
+        postsRegistration.setLayout(new BoxLayout(postsRegistration, BoxLayout.Y_AXIS));
+
+        JPanel addPostPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton addPostButton = new JButton("Add post");
+
+        addPostButton.addActionListener(e -> {
+            CreatePostDialog createPostDialog = new CreatePostDialog(this, user);
+            createPostDialog.setVisible(true);
+        });
+
+        addPostPanel.add(addPostButton);
+        postsRegistration.add(addPostPanel, BorderLayout.SOUTH);
     }
 
     private void setUpInboxPanel(JPanel messages) {
