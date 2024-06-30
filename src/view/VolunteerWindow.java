@@ -451,9 +451,9 @@ public class VolunteerWindow extends JFrame {
             } else if (r.getType() == RequestType.TEMPORARY_CARE) {
                 requestsController.fosterCareApproved(r);
             } else if (r.getType() == RequestType.ANIMAL_REGISTRATION) {
-
+                requestsController.animalRegistrationApproved(r);
             } else if (r.getType() == RequestType.POST_EDITING) {
-
+                requestsController.postEditingApproved(r);
             }
             JOptionPane.showMessageDialog(panel, "Success!");
             refresh();
