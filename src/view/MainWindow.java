@@ -124,6 +124,8 @@ public class MainWindow extends JFrame {
             }
 
             setPets(petPanel);
+            revalidate();
+            repaint();
         });
     }
 

@@ -3,12 +3,11 @@ package controller;
 import domain.model.*;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
+import domain.serializeddata.CommentsList;
 import domain.serializeddata.PostList;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class FeedController {
 
@@ -118,9 +117,24 @@ public class FeedController {
         PostList.getInstance().likePost(postDTO.getId());
     }
 
-    public void addComment(PostDTO postDTO, String comment) {
+    public void addComment(PostDTO postDTO, String message) {
         // creating comment... should add saving it and serializing
-        PostList.getInstance().addComment(postDTO.getId(), 0);
+        Comment comment = CommentsList.getInstance().createComment(message);
+        PostList.getInstance().addComment(postDTO.getId(), comment.getId());
+    }
+
+    public ArrayList<Comment> getAllCommentsByPost(Post post) {
+        ArrayList<Comment> comments = new ArrayList<>();
+        for (int id : post.getCommentsIds()) {
+            Comment comment = getCommentById(id);
+            comments.add(comment);
+        }
+
+        return comments;
+    }
+
+    private Comment getCommentById(int id) {
+        return CommentsList.getInstance().getComment(id);
     }
 
     public String[] getBreedsForPicker() {
