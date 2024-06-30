@@ -119,4 +119,45 @@ public class RequestsController {
         animal.setState(AnimalState.INFOSTERCARE);
 
     }
+    public void animalRegistrationApproved(Request req){
+        if(req.getType() != RequestType.ANIMAL_REGISTRATION){
+            System.out.println("Request nije za animal registration u animaRegistrationApproved u RequestsController.");
+            return;
+        }
+
+        req.setState(RequestState.APPROVED);            //request approved
+        User user = UsersList.getInstance().getById(req.getUserId());
+        if(user==null){
+            System.out.println("User je null u animaRegistrationApproved u RequestsController.");
+            return;
+        }
+        AnimalList.getInstance().addAnimal(req.getUpdatedAnimal());     //create animal
+        PostList.getInstance().createPost(req.getUpdatedAnimal().getId()); // create post for animal
+        user.addCreatedPostId(req.getPostId());            //post added to users created posts
+
+    }
+    public void postEditingApproved(Request req){
+        if(req.getType() != RequestType.POST_EDITING){
+            System.out.println("Request nije za post editing u animaRegistrationApproved u RequestsController.");
+            return;
+        }
+
+        req.setState(RequestState.APPROVED);            //request approved
+        User user = UsersList.getInstance().getById(req.getUserId());
+        if(user==null){
+            System.out.println("User je null u postEditingApproved u RequestsController.");
+            return;
+        }
+        AnimalList.getInstance().updateAnimal(req.getUpdatedAnimal());    //update animal
+    }
+    public void fosterCareEnded(User user, Post post){
+        Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+        if(animal == null){
+            System.out.println("Request nije za foster care ended u RequestsController.");
+            return;
+        }
+        animal.setState(AnimalState.NOTADOPTED);        //change state od animal abck to NOTADOPTED
+        user.removePostId(post.getId());                //rmeove post from users posts
+
+    }
 }
