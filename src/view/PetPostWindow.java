@@ -1,13 +1,17 @@
 package view;
 
 import controller.FeedController;
-import domain.model.User;
+import domain.enums.UserState;
+import domain.model.*;
+import domain.serializeddata.*;
 import dtos.PostDTO;
 import util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 
 public class PetPostWindow extends JFrame {
@@ -33,7 +37,7 @@ public class PetPostWindow extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        mainPanel.setBackground( new Color(172, 164, 146));
+        mainPanel.setBackground(new Color(172, 164, 146));
 
         // Pet view panel
         JPanel petViewPanel = new JPanel(new GridBagLayout());
@@ -77,18 +81,28 @@ public class PetPostWindow extends JFrame {
         petInfoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         petInfoPanel.setBackground(new Color(213, 202, 179));
 
+        PostList postList = new PostList();
+        Post p = postList.getInstance().getById(post.getId());
+        AnimalList animalList = new AnimalList();
+        Animal a = animalList.getInstance().getAnimal(p.getAnimalId());
+
         petInfoPanel.add(new JLabel("Pet name: " + post.getName()));
+        SpeciesList sList = new SpeciesList();
+        Species s = sList.getInstance().getSpecies(a.getSpeciesId());
+        petInfoPanel.add(new JLabel("Species: " + s.getName()));
         petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
         petInfoPanel.add(new JLabel("Color: " + post.getColor()));
         petInfoPanel.add(new JLabel("Date: " + post.getDate()));
 
-        String address = "Adresaaa";
-        petInfoPanel.add(new JLabel("Address: " + address));
+        if (user.getUserState() == UserState.VOLUNTEER) {
+            AddressList addressList = new AddressList();
+            Address ads = addressList.getInstance().getAddress(a.getAddressId());
+            petInfoPanel.add(new JLabel("Address: " + ads.getCity() + " " + ads.getStreet() + " " + ads.getNumber()));
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(a.getBorn());
+        petInfoPanel.add(new JLabel("Date of birth: " + formattedDate));
 
-        String species = "Ultra mali jez";
-        petInfoPanel.add(new JLabel("Species: " + species));
-
-        petInfoPanel.add(new JLabel(" "));
         JLabel status = new JLabel("Status: " + post.getStatus());
         switch (post.getStatus()) {
             case "Adopted" -> status.setForeground(new Color(67, 177, 26));
