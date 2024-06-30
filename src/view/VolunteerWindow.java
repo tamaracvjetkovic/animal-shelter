@@ -117,8 +117,6 @@ public class VolunteerWindow extends JFrame {
         // Create tabs with panels
         petsPanel = createTabPanel("Pets Feed");
         setUpPetsPanel(petsPanel);
-        JPanel postsRegistration = createTabPanel("Inbox");
-        setUpPostRegistrationPanel(postsRegistration);
 
         requestsPanel = createTabPanel("Requests");
         setUpRequestsPanel(requestsPanel);
