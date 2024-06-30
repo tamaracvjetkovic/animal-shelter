@@ -37,7 +37,7 @@ public class VolunteerWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the size of the frame
-        setSize(600, 600);
+        setSize(620, 600);
 
         // top panel with login and register buttons
         JPanel topPanel = new JPanel(new BorderLayout());
