@@ -14,8 +14,9 @@ public class Breed {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Breed(String name, Integer species, ArrayList<Integer> animals) {
+	public Breed(Integer id, String name, Integer species, ArrayList<Integer> animals) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.speciesId = species;
 		this.animalsIds = animals;
