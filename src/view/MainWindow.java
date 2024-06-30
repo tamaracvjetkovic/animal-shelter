@@ -72,6 +72,45 @@ public class MainWindow extends JFrame {
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
 
+        setPets(petPanel, petPanelColor);
+
+        JScrollPane scrollPane = new JScrollPane(petPanel);
+
+        // add the scrollable panel to the frame
+        add(topPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // "Pet Ambulance" label
+        JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);
+        bottomLabel.setBorder(new EmptyBorder(5, 0, 8, 0));
+        add(bottomLabel, BorderLayout.SOUTH);
+
+        center(this);
+        setVisible(true);
+
+        registerButton.addActionListener(e -> {
+            this.dispose();
+            RegisterWindow registerWindow = new RegisterWindow();
+        });
+        loginButton.addActionListener(e->{
+            this.dispose();
+            LoginWindow loginWindow = new LoginWindow();
+        });
+        searchButton.addActionListener(e -> {
+            posts.clear();
+            petPanel.removeAll();
+
+            String[] tokens = searchField.getText().split(" ");
+
+            for(String token : tokens) {
+                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+            }
+
+            setPets(petPanel, petPanelColor);
+        });
+    }
+
+    private void setPets(JPanel petPanel, Color petPanelColor) {
         for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -126,38 +165,6 @@ public class MainWindow extends JFrame {
 
             petPanel.add(petPostPanel);
         }
-
-        JScrollPane scrollPane = new JScrollPane(petPanel);
-
-        // add the scrollable panel to the frame
-        add(topPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // "Pet Ambulance" label
-        JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);
-        bottomLabel.setBorder(new EmptyBorder(5, 0, 8, 0));
-        add(bottomLabel, BorderLayout.SOUTH);
-
-        center(this);
-        setVisible(true);
-
-        registerButton.addActionListener(e -> {
-            this.dispose();
-            RegisterWindow registerWindow = new RegisterWindow();
-        });
-        loginButton.addActionListener(e->{
-            this.dispose();
-            LoginWindow loginWindow = new LoginWindow();
-        });
-        searchButton.addActionListener(e -> {
-            // probably doesn't work, will debug tomorrow
-            posts.clear();
-            String[] tokens = searchField.getText().split(" ");
-
-            for(String token : tokens) {
-                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
-            }
-        });
     }
 
     private static void center(Component component) {

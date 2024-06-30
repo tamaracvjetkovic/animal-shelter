@@ -40,19 +40,19 @@ public class FeedController {
         ArrayList<PostDTO> filteredPosts = new ArrayList<>();
 
         for (PostDTO post : getAllPostsWithAnimalsAndBreeds()) {
-            boolean matches = true;
+            boolean matches = false;
 
-            if (!name.isEmpty() && !post.getName().equalsIgnoreCase(name)) {
-                matches = false;
+            if (post.getName().equalsIgnoreCase(name)) {
+                matches = true;
             }
-            if (!breed.isEmpty() && !post.getBreed().equalsIgnoreCase(breed)) {
-                matches = false;
+            if (post.getBreed().equalsIgnoreCase(breed)) {
+                matches = true;
             }
-            if (!status.isEmpty() && !post.getStatus().equalsIgnoreCase(status)) {
-                matches = false;
+            if (post.getStatus().equalsIgnoreCase(status)) {
+                matches = true;
             }
-            if (!color.isEmpty() && !post.getColor().equalsIgnoreCase(color)) {
-                matches = false;
+            if (post.getColor().equalsIgnoreCase(color)) {
+                matches = true;
             }
 
             if (matches) {
