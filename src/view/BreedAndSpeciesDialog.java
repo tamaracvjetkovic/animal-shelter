@@ -1,4 +1,10 @@
 package view;
+
+import domain.model.Breed;
+import domain.model.Species;
+import domain.serializeddata.BreedList;
+import domain.serializeddata.SpeciesList;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,8 +42,9 @@ public class BreedAndSpeciesDialog extends JDialog {
         JLabel speciesLabel = new JLabel("Species:");
         speciesComboBox = new JComboBox<>();
         speciesComboBox.addItem("Select Species");
-        for (String species : getSpeciesFromDatabase()) {
-            speciesComboBox.addItem(species);
+        SpeciesList speciesList = new SpeciesList();
+        for (Species species : speciesList.getInstance().getSpeciess()) {
+            speciesComboBox.addItem(species.getName());
         }
         speciesComboBox.addItem("Other"); // Option to enter new species
 
@@ -125,13 +132,34 @@ public class BreedAndSpeciesDialog extends JDialog {
             return;
         }
 
-        if (species.equals("Other")) {
-            species = newSpecies;
-        }
-
         if (breed.isEmpty()) {
             breed = null;
         }
+
+        if (species.equals("Other")) {
+            species = newSpecies;
+            SpeciesList speciesList = new SpeciesList();
+            if (breed == null) {
+                speciesList.getInstance().addSpecies(species, null);
+            } else {
+                Species s = speciesList.getInstance().addSpecies(species, null);
+                BreedList breedList = new BreedList();
+                Breed b = breedList.getInstance().addBreed(breed, s.getId());
+                ArrayList<Integer> bIds = new ArrayList<>();
+                bIds.add(b.getId());
+                s.setBreeds(bIds);
+            }
+            submitted = true;
+            JOptionPane.showMessageDialog(this, "Species: " + species + "\nBreed: " + breed);
+            dispose();
+        }
+        SpeciesList speciesList = new SpeciesList();
+        Species s = speciesList.getInstance().getByName(species);
+        BreedList breedList = new BreedList();
+        Breed b = breedList.getInstance().addBreed(breed, s.getId());
+        ArrayList<Integer> bIds = s.getBreeds();
+        bIds.add(b.getId());
+        s.setBreeds(bIds);
 
         submitted = true;
         JOptionPane.showMessageDialog(this, "Species: " + species + "\nBreed: " + breed);
