@@ -27,13 +27,33 @@ public class MemberWindow extends JFrame {
         Color topPanelsColor = new Color(207, 198, 176, 98);
         topPanel.setBackground(topPanelsColor);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         Color buttonPanelColor = new Color(181, 171, 145);
         buttonPanel.setBackground(buttonPanelColor);
 
-        // change all buttons' background after focusing/clicking on them
-        UIManager.put("Button.select", buttonPanelColor);
+        // Left panel for logout button
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(buttonPanelColor);
+        leftPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(92, 92, 92));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setFocusable(false);
+        logoutButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        logoutButton.addActionListener(e -> {
+            LoginWindow loginWindow = new LoginWindow();
+            this.dispose();
+        });
+
+        leftPanel.add(logoutButton);
+
+        // Right panel for profile and volunteer request buttons
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setBackground(buttonPanelColor);
 
         // "view profile" button with icon
         JButton viewProfileButton = new JButton();
@@ -46,7 +66,6 @@ public class MemberWindow extends JFrame {
             viewProfileButton.setText("View Profile");
         }
         viewProfileButton.setBackground(buttonPanelColor);  // Set the background color
-        viewProfileButton.setBorder(null);
         viewProfileButton.setFocusPainted(false);
         viewProfileButton.setFocusable(false);
         viewProfileButton.setBorder(new EmptyBorder(0, 0, 0, 10));
@@ -69,7 +88,6 @@ public class MemberWindow extends JFrame {
         }
 
         volunteerRequestButton.setBackground(buttonPanelColor);  // Set the background color
-        volunteerRequestButton.setBorder(null);
         volunteerRequestButton.setFocusPainted(false);
         volunteerRequestButton.setBorder(new EmptyBorder(0, 0, 0, 16));
         volunteerRequestButton.setFocusable(false);
@@ -86,10 +104,16 @@ public class MemberWindow extends JFrame {
             }
         });
 
-        // adding the "view profile" and "volunteer request" buttons
-        buttonPanel.add(viewProfileButton);
-        buttonPanel.add(volunteerRequestButton);
+        rightPanel.add(viewProfileButton);
+        rightPanel.add(volunteerRequestButton);
+
+        // Adding left and right panels to the main button panel
+        buttonPanel.add(leftPanel, BorderLayout.WEST);
+        buttonPanel.add(rightPanel, BorderLayout.EAST);
         buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+
+        // Add buttonPanel to the topPanel or the main container as required
+        topPanel.add(buttonPanel, BorderLayout.NORTH);
 
         topPanel.add(buttonPanel, BorderLayout.NORTH);
 
