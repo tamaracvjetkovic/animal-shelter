@@ -6,8 +6,8 @@
       <type>ADOPTION</type>
       <userId>1</userId>
       <postId>1</postId>
-      <approved>0</approved>
-      <rejected>0</rejected>
+      <approved/>
+      <rejected/>
       <sentAt>2024-06-30T10:15:30</sentAt>
     </request>
     <request>
@@ -16,8 +16,8 @@
       <type>ADOPTION</type>
       <userId>1</userId>
       <postId>2</postId>
-      <approved>0</approved>
-      <rejected>0</rejected>
+      <approved/>
+      <rejected/>
       <sentAt>2024-06-30T11:20:45</sentAt>
     </request>
     <request>
@@ -26,8 +26,8 @@
       <type>ADOPTION</type>
       <userId>2</userId>
       <postId>2</postId>
-      <approved>0</approved>
-      <rejected>1</rejected>
+      <approved/>
+      <rejected/>
       <sentAt>2024-06-15T12:30:00</sentAt>
     </request>
     <request>
@@ -36,8 +36,8 @@
       <type>ADOPTION</type>
       <userId>3</userId>
       <postId>3</postId>
-      <approved>1</approved>
-      <rejected>0</rejected>
+      <approved/>
+      <rejected/>
       <sentAt>2024-05-30T13:45:00</sentAt>
     </request>
     <request>
@@ -46,8 +46,8 @@
       <type>ADOPTION</type>
       <userId>3</userId>
       <postId>3</postId>
-      <approved>2</approved>
-      <rejected>0</rejected>
+      <approved/>
+      <rejected/>
       <sentAt>2024-06-30T14:00:00</sentAt>
     </request>
   </requests>
