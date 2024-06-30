@@ -2,6 +2,7 @@ package view;
 
 import controller.FeedController;
 import controller.RequestsController;
+import domain.enums.UserState;
 import domain.model.Post;
 import domain.model.User;
 import dtos.PostDTO;
@@ -82,12 +83,20 @@ public class ConfirmAdoptionWindow extends JFrame {
                 String reason = textArea.getText();
 
                 if (adoptRadioButton.isSelected()) {
-                    requestsController.requestAnimalAdoption(user, currentPost, reason);
+                    if(user.getUserState() == UserState.MEMBER){
+                        requestsController.requestAnimalAdoption(user, currentPost, reason);
+                    } else if(user.getUserState() == UserState.VOLUNTEER){
+                        requestsController.adopt(user, currentPost);
+                    }
                     showMessageDialog(null, "Request for adoption is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     dispose();
                 }
                 else {
-                    requestsController.requestAnimalTemporaryCare(user, currentPost, reason);
+                    if(user.getUserState() == UserState.MEMBER){
+                        requestsController.requestAnimalTemporaryCare(user, currentPost, reason);
+                    } else if(user.getUserState() == UserState.VOLUNTEER){
+                        requestsController.fosterCare(user, currentPost);
+                    }
                     showMessageDialog(null, "Request for temporary care is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     dispose();
                 }

@@ -7,6 +7,8 @@ import domain.model.User;
 import javax.sound.midi.MetaMessage;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LoginWindow extends JFrame {
     public LoginWindow() {
@@ -20,7 +22,12 @@ public class LoginWindow extends JFrame {
 
         // Center the frame on the screen
         setLocationRelativeTo(null);
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainWindow mainWindow = new MainWindow();
+            }
+        });
         // Initialize the login form
         initializeLoginForm();
     }

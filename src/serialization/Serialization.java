@@ -32,6 +32,8 @@ public class Serialization {
         xstream.processAnnotations(RequestsList.class);
         xstream.processAnnotations(MessagesList.class);
         xstream.processAnnotations(CommentsList.class);
+        xstream.processAnnotations(AddressList.class);
+        xstream.processAnnotations(SpeciesList.class);
     }
 
     public void save() throws IOException {
@@ -43,6 +45,8 @@ public class Serialization {
         File requestsFile = new File("src/data/requests.xml");
         File messagesFile = new File("src/data/messages.xml");
         File commentsFile = new File("src/data/comments.xml");
+        File addressesFile = new File("src/data/addresses.xml");
+        File speciesFile = new File("src/data/species.xml");
 
         OutputStream osPosts = new BufferedOutputStream(new FileOutputStream(postsFile));
         OutputStream osAnimals = new BufferedOutputStream(new FileOutputStream(animalsFile));
@@ -52,6 +56,8 @@ public class Serialization {
         OutputStream osRequests = new BufferedOutputStream(new FileOutputStream(requestsFile));
         OutputStream osMessages = new BufferedOutputStream(new FileOutputStream(messagesFile));
         OutputStream osComments = new BufferedOutputStream(new FileOutputStream(commentsFile));
+        OutputStream osAddresses = new BufferedOutputStream(new FileOutputStream(addressesFile));
+        OutputStream osSpecies = new BufferedOutputStream(new FileOutputStream(speciesFile));
 
         try {
             xstream.toXML(PostList.getInstance(), osPosts);
@@ -62,6 +68,8 @@ public class Serialization {
             xstream.toXML(RequestsList.getInstance(), osRequests);
             xstream.toXML(MessagesList.getInstance(), osMessages);
             xstream.toXML(CommentsList.getInstance(), osComments);
+            xstream.toXML(AddressList.getInstance(), osAddresses);
+            xstream.toXML(SpeciesList.getInstance(), osSpecies);
 
         } finally {
             osPosts.close();
@@ -72,6 +80,8 @@ public class Serialization {
             osRequests.close();
             osMessages.close();
             osComments.close();
+            osAddresses.close();
+            osSpecies.close();
         }
     }
 
@@ -84,6 +94,8 @@ public class Serialization {
         File requestsFile = new File("src/data/requests.xml");
         File messagesFile = new File("src/data/messages.xml");
         File commentsFile = new File("src/data/comments.xml");
+        File addressesFile = new File("src/data/addresses.xml");
+        File speciesFile = new File("src/data/species.xml");
 
         InputStream isPosts = new BufferedInputStream(new FileInputStream(postsFile));
         InputStream isAnimals = new BufferedInputStream(new FileInputStream(animalsFile));
@@ -93,6 +105,8 @@ public class Serialization {
         InputStream isRequests = new BufferedInputStream(new FileInputStream(requestsFile));
         InputStream isMessages = new BufferedInputStream(new FileInputStream(messagesFile));
         InputStream isComments = new BufferedInputStream(new FileInputStream(commentsFile));
+        InputStream isAddresses = new BufferedInputStream(new FileInputStream(addressesFile));
+        InputStream isSpecies = new BufferedInputStream(new FileInputStream(speciesFile));
 
         PostList postList = null;
         AnimalList animalList = null;
@@ -102,7 +116,9 @@ public class Serialization {
         RequestsList requestsList = null;
         MessagesList messagesList = null;
         CommentsList commentsList = null;
-
+        AddressList addressList = null;
+        SpeciesList speciesList = null;
+      
         try {
             postList = ((PostList) xstream.fromXML(isPosts));
             animalList = ((AnimalList) xstream.fromXML(isAnimals));
@@ -112,6 +128,8 @@ public class Serialization {
             requestsList = ((RequestsList) xstream.fromXML(isRequests));
             messagesList = ((MessagesList) xstream.fromXML(isMessages));
             commentsList = ((CommentsList) xstream.fromXML(isComments));
+            addressList = ((AddressList) xstream.fromXML(isAddresses));
+            speciesList = ((SpeciesList) xstream.fromXML(isSpecies));
 
         } finally {
             isPosts.close();
@@ -122,7 +140,10 @@ public class Serialization {
             isRequests.close();
             isMessages.close();
             isComments.close();
+            isAddresses.close();
+            isSpecies.close();
         }
+      
         PostList.setInstance(postList);
         AnimalList.setInstance(animalList);
         BreedList.setInstance(breedList);
@@ -131,6 +152,8 @@ public class Serialization {
         RequestsList.setInstance(requestsList);
         MessagesList.setInstance(messagesList);
         CommentsList.setInstance(commentsList);
+        AddressList.setInstance(addressList);
+        SpeciesList.setInstance(speciesList);
     }
 
     public XStream getXStream() {

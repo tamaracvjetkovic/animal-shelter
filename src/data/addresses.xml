@@ -1,0 +1,10 @@
+<addressList>
+  <adresses>
+    <address>
+      <id>1</id>
+      <city>Novi Sad</city>
+      <street>Cara Dusana</street>
+      <number>72</number>
+    </address>
+  </adresses>
+</addressList>

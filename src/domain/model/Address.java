@@ -1,5 +1,8 @@
 package domain.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias("address")
 public class Address {
 	private int id;
 	private String city;
