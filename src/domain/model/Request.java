@@ -5,6 +5,8 @@ import domain.enums.RequestState;
 import domain.enums.RequestType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 @XStreamAlias("request")
 
 public class Request {
@@ -13,8 +15,8 @@ public class Request {
     private RequestType type;
     private Integer userId;
     private Integer postId;
-    private Integer approved;
-    private Integer rejected;
+    private ArrayList<Integer> approved;
+    private ArrayList<Integer> rejected;
     private LocalDateTime sentAt;
     private Animal updatedAnimal;
     private String additionalText;
@@ -25,8 +27,8 @@ public class Request {
         this.type = type;
         this.userId = userId;
         this.postId = postId;
-        this.approved = 0;
-        this.rejected = 0;
+        this.approved = new ArrayList<>();
+        this.rejected = new ArrayList<>();
         this.sentAt = LocalDateTime.now();
         this.updatedAnimal = animal;
         this.additionalText = additionalText;
@@ -49,18 +51,19 @@ public class Request {
         this.type = type;
     }
 
-    public Integer getApproved() {
+    public ArrayList<Integer> getApproved() {
         return approved;
     }
 
-    public void setApproved(Integer approved) {
+    public void setApproved(ArrayList<Integer> approved) {
         this.approved = approved;
     }
-    public Integer getRejected() {
+
+    public ArrayList<Integer> getRejected() {
         return rejected;
     }
 
-    public void setRejected(Integer rejected) {
+    public void setRejected(ArrayList<Integer> rejected) {
         this.rejected = rejected;
     }
 
@@ -95,17 +98,17 @@ public class Request {
     public void setPostId(Integer postId) {
         this.postId = postId;
     }
-    public void increaseApproved(){
-        approved++;
+    public void addApproved( Integer userId){
+        approved.add(userId);
     }
-    public void increaseRejected(){
-        rejected++;
+    public void addRejected(Integer userId){
+        rejected.add(userId);
     }
-    public void decreaseApproved(){
-        approved--;
+    public void removeApproved(Integer userId){
+        approved.remove(userId);
     }
-    public void decreaseRejected(){
-        rejected--;
+    public void removeRejected(Integer userId){
+        rejected.remove(userId);
     }
 
     public Animal getUpdatedAnimal() {
