@@ -34,6 +34,10 @@ public class PostList {
         instance = posts;
     }
 
+    public Post createPost(Integer animalId){
+        Post post = addPost(animalId);
+        return post;
+    }
     public ArrayList<Post> getPosts() {
         return this.posts;
     }
@@ -46,6 +50,11 @@ public class PostList {
         this.posts.add(post);
         return post;
     }
+    public Post addPost(Integer animalId){
+        Post post = new Post(generateId(),animalId,0,new ArrayList<Integer>());
+        addPost(post);
+        return post;
+    }
     public Post getById(Integer id){
         for(Post post : posts){
             if(post.getId() == id){
@@ -54,10 +63,21 @@ public class PostList {
         }
         return null;
     }
+    //gets posts for animal being adopted/being taken care of by user
     public ArrayList<Post> getByUser(User user){
         ArrayList<Post> res = new ArrayList<Post>();
         for(Post post : posts){
             if(user.getPostsIds().contains(post.getId())){
+                res.add(post);
+            }
+        }
+        return res;
+    }
+    //gets posts created by user
+    public ArrayList<Post> getCreatedByUser(User user){
+        ArrayList<Post> res = new ArrayList<Post>();
+        for(Post post : posts){
+            if(user.getCreatedPostsIds().contains(post.getId())){
                 res.add(post);
             }
         }
