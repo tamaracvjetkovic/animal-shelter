@@ -4,6 +4,7 @@ import controller.LogInController;
 import domain.enums.UserState;
 import domain.model.User;
 
+import javax.sound.midi.MetaMessage;
 import javax.swing.*;
 import java.awt.*;
 
@@ -81,20 +82,26 @@ public class LoginWindow extends JFrame {
             String password = new String(passField.getPassword());
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(this, "Please fill in all the fields.");
-            }else{
+            }
+            else {
              //TO-DO: LOGIN FUNCTION
                 LogInController controller = new LogInController();
-                User user =  controller.logIn(username,password);
-                if(user == null){
+                User user = controller.logIn(username,password);
+
+                if (user == null) {
                     JOptionPane.showMessageDialog(this, "User doesn't exist.");
-                }else{
-                    if(user.getUserState() == UserState.MEMBER){
+                }
+                else {
+                    if (user.getUserState() == UserState.MEMBER) {
+                        MemberWindow memberWindow = new MemberWindow(user);
+                    }
+                    else if (user.getUserState() == UserState.VOLUNTEER) {
 
-                    }else if(user.getUserState() == UserState.VOLUNTEER){
-
-                    }else{
+                    }
+                    else {
                         MainWindow mainWindow = new MainWindow();
                     }
+
                     this.dispose();
                 }
             }

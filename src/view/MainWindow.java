@@ -30,22 +30,34 @@ public class MainWindow extends JFrame {
         Color buttonsPanelColor = new Color(181, 171, 145, 186);
         buttonsPanel.setBackground(buttonsPanelColor);
 
+        // change all buttons' background after focusing/clicking on them
+        UIManager.put("Button.select", buttonsPanelColor);
+
         // login button
         JButton loginButton = new JButton("Login");
-        loginButton.setBackground(new Color(114, 189, 28, 237));  // Set the background color
+        loginButton.setFocusable(false);
+        loginButton.setBackground(new Color(87, 186, 21));  // Set the background color
         loginButton.setForeground(Color.WHITE); // Set the text color
         loginButton.setFocusPainted(false);
+        loginButton.setBorder(new EmptyBorder(6, 11, 6, 11));
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        buttonsPanel.add(loginButton);
 
         // register button
         JButton registerButton = new JButton("Sign Up");
+        registerButton.setFocusable(false);
         registerButton.setBackground(new Color(223, 146, 27));  // Set the background color
         registerButton.setForeground(Color.WHITE);  // Set the text color
         registerButton.setFocusPainted(false);
+        registerButton.setBorder(new EmptyBorder(6, 11, 6, 11));
+        registerButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        buttonsPanel.add(loginButton);
+        buttonsPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         buttonsPanel.add(registerButton);
-        buttonsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        buttonsPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
+        buttonsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
         topPanel.add(buttonsPanel, BorderLayout.NORTH);
 
         // title label
@@ -57,9 +69,16 @@ public class MainWindow extends JFrame {
 
         // search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        searchPanel.setBackground(new Color(207, 198, 176, 98));
 
         JTextField searchField = new JTextField("Search...", 15);
         JButton searchButton = new JButton("Search");
+        searchButton.setFocusable(false);
+        searchButton.setBackground(new Color(156, 148, 131, 255));  // Set the background color
+        searchButton.setForeground(Color.WHITE);  // Set the text color
+        searchButton.setFocusPainted(false);
+        searchButton.setBorder(new EmptyBorder(2, 10, 5, 10));
+        searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
@@ -149,7 +168,16 @@ public class MainWindow extends JFrame {
             petInfoPanel.add(new JLabel("Color: " + post.getColor()));
             petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
-            petInfoPanel.add(new JLabel("Status: " + post.getStatus()));
+
+            JLabel status = new JLabel("Status: " + post.getStatus());
+            switch (post.getStatus()) {
+                case "Adopted" -> status.setForeground(new Color(67, 177, 26));
+                case "Not adopted" -> status.setForeground(new Color(214, 116, 3));
+                case "In foster care" -> status.setForeground(new Color(9, 120, 188));
+                case "Under treatment" -> status.setForeground(new Color(221, 9, 9));
+            }
+            petInfoPanel.add(status);
+
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
 
