@@ -2,6 +2,7 @@ package controller;
 
 import domain.enums.UserState;
 import domain.model.User;
+import domain.serializeddata.AccountsList;
 import domain.serializeddata.UsersList;
 
 import java.util.Date;
@@ -20,5 +21,9 @@ public class LogInController {
 
         user = UsersList.getInstance().createUser(name,lastname,email, birthDate,username,password,UserState.MEMBER);
         return user;
+    }
+
+    public void changePassword(User user, String newPassword) {
+        AccountsList.getInstance().changePassword(user.getAccountId(), newPassword);
     }
 }

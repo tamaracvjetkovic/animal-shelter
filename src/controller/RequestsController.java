@@ -1,6 +1,7 @@
 package controller;
 
 import domain.enums.RequestState;
+import domain.enums.RequestType;
 import domain.model.*;
 import domain.serializeddata.RequestsList;
 
@@ -20,5 +21,19 @@ public class RequestsController {
     }
     private ArrayList<Request> getPendingByUser(User user){
         return RequestsList.getInstance().getPendingByUser(user);
+    }
+
+    public void requestToBeVolunteer(User user) {
+        int id = RequestsList.getInstance().generateId();
+        RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,
+                RequestType.VOLUNTEERING, user.getId(), null));
+    }
+
+    public void requestAnimalAdoption(User user, Post post) {
+        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.ADOPTION);
+    }
+
+    public void requestAnimalTemporaryCare(User user, Post post) {
+        RequestsList.getInstance().createRequest(user, post, RequestState.PENDING, RequestType.TEMPORARY_CARE);
     }
 }
