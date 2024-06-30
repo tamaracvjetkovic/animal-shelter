@@ -81,6 +81,9 @@ public class RequestsList {
                         request.setState(RequestState.REJECTED);
                     } else {
                         request.setState(RequestState.APPROVED);
+                        User user = UsersList.getInstance().getById(request.getUserId());
+                        if(user == null){System.out.println("User je null u updateVolunteeringRequests"); return;}
+                        user.setUserState(UserState.VOLUNTEER);     //update member to volunteer
                     }
                 }
             }
