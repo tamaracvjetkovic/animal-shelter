@@ -42,13 +42,33 @@ public class VolunteerWindow extends JFrame {
         Color topPanelsColor = new Color(207, 198, 176, 98);
         topPanel.setBackground(topPanelsColor);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         Color buttonPanelColor = new Color(181, 171, 145);
         buttonPanel.setBackground(buttonPanelColor);
 
-        // change all buttons' background after focusing/clicking on them
-        UIManager.put("Button.select", buttonPanelColor);
+        // Left panel for logout button
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(buttonPanelColor);
+        leftPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(92, 92, 92));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setFocusable(false);
+        logoutButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        logoutButton.addActionListener(e -> {
+            LoginWindow loginWindow = new LoginWindow();
+            this.dispose();
+        });
+
+        leftPanel.add(logoutButton);
+
+        // Right panel for profile and volunteer request buttons
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setBackground(buttonPanelColor);
 
         // "view profile" button with icon
         JButton viewProfileButton = new JButton();
@@ -61,7 +81,6 @@ public class VolunteerWindow extends JFrame {
             viewProfileButton.setText("View Profile");
         }
         viewProfileButton.setBackground(buttonPanelColor);  // Set the background color
-        viewProfileButton.setBorder(null);
         viewProfileButton.setFocusPainted(false);
         viewProfileButton.setFocusable(false);
         viewProfileButton.setBorder(new EmptyBorder(0, 0, 0, 10));
@@ -72,8 +91,11 @@ public class VolunteerWindow extends JFrame {
             userProfileDialog.setVisible(true);
         });
 
-        // adding the "view profile" and "volunteer request" buttons
-        buttonPanel.add(viewProfileButton);
+        rightPanel.add(viewProfileButton);
+
+        // Adding left and right panels to the main button panel
+        buttonPanel.add(leftPanel, BorderLayout.WEST);
+        buttonPanel.add(rightPanel, BorderLayout.EAST);
         buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         topPanel.add(buttonPanel, BorderLayout.NORTH);
@@ -164,7 +186,7 @@ public class VolunteerWindow extends JFrame {
 
             messageInfoPanel.add(new JLabel(" "));
             messageInfoPanel.add(new JLabel("From: " + MessagesList.getInstance().messageFrom(message)));
-            messageInfoPanel.add(new JLabel("To: " +  MessagesList.getInstance().messageTo(message)));
+            messageInfoPanel.add(new JLabel("To: " + MessagesList.getInstance().messageTo(message)));
             messageInfoPanel.add(new JLabel("Content: " + message.getText()));
             messageInfoPanel.add(new JLabel("Sent at: " + message.getSentAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             messageInfoPanel.add(new JLabel(" "));
@@ -200,6 +222,7 @@ public class VolunteerWindow extends JFrame {
     }
 
     private void setUpPetsPanel(JPanel pets) {
+// first tab: Pet Panel
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
@@ -260,14 +283,14 @@ public class VolunteerWindow extends JFrame {
             petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
 
-            JLabel adopted = new JLabel("Status: " + post.getStatus());
+            JLabel status = new JLabel("Status: " + post.getStatus());
             switch (post.getStatus()) {
-                case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
-                case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
-                case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
-                case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
+                case "Adopted" -> status.setForeground(new Color(67, 177, 26));
+                case "Not adopted" -> status.setForeground(new Color(214, 116, 3));
+                case "In foster care" -> status.setForeground(new Color(9, 120, 188));
+                case "Under treatment" -> status.setForeground(new Color(221, 9, 9));
             }
-            petInfoPanel.add(adopted);
+            petInfoPanel.add(status);
 
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
@@ -280,6 +303,11 @@ public class VolunteerWindow extends JFrame {
             viewButton.setFocusPainted(false);
             viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
             viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            viewButton.addActionListener(e -> {
+                PetPostWindow petPostWindow = new PetPostWindow(user, post);
+                petPostWindow.setVisible(true);
+            });
 
             // set constraints for the view button
             gbc.gridx = 2;
@@ -357,36 +385,38 @@ public class VolunteerWindow extends JFrame {
 
             gbc.gridx = 1;
             infoPanel.add(reqInfoPanel, gbc);
-            if (!request.getType().toString().equals("VOLUNTEERING")) {
-                // "View" button
-                JButton viewButton = new JButton("View animal");
-                viewButton.setFocusable(false);
-                viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
-                viewButton.setForeground(Color.WHITE);  // Set the text color
-                viewButton.setFocusPainted(false);
-                viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-                viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                viewButton.addActionListener(e -> {
-                    if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
-                        PostDTO post = feedController.getDTOById(request.getPostId());
-                        PostDialog postDialog = new PostDialog(this, post);
-                    } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
-                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
-                    } else if (request.getType() == RequestType.POST_EDITING) {
-                        PostDTO post = feedController.getDTOById(request.getPostId());
-                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
-                    }
-                });
-                // set constraints for the view button
-                gbc.gridx = 2;
-                gbc.gridy = 0;
-                gbc.weightx = 0.0;
-                gbc.weighty = 0.0;
-                gbc.anchor = GridBagConstraints.CENTER;
-                gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+            JButton viewButton = new JButton("View animal");
+            viewButton.setFocusable(false);
+            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            viewButton.setForeground(Color.WHITE);  // Set the text color
+            viewButton.setFocusPainted(false);
+            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            viewButton.addActionListener(e -> {
+                if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    PostDialog postDialog = new PostDialog(this, post);
+                } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
+                } else if (request.getType() == RequestType.POST_EDITING) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
+                }
+            });
 
-                infoPanel.add(viewButton, gbc);
+            if(request.getType() == RequestType.VOLUNTEERING){
+                viewButton.disable();
+                viewButton.setForeground(new Color(0,0,0,0));
             }
+            // set constraints for the view button
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            gbc.weightx = 0.0;
+            gbc.weighty = 0.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+            infoPanel.add(viewButton, gbc);
 
             // create a line separator - separates pets
             JPanel lineSeparator = new JPanel();
@@ -515,8 +545,8 @@ public class VolunteerWindow extends JFrame {
         requestsPanel.removeAll();
         petsPanel.removeAll();
         // Re-setup the requests panel
-        setUpRequestsPanel(requestsPanel);
         setUpPetsPanel(petsPanel);
+        setUpRequestsPanel(requestsPanel);
         // Revalidate and repaint to refresh the UI
         requestsPanel.revalidate();
         requestsPanel.repaint();
