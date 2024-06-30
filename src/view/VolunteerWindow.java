@@ -2,8 +2,7 @@ package view;
 
 import controller.FeedController;
 import controller.RequestsController;
-import domain.enums.AnimalState;
-import domain.enums.RequestState;
+import domain.enums.MessageOwner;
 import domain.enums.RequestType;
 import domain.model.Message;
 import domain.model.User;
@@ -15,6 +14,8 @@ import dtos.PostDTO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class VolunteerWindow extends JFrame {
     private User user;
     private JPanel requestsPanel;
     private JPanel petsPanel;
-
+    private JPanel messagesPanel;
 
     public VolunteerWindow(User user) {
         // Set the title of the frame
@@ -98,8 +99,8 @@ public class VolunteerWindow extends JFrame {
 
         requestsPanel = createTabPanel("Requests");
         setUpRequestsPanel(requestsPanel);
-        JPanel messages = createTabPanel("Inbox");
-        setUpInboxPanel(messages);
+        messagesPanel = createTabPanel("Inbox");
+        setUpInboxPanel(messagesPanel);
 
 
 
@@ -108,7 +109,7 @@ public class VolunteerWindow extends JFrame {
         tabbedPane.addTab("Animals", petsPanel);
         tabbedPane.addTab("Make post", postsRegistration);
         tabbedPane.addTab("Requests", requestsPanel);
-        tabbedPane.addTab("Inbox", messages);
+        tabbedPane.addTab("Inbox", messagesPanel);
 
         // Add the tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
@@ -193,7 +194,7 @@ public class VolunteerWindow extends JFrame {
             if (MessagesList.getInstance().messageFrom(message).equals("shelter")) {
                 messageInfoPanel.setAlignmentX(Component.RIGHT_ALIGNMENT); // Align components to the right
             } else {
-                messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+                addReplyButton(messageInfoPanel,message);
             }
             gbc.gridx = 0;
             messagePostPanel.add(messageInfoPanel, gbc);
@@ -219,7 +220,40 @@ public class VolunteerWindow extends JFrame {
         center(messages);
         messages.setVisible(true);
     }
+    public void addReplyButton(JPanel messageInfoPanel, Message message){
+        messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+        JButton replyButton = new JButton("Reply");
+        replyButton.addActionListener(e -> {
 
+            JDialog dialog = new JDialog((Frame) null, "Reply", true);
+            dialog.setLayout(new BorderLayout());
+
+            JTextArea textArea = new JTextArea(5, 20);
+            dialog.add(new JScrollPane(textArea), BorderLayout.CENTER);
+
+            JButton sendButton = new JButton("Send");
+            sendButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String replyText = textArea.getText();
+                    User reciever = UsersList.getInstance().getByUsername(MessagesList.getInstance().messageFrom(message));
+                    Message newMessage = new Message(replyText, MessageOwner.ANIMALSHELTER, reciever.getId());
+                    MessagesList.getInstance().addMessage(newMessage);
+                    refresh();
+                    dialog.dispose();
+                }
+            });
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(sendButton);
+            dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
+        messageInfoPanel.add(replyButton);
+    }
     private void setUpPetsPanel(JPanel pets) {
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
@@ -533,13 +567,19 @@ public class VolunteerWindow extends JFrame {
 
     private void refresh() {
         // Clear the existing requests panel
-        requestsPanel.removeAll();
         petsPanel.removeAll();
+        requestsPanel.removeAll();
+        messagesPanel.removeAll();
         // Re-setup the requests panel
-        setUpRequestsPanel(requestsPanel);
         setUpPetsPanel(petsPanel);
+        setUpRequestsPanel(requestsPanel);
+        setUpInboxPanel(messagesPanel);
         // Revalidate and repaint to refresh the UI
+        petsPanel.revalidate();
+        petsPanel.repaint();
         requestsPanel.revalidate();
         requestsPanel.repaint();
+        messagesPanel.revalidate();
+        messagesPanel.repaint();
     }
 }
