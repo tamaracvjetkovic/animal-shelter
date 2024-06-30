@@ -12,11 +12,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 
 public class PetPostWindow extends JFrame {
     private FeedController feedController;
     int likes;
+    JPanel commentsPanel;
 
     public PetPostWindow(User user, PostDTO post) {
         feedController = new FeedController();
@@ -37,7 +39,7 @@ public class PetPostWindow extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        mainPanel.setBackground(new Color(172, 164, 146));
+        mainPanel.setBackground( new Color(172, 164, 146));
 
         // Pet view panel
         JPanel petViewPanel = new JPanel(new GridBagLayout());
@@ -140,7 +142,7 @@ public class PetPostWindow extends JFrame {
             galleryButton.setText("Open Gallery");
         }
         galleryButton.addActionListener(e -> {
-            PetGallery petGallery = new PetGallery(post);
+            PetGalleryWindow petGalleryWindow = new PetGalleryWindow(post);
         });
 
         buttonsPanel.add(galleryButton, BorderLayout.NORTH);
@@ -183,26 +185,14 @@ public class PetPostWindow extends JFrame {
         mainPanel.add(new JSeparator(JSeparator.HORIZONTAL));
 
         // Comments panel
-        JPanel commentsPanel = new JPanel();
-        commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
-        //commentsPanel.setBackground(new Color(243, 230, 197));
-
-        // Placeholder comments
-        for (int i = 1; i <= 20; i++) { // Increased to 20 to better demonstrate scrolling
-            JLabel commentLabel = new JLabel("Comment " + i);
-            commentLabel.setBorder(new EmptyBorder(5, 5, 0, 5));
-            if (i == 20) {
-                commentLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
-            }
-            commentsPanel.add(commentLabel);
-        }
+        setComments(post);
 
         // Scrollable pane for comments
         JScrollPane commentsScrollPane = new JScrollPane(commentsPanel);
         commentsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         commentsScrollPane.setPreferredSize(new Dimension(400, 250)); // Set preferred size for demonstration
         commentsScrollPane.setBorder(new EmptyBorder(10, 5, 5, 5));
-        //commentsScrollPane.setBackground(new Color(243, 230, 197));
+        commentsScrollPane.setBackground(new Color(223, 217, 206));
 
         mainPanel.add(commentsScrollPane);
 
@@ -221,7 +211,7 @@ public class PetPostWindow extends JFrame {
         addCommentButton.setBorder(new EmptyBorder(6, 11, 6, 11));
         addCommentButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addCommentButton.addActionListener(e -> {
-            // Open a new dialog/form to add a comment
+            AddCommentWindow addCommentWindow = new AddCommentWindow(this, user, post);
         });
         leftBottomPanel.add(addCommentButton);
 
@@ -235,7 +225,7 @@ public class PetPostWindow extends JFrame {
         adoptButton.setBorder(new EmptyBorder(6, 11, 6, 11));
         adoptButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         adoptButton.addActionListener(e -> {
-            ConfirmAdoptionWindow confirmAdoptionWindow = new ConfirmAdoptionWindow(user, post);
+            ConfirmAdoptionWindow confirmAdoptionWIndow = new ConfirmAdoptionWindow(user, post);
         });
         if (!post.getStatus().equalsIgnoreCase("Not adopted")) {
             adoptButton.setEnabled(false);
@@ -264,5 +254,28 @@ public class PetPostWindow extends JFrame {
         setTitle("Pet View");
         UIUtils.center(this);
         likes = feedController.getById(post.getId()).getLikes();
+        commentsPanel = new JPanel();
+    }
+
+    public void setComments(PostDTO post) {
+        commentsPanel.removeAll();
+        commentsPanel.setLayout(new BoxLayout(commentsPanel, BoxLayout.Y_AXIS));
+        commentsPanel.setBackground(new Color(223, 217, 206));
+        commentsPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
+
+        // Placeholder comments
+        Post currentPost = feedController.getById(post.getId());
+        ArrayList<Comment> comments = feedController.getAllCommentsByPost(currentPost);
+        for (int i = 0; i < comments.size(); i++)
+        {
+            JLabel commentLabel = new JLabel(comments.get(i).getMessage());
+            commentLabel.setBorder(new EmptyBorder(2, 3, 2, 3));
+            commentLabel.setBackground(new Color(243, 243, 243));
+            commentLabel.setOpaque(true);
+            commentsPanel.add(commentLabel);
+            JLabel commentBreak = new JLabel(" ");
+            commentBreak.setFont(new Font("Arial", Font.ITALIC, 7));
+            commentsPanel.add(commentBreak);
+        }
     }
 }

@@ -4,39 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9107a81d-ef7b-434c-9ac1-15ae4af7d35f" name="Changes" comment="[REFACTOR] From Eclipse to Intellij IDEA">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/miglayout_4_0_swing.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/thoughtworks_xstream.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/0/10a03f31c4dce92cb371e761ce9429428bb6c176" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/2/1294ee5db26270bcd17a13e27a453a2d679d5954" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/c/4c726e763ed2c7509d4ceb34186a09658117b89c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/0/804a0b6afdcc83060b5d891a7ad8f12d653c6054" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/4/b4a0b63ce8560bbc5de0f9995c20cc861dc2adb3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/1/e16425530677d01756308d4368ed2af5da6e1959" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/4/e40ae4cc074ee240bdb34b39309ee0b6db2a4ec6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/0/10a03f31c4dce92cb371e761ce9429428bb6c176" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/1/2/1294ee5db26270bcd17a13e27a453a2d679d5954" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/c/4c726e763ed2c7509d4ceb34186a09658117b89c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/0/804a0b6afdcc83060b5d891a7ad8f12d653c6054" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/8/88a9255124c95bdc913197c120a8d560edc59c8e" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/f/9fe84ebb15faf917b7def6236dba604453cc61e0" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/4/b4a0b63ce8560bbc5de0f9995c20cc861dc2adb3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/1/e16425530677d01756308d4368ed2af5da6e1959" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/4/e40ae4cc074ee240bdb34b39309ee0b6db2a4ec6" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/serialization/Serialization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/MainWindow.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="9107a81d-ef7b-434c-9ac1-15ae4af7d35f" name="Changes" comment="[FEAT] add comment + view all comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnimalShelter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AnimalShelter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/model/UserAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/model/UserAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/accounts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/accounts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/addresses.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/addresses.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/animals.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/animals.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/breeds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/breeds.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/comments.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/comments.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/messages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/messages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/posts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/posts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/requests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/requests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/species.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/species.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/users.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/PetPostWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/PetPostWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +71,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="view" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
@@ -135,13 +120,124 @@
       <workItem from="1719668181235" duration="211000" />
       <workItem from="1719668739271" duration="6222000" />
     </task>
+    <task id="LOCAL-00001" summary="[ADD] logout button to Member Window">
+      <option name="closed" value="true" />
+      <created>1719755180455</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719755180456</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[ADD] PetPostWindow front">
+      <option name="closed" value="true" />
+      <created>1719760667090</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719760667090</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[ADD] PetGallery">
+      <option name="closed" value="true" />
+      <created>1719760678944</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719760678944</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[ADD] icons">
+      <option name="closed" value="true" />
+      <created>1719760694845</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719760694845</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[ADD] ConfirmAdoptionWindow">
+      <option name="closed" value="true" />
+      <created>1719771606242</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719771606242</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[ADD] PetPostWindow backend + style">
+      <option name="closed" value="true" />
+      <created>1719771665321</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719771665321</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[FIX] add adoption reason | [STYLE] color all tabs">
+      <option name="closed" value="true" />
+      <created>1719772778422</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719772778423</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[FIX] getById method name overlapping">
+      <option name="closed" value="true" />
+      <created>1719773258420</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719773258420</updated>
+    </task>
+    <task id="LOCAL-00009" summary="[ADD] Comment XStream">
+      <option name="closed" value="true" />
+      <created>1719786939535</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719786939536</updated>
+    </task>
+    <task id="LOCAL-00010" summary="[REFACTOR] rename PetGalleryWindow">
+      <option name="closed" value="true" />
+      <created>1719786976516</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1719786976516</updated>
+    </task>
+    <task id="LOCAL-00011" summary="[FEAT] add comment + view all comments">
+      <option name="closed" value="true" />
+      <created>1719787049476</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719787049476</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="[REFACTOR] From Eclipse to Intellij IDEA" />
-    <option name="LAST_COMMIT_MESSAGE" value="[REFACTOR] From Eclipse to Intellij IDEA" />
+    <MESSAGE value="[ADD] logout button to Member Window" />
+    <MESSAGE value="[ADD] PetPostWindow front" />
+    <MESSAGE value="[ADD] PetGallery" />
+    <MESSAGE value="[ADD] icons" />
+    <MESSAGE value="[ADD] ConfirmAdoptionWindow" />
+    <MESSAGE value="[ADD] PetPostWindow backend + style" />
+    <MESSAGE value="[FIX] add adoption reason | [STYLE] color all tabs" />
+    <MESSAGE value="[FIX] getById method name overlapping" />
+    <MESSAGE value="[ADD] Comment XStream" />
+    <MESSAGE value="[REFACTOR] rename PetGalleryWindow" />
+    <MESSAGE value="[FEAT] add comment + view all comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="[FEAT] add comment + view all comments" />
   </component>
 </project>

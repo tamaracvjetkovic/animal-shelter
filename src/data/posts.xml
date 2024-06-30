@@ -4,7 +4,9 @@
       <id>1</id>
       <animalId>1</animalId>
       <likes>2</likes>
-      <commentsIds/>
+      <commentsIds>
+        <int>1</int>
+      </commentsIds>
     </post>
     <post>
       <id>2</id>
