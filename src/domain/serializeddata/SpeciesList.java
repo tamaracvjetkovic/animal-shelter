@@ -2,6 +2,7 @@ package domain.serializeddata;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import domain.model.Address;
+import domain.model.Breed;
 import domain.model.Species;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class SpeciesList {
     @XStreamAlias("speciess")
     private ArrayList<Species> speciess;
 
-    private SpeciesList() {
+    public SpeciesList() {
         this.speciess = new ArrayList<Species>();
     }
 
@@ -45,6 +46,20 @@ public class SpeciesList {
     public Species addSpecies(Species species) {
         this.speciess.add(species);
         return species;
+    }
+    public Species addSpecies(String name, ArrayList<Integer> breedIds){
+        Species species = new Species(generateId(), name, breedIds, null);
+        this.speciess.add(species);
+        return species;
+    }
+
+    public Species getByName(String name){
+        for(Species species : this.speciess){
+            if(species.getName().equals(name)){
+                return species;
+            }
+        }
+        return null;
     }
 
     public Species getSpecies(int id) {

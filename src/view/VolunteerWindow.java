@@ -2,8 +2,7 @@ package view;
 
 import controller.FeedController;
 import controller.RequestsController;
-import domain.enums.AnimalState;
-import domain.enums.RequestState;
+import domain.enums.MessageOwner;
 import domain.enums.RequestType;
 import domain.model.Message;
 import domain.model.User;
@@ -15,6 +14,8 @@ import dtos.PostDTO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class VolunteerWindow extends JFrame {
     private User user;
     private JPanel requestsPanel;
     private JPanel petsPanel;
+    private JPanel messagesPanel;
 
     public VolunteerWindow(User user) {
         // Set the title of the frame
@@ -42,13 +44,33 @@ public class VolunteerWindow extends JFrame {
         Color topPanelsColor = new Color(207, 198, 176, 98);
         topPanel.setBackground(topPanelsColor);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        JPanel buttonPanel = new JPanel(new BorderLayout());
         Color buttonPanelColor = new Color(181, 171, 145);
         buttonPanel.setBackground(buttonPanelColor);
 
-        // change all buttons' background after focusing/clicking on them
-        UIManager.put("Button.select", buttonPanelColor);
+        // Left panel for logout button
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setBackground(buttonPanelColor);
+        leftPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(92, 92, 92));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setFocusPainted(false);
+        logoutButton.setFocusable(false);
+        logoutButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        logoutButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        logoutButton.addActionListener(e -> {
+            LoginWindow loginWindow = new LoginWindow();
+            this.dispose();
+        });
+
+        leftPanel.add(logoutButton);
+
+        // Right panel for profile and volunteer request buttons
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setBackground(buttonPanelColor);
 
         // "view profile" button with icon
         JButton viewProfileButton = new JButton();
@@ -72,8 +94,11 @@ public class VolunteerWindow extends JFrame {
             userProfileDialog.setVisible(true);
         });
 
-        // adding the "view profile" and "volunteer request" buttons
-        buttonPanel.add(viewProfileButton);
+        rightPanel.add(viewProfileButton);
+
+        // Adding left and right panels to the main button panel
+        buttonPanel.add(leftPanel, BorderLayout.WEST);
+        buttonPanel.add(rightPanel, BorderLayout.EAST);
         buttonPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         topPanel.add(buttonPanel, BorderLayout.NORTH);
@@ -95,14 +120,16 @@ public class VolunteerWindow extends JFrame {
 
         requestsPanel = createTabPanel("Requests");
         setUpRequestsPanel(requestsPanel);
-        JPanel messages = createTabPanel("Inbox");
-        setUpInboxPanel(messages);
+        messagesPanel = createTabPanel("Inbox");
+        setUpInboxPanel(messagesPanel);
+
+
 
 
         // Add panels to the tabbed pane
         tabbedPane.addTab("Animals", petsPanel);
         tabbedPane.addTab("Requests", requestsPanel);
-        tabbedPane.addTab("Inbox", messages);
+        tabbedPane.addTab("Inbox", messagesPanel);
 
         // Add the tabbed pane to the frame
         add(tabbedPane, BorderLayout.CENTER);
@@ -164,7 +191,7 @@ public class VolunteerWindow extends JFrame {
 
             messageInfoPanel.add(new JLabel(" "));
             messageInfoPanel.add(new JLabel("From: " + MessagesList.getInstance().messageFrom(message)));
-            messageInfoPanel.add(new JLabel("To: " +  MessagesList.getInstance().messageTo(message)));
+            messageInfoPanel.add(new JLabel("To: " + MessagesList.getInstance().messageTo(message)));
             messageInfoPanel.add(new JLabel("Content: " + message.getText()));
             messageInfoPanel.add(new JLabel("Sent at: " + message.getSentAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             messageInfoPanel.add(new JLabel(" "));
@@ -172,7 +199,7 @@ public class VolunteerWindow extends JFrame {
             if (MessagesList.getInstance().messageFrom(message).equals("shelter")) {
                 messageInfoPanel.setAlignmentX(Component.RIGHT_ALIGNMENT); // Align components to the right
             } else {
-                messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+                addReplyButton(messageInfoPanel,message);
             }
             gbc.gridx = 0;
             messagePostPanel.add(messageInfoPanel, gbc);
@@ -198,8 +225,42 @@ public class VolunteerWindow extends JFrame {
         center(messages);
         messages.setVisible(true);
     }
+    public void addReplyButton(JPanel messageInfoPanel, Message message){
+        messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+        JButton replyButton = new JButton("Reply");
+        replyButton.addActionListener(e -> {
 
+            JDialog dialog = new JDialog((Frame) null, "Reply", true);
+            dialog.setLayout(new BorderLayout());
+
+            JTextArea textArea = new JTextArea(5, 20);
+            dialog.add(new JScrollPane(textArea), BorderLayout.CENTER);
+
+            JButton sendButton = new JButton("Send");
+            sendButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String replyText = textArea.getText();
+                    User reciever = UsersList.getInstance().getByUsername(MessagesList.getInstance().messageFrom(message));
+                    Message newMessage = new Message(replyText, MessageOwner.ANIMALSHELTER, reciever.getId());
+                    MessagesList.getInstance().addMessage(newMessage);
+                    refresh();
+                    dialog.dispose();
+                }
+            });
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(sendButton);
+            dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
+        messageInfoPanel.add(replyButton);
+    }
     private void setUpPetsPanel(JPanel pets) {
+// first tab: Pet Panel
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
         Color petPanelColor = new Color(207, 198, 176, 234);
@@ -218,6 +279,22 @@ public class VolunteerWindow extends JFrame {
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
+        JButton addPostButton = new JButton("Add post");
+
+        addPostButton.addActionListener(e -> {
+            CreatePostDialog createPostDialog = new CreatePostDialog(this, user);
+            createPostDialog.setVisible(true);
+            refresh();
+        });
+
+        JButton addBreedAndSpeciesButton = new JButton("Add breed and species");
+        addBreedAndSpeciesButton.addActionListener(e -> {
+            BreedAndSpeciesDialog breedAndSpeciesDialog = new BreedAndSpeciesDialog(this);
+            breedAndSpeciesDialog.setVisible(true);
+            refresh();
+        });
+        searchPanel.add(addPostButton);
+        searchPanel.add(addBreedAndSpeciesButton);
 
         petPanel.add(searchPanel, BorderLayout.SOUTH);
 
@@ -260,14 +337,14 @@ public class VolunteerWindow extends JFrame {
             petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
 
-            JLabel adopted = new JLabel("Status: " + post.getStatus());
+            JLabel status = new JLabel("Status: " + post.getStatus());
             switch (post.getStatus()) {
-                case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
-                case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
-                case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
-                case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
+                case "Adopted" -> status.setForeground(new Color(67, 177, 26));
+                case "Not adopted" -> status.setForeground(new Color(214, 116, 3));
+                case "In foster care" -> status.setForeground(new Color(9, 120, 188));
+                case "Under treatment" -> status.setForeground(new Color(221, 9, 9));
             }
-            petInfoPanel.add(adopted);
+            petInfoPanel.add(status);
 
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
@@ -280,6 +357,11 @@ public class VolunteerWindow extends JFrame {
             viewButton.setFocusPainted(false);
             viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
             viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            viewButton.addActionListener(e -> {
+                PetPostWindow petPostWindow = new PetPostWindow(user, post);
+                petPostWindow.setVisible(true);
+            });
 
             // set constraints for the view button
             gbc.gridx = 2;
@@ -357,36 +439,38 @@ public class VolunteerWindow extends JFrame {
 
             gbc.gridx = 1;
             infoPanel.add(reqInfoPanel, gbc);
-            if (!request.getType().toString().equals("VOLUNTEERING")) {
-                // "View" button
-                JButton viewButton = new JButton("View animal");
-                viewButton.setFocusable(false);
-                viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
-                viewButton.setForeground(Color.WHITE);  // Set the text color
-                viewButton.setFocusPainted(false);
-                viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-                viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                viewButton.addActionListener(e -> {
-                    if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
-                        PostDTO post = feedController.getDTOById(request.getPostId());
-                        PostDialog postDialog = new PostDialog(this, post);
-                    } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
-                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
-                    } else if (request.getType() == RequestType.POST_EDITING) {
-                        PostDTO post = feedController.getDTOById(request.getPostId());
-                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
-                    }
-                });
-                // set constraints for the view button
-                gbc.gridx = 2;
-                gbc.gridy = 0;
-                gbc.weightx = 0.0;
-                gbc.weighty = 0.0;
-                gbc.anchor = GridBagConstraints.CENTER;
-                gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+            JButton viewButton = new JButton("View animal");
+            viewButton.setFocusable(false);
+            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            viewButton.setForeground(Color.WHITE);  // Set the text color
+            viewButton.setFocusPainted(false);
+            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            viewButton.addActionListener(e -> {
+                if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    PostDialog postDialog = new PostDialog(this, post);
+                } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
+                } else if (request.getType() == RequestType.POST_EDITING) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
+                }
+            });
 
-                infoPanel.add(viewButton, gbc);
+            if(request.getType() == RequestType.VOLUNTEERING){
+                viewButton.disable();
+                viewButton.setForeground(new Color(0,0,0,0));
             }
+            // set constraints for the view button
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            gbc.weightx = 0.0;
+            gbc.weighty = 0.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+            infoPanel.add(viewButton, gbc);
 
             // create a line separator - separates pets
             JPanel lineSeparator = new JPanel();
@@ -512,13 +596,19 @@ public class VolunteerWindow extends JFrame {
 
     private void refresh() {
         // Clear the existing requests panel
-        requestsPanel.removeAll();
         petsPanel.removeAll();
+        requestsPanel.removeAll();
+        messagesPanel.removeAll();
         // Re-setup the requests panel
-        setUpRequestsPanel(requestsPanel);
         setUpPetsPanel(petsPanel);
+        setUpRequestsPanel(requestsPanel);
+        setUpInboxPanel(messagesPanel);
         // Revalidate and repaint to refresh the UI
+        petsPanel.revalidate();
+        petsPanel.repaint();
         requestsPanel.revalidate();
         requestsPanel.repaint();
+        messagesPanel.revalidate();
+        messagesPanel.repaint();
     }
 }

@@ -9,6 +9,8 @@ import domain.serializeddata.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 public class RequestsController {
     public ArrayList<Request> getPendingRequests() {
@@ -69,7 +71,7 @@ public class RequestsController {
 //APPROVING AND REJECTING OF REQUESTS
     public void requestRejected(Request req){
         req.setState(RequestState.REJECTED);            //request rejected
-        //TO DO: send message to user that request was denied
+        //TO DO: send message to user that request was rejected
     }
     public void adoptionApproved(Request req){
         if(req.getType() != RequestType.ADOPTION){
@@ -95,9 +97,17 @@ public class RequestsController {
             return;
         }
         animal.setState(AnimalState.ADOPTED);
-
     }
+    public void adopt(User user,Post post){
 
+        user.addPostId(post.getId());            //post added to users posts
+        Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+        if(animal == null){
+            System.out.println("Animal je null u adopt u RequestsController.");
+            return;
+        }
+        animal.setState(AnimalState.ADOPTED);
+    }
     public void fosterCareApproved(Request req){
         if(req.getType() != RequestType.TEMPORARY_CARE){
             System.out.println("Request nije za temporary care u fosteCareApproved u RequestsController.");
@@ -126,6 +136,15 @@ public class RequestsController {
         animal.setState(AnimalState.INFOSTERCARE);
 
     }
+    public void fosterCare(User user, Post post){
+        user.addPostId(post.getId());            //post added to users posts
+        Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+        if(animal == null){
+            System.out.println("Animal je null u fosteCare u RequestsController.");
+            return;
+        }
+        animal.setState(AnimalState.INFOSTERCARE);
+    }
     public void animalRegistrationApproved(Request req){
         if(req.getType() != RequestType.ANIMAL_REGISTRATION){
             System.out.println("Request nije za animal registration u animaRegistrationApproved u RequestsController.");
@@ -143,6 +162,13 @@ public class RequestsController {
         user.addCreatedPostId(req.getPostId());            //post added to users created posts
 
     }
+    public void animalRegistration(User user, String name, String color, Date born, Integer addressId, AnimalState state, ArrayList<String> multimedia, Integer breedId, Integer speciesId){
+        Animal animal = AnimalList.getInstance().createAnimal(name,color,born,addressId,state,multimedia,breedId,speciesId);
+        Post post =PostList.getInstance().createPost(animal.getId());
+        user.addCreatedPostId(post.getId());            //post added to users created posts
+
+    }
+
     public void postEditingApproved(Request req){
         if(req.getType() != RequestType.POST_EDITING){
             System.out.println("Request nije za post editing u animaRegistrationApproved u RequestsController.");

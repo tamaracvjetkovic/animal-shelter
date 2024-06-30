@@ -3,6 +3,7 @@ package view;
 import controller.FeedController;
 import controller.RequestsController;
 import domain.enums.AnimalState;
+import domain.enums.UserState;
 import domain.model.Address;
 import domain.model.Animal;
 import domain.model.User;
@@ -155,10 +156,14 @@ public class CreatePostDialog extends JDialog {
             }
             else {
                 // Process the data here (e.g., save to database or display)
-                requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
+                if(user.getUserState() == UserState.MEMBER){
+                   requestsController.requestPostRegistration(user, new Animal(0, name, color, birthDate, 0,
                         AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)),
                         feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)),
                         new Address(0, city, street, Integer.parseInt(number)));
+                } else if(user.getUserState() == UserState.VOLUNTEER){
+                    requestsController.animalRegistration(user,name,color,birthDate,0,AnimalState.NOTADOPTED,new ArrayList<>(Arrays.asList(pictureUrl)),feedController.getBreedId(selectedPicker1), 0);
+                }
 
                 // Close the dialog
                 dispose();
