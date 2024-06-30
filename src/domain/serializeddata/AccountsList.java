@@ -71,4 +71,9 @@ public class AccountsList {
         }
         return null;
     }
+
+    public void changePassword(Integer id, String newPassword) {
+        Account account = getById(id);
+        account.setPassword(newPassword);
+    }
 }

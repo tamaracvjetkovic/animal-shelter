@@ -8,7 +8,7 @@
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
-        <string>src/images/mali_zje.png</string>
+        <string>src/images/pets/mali_zje.png</string>
       </multimedia>
       <breedId>0</breedId>
       <speciesId>1</speciesId>
@@ -21,7 +21,7 @@
       <addressId>0</addressId>
       <state>ADOPTED</state>
       <multimedia>
-        <string>src/images/mali_zje.png</string>
+        <string>src/images/pets/mali_zje.png</string>
       </multimedia>
       <breedId>0</breedId>
       <speciesId>1</speciesId>
@@ -34,7 +34,7 @@
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
-        <string>src/images/mali_zje.png</string>
+        <string>src/images/pets/mali_zje.png</string>
       </multimedia>
       <breedId>0</breedId>
       <speciesId>1</speciesId>
@@ -47,7 +47,7 @@
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
-        <string>src/images/mali_zje.png</string>
+        <string>src/images/pets/mali_zje.png</string>
       </multimedia>
       <breedId>0</breedId>
       <speciesId>1</speciesId>
@@ -60,7 +60,7 @@
       <addressId>0</addressId>
       <state>NOTADOPTED</state>
       <multimedia>
-        <string>src/images/mali_zje.png</string>
+        <string>src/images/pets/mali_zje.png</string>
       </multimedia>
       <breedId>0</breedId>
       <speciesId>1</speciesId>
