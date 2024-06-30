@@ -454,6 +454,8 @@ public class MemberWindow extends JFrame {
         tabbedPane.setBackgroundAt(0, new Color(202, 191, 168));
         tabbedPane.setBackgroundAt(1, new Color(202, 191, 168));
         tabbedPane.setBackgroundAt(2, new Color(202, 191, 168));
+        tabbedPane.setBackgroundAt(3, new Color(202, 191, 168));
+        tabbedPane.setBackgroundAt(4, new Color(202, 191, 168));
 
         // "Animal Shelter ©" label at the bottom
         JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);

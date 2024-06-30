@@ -79,15 +79,15 @@ public class ConfirmAdoptionWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Post currentPost = feedController.getById(post.getId());
-                String explanation = textArea.getText();
+                String reason = textArea.getText();
 
                 if (adoptRadioButton.isSelected()) {
-                    requestsController.requestAnimalAdoption(user, currentPost);
+                    requestsController.requestAnimalAdoption(user, currentPost, reason);
                     showMessageDialog(null, "Request for adoption is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     dispose();
                 }
                 else {
-                    requestsController.requestAnimalTemporaryCare(user, currentPost);
+                    requestsController.requestAnimalTemporaryCare(user, currentPost, reason);
                     showMessageDialog(null, "Request for temporary care is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     dispose();
                 }
