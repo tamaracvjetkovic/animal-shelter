@@ -1,6 +1,7 @@
 package dtos;
 
 public class PostDTO {
+    private int id;
     private String picture;
     private String name;
     private String breed;
@@ -8,13 +9,22 @@ public class PostDTO {
     private String date;
     private String status;
 
-    public PostDTO(String picture, String name, String breed, String color, String date, String status) {
+    public PostDTO(int id, String picture, String name, String breed, String color, String date, String status) {
+        this.id = id;
         this.picture = picture;
         this.name = name;
         this.breed = breed;
         this.color = color;
         this.date = date;
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPicture() {
