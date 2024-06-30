@@ -2,8 +2,6 @@ package view;
 
 import controller.FeedController;
 import controller.RequestsController;
-import domain.enums.AnimalState;
-import domain.enums.RequestState;
 import domain.enums.RequestType;
 import domain.model.User;
 import domain.serializeddata.UsersList;
@@ -18,6 +16,8 @@ public class VolunteerWindow extends JFrame {
     private FeedController feedController;
     private RequestsController requestsController;
     private User user;
+    private JPanel requestsPanel;
+    private JPanel petsPanel;
 
     public VolunteerWindow(User user) {
         // Set the title of the frame
@@ -84,16 +84,16 @@ public class VolunteerWindow extends JFrame {
         // Create the tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
         // Create tabs with panels
-        JPanel pets = createTabPanel("Pets Feed");
-        setUpPetsPanel(pets);
+        petsPanel = createTabPanel("Pets Feed");
+        setUpPetsPanel(petsPanel);
 
-        JPanel requests = createTabPanel("Requests");
-        setUpRequestsPanel(requests);
+        requestsPanel = createTabPanel("Requests");
+        setUpRequestsPanel(requestsPanel);
         JPanel panel3 = createTabPanel("This is the content of Tab 3");
 
         // Add panels to the tabbed pane
-        tabbedPane.addTab("Animals", pets);
-        tabbedPane.addTab("Requests", requests);
+        tabbedPane.addTab("Animals", petsPanel);
+        tabbedPane.addTab("Requests", requestsPanel);
         tabbedPane.addTab("Tab 3", panel3);
 
         // Add the tabbed pane to the frame
@@ -295,7 +295,7 @@ public class VolunteerWindow extends JFrame {
             infoPanel.add(reqInfoPanel, gbc);
             if (!request.getType().toString().equals("VOLUNTEERING")) {
                 // "View" button
-                JButton viewButton = new JButton("View");
+                JButton viewButton = new JButton("View animal");
                 viewButton.setFocusable(false);
                 viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
                 viewButton.setForeground(Color.WHITE);  // Set the text color
@@ -303,10 +303,14 @@ public class VolunteerWindow extends JFrame {
                 viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
                 viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 viewButton.addActionListener(e -> {
-                    if (request.getType() == RequestType.ADOPTION) {
-                        AnimalDialog animalDialog = new AnimalDialog(this, feedController.getById(request.getPostId()));
-                    } else {
-                        // Handle approval for other types
+                    if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
+                        PostDTO post = feedController.getById(request.getPostId());
+                        PostDialog postDialog = new PostDialog(this, post);
+                    } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
+                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
+                    } else if (request.getType() == RequestType.POST_EDITING) {
+                        PostDTO post = feedController.getById(request.getPostId());
+                        AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
                     }
                 });
                 // set constraints for the view button
@@ -365,12 +369,30 @@ public class VolunteerWindow extends JFrame {
 
         // Add action listener to the "Approve" button
         approveButton.addActionListener(e -> {
-            if (r.getType() == RequestType.VOLUNTEERING) {
-                // Handle approval for volunteering
-            } else {
-                // Handle approval for other types
+            String message = "Do you want to proceed?";
+            int result = JOptionPane.showConfirmDialog(
+                    null, // Parent component; null makes it appear centered on the screen
+                    message, // Message to display
+                    "Confirm", // Title of the dialog
+                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
+                    JOptionPane.QUESTION_MESSAGE // Message type: Question
+            );
+            if (result != JOptionPane.YES_OPTION) {
+                return;
             }
-            JOptionPane.showMessageDialog(panel, "You have approved!");
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                r.addApproved(user.getId());
+            } else if (r.getType() == RequestType.ADOPTION) {
+                requestsController.adoptionApproved(r);
+            } else if (r.getType() == RequestType.TEMPORARY_CARE) {
+                requestsController.fosterCareApproved(r);
+            } else if (r.getType() == RequestType.ANIMAL_REGISTRATION) {
+
+            } else if (r.getType() == RequestType.POST_EDITING) {
+
+            }
+            JOptionPane.showMessageDialog(panel, "Success!");
+            refresh();
         });
 
         // Create the "Reject" button
@@ -384,12 +406,25 @@ public class VolunteerWindow extends JFrame {
 
         // Add action listener to the "Reject" button
         rejectButton.addActionListener(e -> {
-            if (r.getType() == RequestType.VOLUNTEERING) {
-                // Handle rejection for volunteering
-            } else {
-                // Handle rejection for other types
+            String message = "Do you want to proceed?";
+            // Show the confirm dialog
+            int result = JOptionPane.showConfirmDialog(
+                    null, // Parent component; null makes it appear centered on the screen
+                    message, // Message to display
+                    "Confirm", // Title of the dialog
+                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
+                    JOptionPane.QUESTION_MESSAGE // Message type: Question
+            );
+            if (result != JOptionPane.YES_OPTION) {
+                return;
             }
-            JOptionPane.showMessageDialog(panel, "You have rejected!");
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                r.addRejected(user.getId());
+            } else {
+                requestsController.requestRejected(r);
+            }
+            JOptionPane.showMessageDialog(panel, "Success!");
+            refresh();
         });
 
         // Configure GridBagConstraints for buttons
@@ -409,5 +444,17 @@ public class VolunteerWindow extends JFrame {
         panel.add(rejectButton, gbc);
 
         return panel;
+    }
+
+    private void refresh() {
+        // Clear the existing requests panel
+        requestsPanel.removeAll();
+        petsPanel.removeAll();
+        // Re-setup the requests panel
+        setUpRequestsPanel(requestsPanel);
+        setUpPetsPanel(petsPanel);
+        // Revalidate and repaint to refresh the UI
+        requestsPanel.revalidate();
+        requestsPanel.repaint();
     }
 }
