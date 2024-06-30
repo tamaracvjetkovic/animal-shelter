@@ -3,6 +3,7 @@ package controller;
 import domain.model.Breed;
 import domain.model.Post;
 import domain.model.Animal;
+import domain.model.User;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
 import domain.serializeddata.PostList;
@@ -27,6 +28,24 @@ public class FeedController {
 
             posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
                     animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+        }
+
+        return posts;
+    }
+
+    public ArrayList<PostDTO> getAllPostsWithAnimalsAndBreeds(User user) {
+        ArrayList<PostDTO> posts = new ArrayList<>();
+
+        for(Post post : PostList.getInstance().getPosts()) {
+            if (user.getPostsIds().contains(post.getId())) {
+                int animalId = post.getAnimalId();
+
+                Animal animal = AnimalList.getInstance().getAnimal(animalId);
+                Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+
+                posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
+                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+            }
         }
 
         return posts;
