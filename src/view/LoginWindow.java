@@ -89,7 +89,7 @@ public class LoginWindow extends JFrame {
                 User user = controller.logIn(username,password);
 
                 if (user == null) {
-                    JOptionPane.showMessageDialog(this, "User doesn't exist.");
+                    JOptionPane.showMessageDialog(this, "Credentials are incorrect.");
                 }
                 else {
                     if (user.getUserState() == UserState.MEMBER) {

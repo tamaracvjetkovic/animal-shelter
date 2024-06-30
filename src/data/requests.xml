@@ -50,5 +50,14 @@
       <rejected>0</rejected>
       <sentAt>2024-06-30T14:00:00</sentAt>
     </request>
+    <request>
+      <state>PENDING</state>
+      <type>VOLUNTEERING</type>
+      <userId>4</userId>
+      <approved>0</approved>
+      <rejected>0</rejected>
+      <sentAt>2024-06-30T15:37:10.563799</sentAt>
+      <additionalText>Because its cool!</additionalText>
+    </request>
   </requests>
 </requestsList>
