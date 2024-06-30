@@ -7,9 +7,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 
-public class PetGallery extends JFrame {
+public class PetGalleryWindow extends JFrame {
 
-    public PetGallery(PostDTO post) {
+    public PetGalleryWindow(PostDTO post) {
         JFrame galleryFrame = new JFrame("Gallery");
         galleryFrame.setSize(253, 400);
         galleryFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
