@@ -188,14 +188,14 @@ public class MemberWindow extends JFrame {
             petInfoPanel.add(new JLabel("Date: " + post.getDate()));
             petInfoPanel.add(new JLabel(" "));
 
-            JLabel adopted = new JLabel("Status: " + post.getStatus());
+            JLabel status = new JLabel("Status: " + post.getStatus());
             switch (post.getStatus()) {
-                case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
-                case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
-                case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
-                case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
+                case "Adopted" -> status.setForeground(new Color(67, 177, 26));
+                case "Not adopted" -> status.setForeground(new Color(214, 116, 3));
+                case "In foster care" -> status.setForeground(new Color(9, 120, 188));
+                case "Under treatment" -> status.setForeground(new Color(221, 9, 9));
             }
-            petInfoPanel.add(adopted);
+            petInfoPanel.add(status);
 
             gbc.gridx = 1;
             petPostPanel.add(petInfoPanel, gbc);
@@ -208,6 +208,11 @@ public class MemberWindow extends JFrame {
             viewButton.setFocusPainted(false);
             viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
             viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            viewButton.addActionListener(e -> {
+                PetPostWindow petPostWindow = new PetPostWindow(post);
+                petPostWindow.setVisible(true);
+            });
 
             // set constraints for the view button
             gbc.gridx = 2;
