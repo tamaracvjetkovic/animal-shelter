@@ -73,7 +73,7 @@ public class FeedController {
         return PostList.getInstance().getById(id);
     }
 
-    public PostDTO getById(Integer id) {
+    public PostDTO getDTOById(Integer id) {
         Post post = PostList.getInstance().getById(id);
         if (post == null) {
             return null;
