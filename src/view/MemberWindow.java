@@ -217,6 +217,12 @@ public class MemberWindow extends JFrame {
 
         JPanel addPostPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addPostButton = new JButton("Add post");
+
+        addPostButton.addActionListener(e -> {
+            CreatePostDialog createPostDialog = new CreatePostDialog(this);
+            createPostDialog.setVisible(true);
+        });
+
         addPostPanel.add(addPostButton);
         postsPanel.add(addPostPanel, BorderLayout.SOUTH);
 

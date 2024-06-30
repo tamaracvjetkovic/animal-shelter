@@ -1,15 +1,14 @@
 package controller;
 
-import domain.model.Breed;
-import domain.model.Post;
-import domain.model.Animal;
-import domain.model.User;
+import domain.model.*;
 import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
 import domain.serializeddata.PostList;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FeedController {
 
@@ -91,5 +90,19 @@ public class FeedController {
     public void addComment(PostDTO postDTO, String comment) {
         // creating comment... should add saving it and serializing
         PostList.getInstance().addComment(postDTO.getId(), 0);
+    }
+
+    public String[] getBreedsForPicker() {
+        String[] breeds = new String[BreedList.getInstance().getBreeds().size()];
+        int i = 0;
+        for(Breed breed : BreedList.getInstance().getBreeds()) {
+            breeds[i++] = breed.getName();
+        }
+
+        return breeds;
+    }
+
+    public String[] getSpeciesForPicker() {
+        return new String[] {"Jezic Zje"};
     }
 }
