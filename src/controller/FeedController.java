@@ -1,10 +1,7 @@
 package controller;
 
 import domain.model.*;
-import domain.serializeddata.AnimalList;
-import domain.serializeddata.BreedList;
-import domain.serializeddata.PostList;
-import domain.serializeddata.SpeciesList;
+import domain.serializeddata.*;
 import dtos.PostDTO;
 
 import java.util.ArrayList;
@@ -165,5 +162,13 @@ public class FeedController {
 
     public Animal getAnimalFromPost(PostDTO postDTO) {
        return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
+    }
+
+    public Address getAddress(int id) {
+        return AddressList.getInstance().getAddress(id);
+    }
+
+    public Address createAddress(String city, String street, String number) {
+        return AddressList.instance.createAddress(new Address(0, city, street, Integer.parseInt(number)));
     }
 }
