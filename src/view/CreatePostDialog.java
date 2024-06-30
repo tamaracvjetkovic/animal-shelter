@@ -28,7 +28,7 @@ public class CreatePostDialog extends JDialog {
         super(parent, "Post Information", true);
         feedController = new FeedController();
         requestsController = new RequestsController();
-        setSize(500, 350);  // Adjusted size for larger text fields
+        setSize(600, 500);  // Adjusted size for larger text fields
         setLocationRelativeTo(parent);
 
         JPanel panel = new JPanel(new GridBagLayout());
