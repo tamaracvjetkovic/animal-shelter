@@ -1,3 +1,10 @@
 <speciesList>
-  <speciess/>
+  <speciess>
+    <species>
+      <id>0</id>
+      <name>Jezic Zje</name>
+      <breedsIds/>
+      <animalsIds/>
+    </species>
+  </speciess>
 </speciesList>

@@ -55,4 +55,10 @@ public class AddressList {
 
         return null;
     }
+
+    public Address createAddress(Address address) {
+        address.setId(generateId());
+        addAddress(address);
+        return address;
+    }
 }
