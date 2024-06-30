@@ -29,6 +29,12 @@ public class BreedList {
         return amountOfBreeds + 1;
     }
 
+    public Breed addBreed(String name, int speciesId){
+        Breed b = new Breed(generateId(), name, speciesId,null);
+        this.breeds.add(b);
+        return b;
+    }
+
     public static void setInstance(BreedList breeds) {
         instance = breeds;
     }
