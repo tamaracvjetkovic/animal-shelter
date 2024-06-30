@@ -18,7 +18,6 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         feedController = new FeedController();
         posts = feedController.getAllPostsWithAnimalsAndBreeds();
-
         setWindowData();
 
         // top panel with login and register buttons
@@ -26,10 +25,10 @@ public class MainWindow extends JFrame {
         Color topPanelsColor = new Color(207, 198, 176, 98);
         topPanel.setBackground(topPanelsColor);
 
-        JPanel loginPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        loginPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
-        Color loginPanelColor = new Color(181, 171, 145, 186);
-        loginPanel.setBackground(loginPanelColor);
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonsPanel.setBorder(new EmptyBorder(10, 0, 0, 0));
+        Color buttonsPanelColor = new Color(181, 171, 145, 186);
+        buttonsPanel.setBackground(buttonsPanelColor);
 
         // login button
         JButton loginButton = new JButton("Login");
@@ -43,11 +42,11 @@ public class MainWindow extends JFrame {
         registerButton.setForeground(Color.WHITE);  // Set the text color
         registerButton.setFocusPainted(false);
 
-        loginPanel.add(loginButton);
-        loginPanel.add(registerButton);
-        loginPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        buttonsPanel.add(loginButton);
+        buttonsPanel.add(registerButton);
+        buttonsPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
-        topPanel.add(loginPanel, BorderLayout.NORTH);
+        topPanel.add(buttonsPanel, BorderLayout.NORTH);
 
         // title label
         JLabel titleLabel = new JLabel("Welcome to 'Pets Feed'!", JLabel.CENTER);
