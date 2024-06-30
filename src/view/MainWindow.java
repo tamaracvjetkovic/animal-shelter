@@ -2,6 +2,7 @@ package view;
 
 import controller.FeedController;
 import dtos.PostDTO;
+import util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,18 +11,15 @@ import java.util.ArrayList;
 
 
 public class MainWindow extends JFrame {
+
     private FeedController feedController;
     private ArrayList<PostDTO> posts;
 
     public MainWindow() {
         feedController = new FeedController();
-
         posts = feedController.getAllPostsWithAnimalsAndBreeds();
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(450, 580);
-        setLayout(new BorderLayout());
-        setTitle("Homepage");
+        setWindowData();
 
         // top panel with login and register buttons
         JPanel topPanel = new JPanel(new BorderLayout());
@@ -58,6 +56,7 @@ public class MainWindow extends JFrame {
 
         topPanel.add(titleLabel, BorderLayout.CENTER);
 
+        // search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         JTextField searchField = new JTextField("Search...", 15);
@@ -70,32 +69,32 @@ public class MainWindow extends JFrame {
         // scrollable panel for pet posts
         JPanel petPanel = new JPanel();
         petPanel.setLayout(new BoxLayout(petPanel, BoxLayout.Y_AXIS));
-        Color petPanelColor = new Color(207, 198, 176, 234);
 
-        setPets(petPanel, petPanelColor);
-
+        // add pets to the scrollable panel
+        setPets(petPanel);
         JScrollPane scrollPane = new JScrollPane(petPanel);
 
         // add the scrollable panel to the frame
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        // "Pet Ambulance" label
+        // association name label
         JLabel bottomLabel = new JLabel("Animal Shelter ©", JLabel.CENTER);
         bottomLabel.setBorder(new EmptyBorder(5, 0, 8, 0));
         add(bottomLabel, BorderLayout.SOUTH);
 
-        center(this);
         setVisible(true);
 
         registerButton.addActionListener(e -> {
             this.dispose();
             RegisterWindow registerWindow = new RegisterWindow();
         });
+
         loginButton.addActionListener(e->{
             this.dispose();
             LoginWindow loginWindow = new LoginWindow();
         });
+
         searchButton.addActionListener(e -> {
             posts.clear();
             petPanel.removeAll();
@@ -106,11 +105,13 @@ public class MainWindow extends JFrame {
                 posts.addAll(feedController.getFilteredPosts(token, token, token, token));
             }
 
-            setPets(petPanel, petPanelColor);
+            setPets(petPanel);
         });
     }
 
-    private void setPets(JPanel petPanel, Color petPanelColor) {
+    private void setPets(JPanel petPanel) {
+        Color petPanelColor = new Color(207, 198, 176, 234);
+
         for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -167,14 +168,11 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private static void center(Component component) {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int w = component.getSize().width;
-        int h = component.getSize().height;
-        int x = (dim.width - w) / 2;
-        int y = (dim.height - h) / 2;
-
-        // set the new location for the component
-        component.setLocation(x, y);
+    private void setWindowData() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(450, 580);
+        setLayout(new BorderLayout());
+        setTitle("Homepage");
+        UIUtils.center(this);
     }
 }
