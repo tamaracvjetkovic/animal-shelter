@@ -246,12 +246,6 @@ public class MemberWindow extends JFrame {
 
             // "Edit" button
             JButton editButton = new JButton("Edit");
-            editButton.setFocusable(false);
-            editButton.setBackground(new Color(163, 153, 131));  // Set the background color
-            editButton.setForeground(Color.WHITE);  // Set the text color
-            editButton.setFocusPainted(false);
-            editButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-            editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             editButton.addActionListener(e -> {
                 EditPostDialog editPostDialog = new EditPostDialog(this, user, feedController.getAnimalFromPost(post), post.getId());
@@ -556,6 +550,13 @@ public class MemberWindow extends JFrame {
     public void addReplyButton(JPanel messageInfoPanel, Message message, MemberWindow memberWindow){
         messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
         JButton replyButton = new JButton("Reply");
+        replyButton.setFocusable(false);
+        replyButton.setBackground(new Color(12, 129, 213));  // Set the background color
+        replyButton.setForeground(Color.WHITE);  // Set the text color
+        replyButton.setFocusPainted(false);
+        replyButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        replyButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         replyButton.addActionListener(e -> {
             JDialog dialog = new JDialog((Frame) null, "Reply", true);
             dialog.setLayout(new BorderLayout());
