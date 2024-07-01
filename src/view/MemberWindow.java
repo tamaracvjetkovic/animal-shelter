@@ -726,8 +726,10 @@ public class MemberWindow extends JFrame {
             JPanel reqInfoPanel = new JPanel();
             reqInfoPanel.setLayout(new BoxLayout(reqInfoPanel, BoxLayout.Y_AXIS));
             reqInfoPanel.setBackground(petPanelColor);
+            reqInfoPanel.add(Box.createHorizontalGlue());
 
             JLabel type = new JLabel(request.getType().toString());
+            type.setAlignmentX(Component.CENTER_ALIGNMENT);
             switch (request.getType().toString()) {
                 case "ADOPTION" -> type.setForeground(new Color(67, 177, 26));
                 case "TEMPORARY CARE" -> type.setForeground(new Color(214, 116, 3));
@@ -737,15 +739,28 @@ public class MemberWindow extends JFrame {
             }
             reqInfoPanel.add(type);
 
+            JLabel state = new JLabel(request.getState().toString());
+            state.setAlignmentX(Component.CENTER_ALIGNMENT);
+            switch (request.getState()) {
+                case RequestState.APPROVED -> state.setForeground(new Color(45, 138, 9));
+                case RequestState.PENDING -> state.setForeground(new Color(81, 96, 220));
+                case RequestState.REJECTED -> state.setForeground(new Color(222, 41, 41));
+            }
+            reqInfoPanel.add(state);
+
             reqInfoPanel.add(new JLabel(" "));
-            reqInfoPanel.add(new JLabel("User info: "));
-            UsersList usersList = new UsersList();
-            User reqUser = usersList.getInstance().getById(request.getUserId());
-            reqInfoPanel.add(new JLabel("Name: " + reqUser.getName()));
-            reqInfoPanel.add(new JLabel("Lastname: " + reqUser.getLastname()));
-            reqInfoPanel.add(new JLabel("Email: " + reqUser.getEmail()));
-            reqInfoPanel.add(new JLabel("Date of birth: " + reqUser.getBirthDate().toString()));
-            reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
+            if (request.getAdditionalText() == null) {
+                JLabel noteLabel = new JLabel("Note: No note added!");
+                noteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                reqInfoPanel.add(noteLabel);
+            }
+            else {
+                JLabel noteLabel = new JLabel("<html><body>Note: " + request.getAdditionalText() +
+                        "</body></html>");
+                noteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                noteLabel.setPreferredSize(new Dimension(200,100));
+                reqInfoPanel.add(noteLabel);
+            }
 
             gbc.gridx = 1;
             infoPanel.add(reqInfoPanel, gbc);

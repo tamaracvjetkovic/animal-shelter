@@ -83,13 +83,17 @@ public class AnimalDialog extends javax.swing.JDialog {
         petInfoPanel.add(new JLabel("Name: " + animal.getName()));
         BreedList breedList = new BreedList();
         Breed breed = breedList.getInstance().getById(animal.getBreedId());
-        petInfoPanel.add(new JLabel("Breed: " + breed));
+        petInfoPanel.add(new JLabel("Breed: " + breed.getName()));
         petInfoPanel.add(new JLabel("Color: " + animal.getColour()));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(animal.getBorn());
         petInfoPanel.add(new JLabel("Date of birth: " + formattedDate));
-        petInfoPanel.add(new JLabel(" "));
         JLabel adopted = new JLabel("State: " + animal.getState());
+        AddressList addressList = new AddressList();
+        Address ads = addressList.getInstance().getAddress(animal.getAddressId());
+        petInfoPanel.add(new JLabel("Address: " + ads.getCity() + " " + ads.getStreet() + " " + ads.getNumber()));
+        petInfoPanel.add(new JLabel(" "));
+
         switch (animal.getState().toString()) {
             case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
             case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
