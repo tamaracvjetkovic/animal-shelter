@@ -8,7 +8,9 @@
       <birthDate>2000-01-01</birthDate>
       <accountId>1</accountId>
       <userState>MEMBER</userState>
-      <postsIds/>
+      <postsIds>
+        <int>1</int>
+      </postsIds>
       <createdPostsIds/>
     </user>
     <user>
@@ -47,8 +49,7 @@
       <userState>MEMBER</userState>
       <postsIds/>
       <createdPostsIds>
-        <null/>
-        <null/>
+        <int>7</int>
       </createdPostsIds>
     </user>
   </users>

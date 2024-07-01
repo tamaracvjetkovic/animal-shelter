@@ -121,7 +121,7 @@ public class EditPostDialog extends JDialog {
         JLabel numberLabel = new JLabel("Street Number:");
         panel.add(numberLabel, gbc);
         gbc.gridx++;
-        numberField = new JTextField(address.getNumber());
+        numberField = new JTextField(String.valueOf(address.getNumber()));
         numberField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(numberField, gbc);
 
@@ -180,5 +180,6 @@ public class EditPostDialog extends JDialog {
         panel.add(saveButton, gbc);
 
         getContentPane().add(panel, BorderLayout.CENTER);
+        this.pack();
     }
 }

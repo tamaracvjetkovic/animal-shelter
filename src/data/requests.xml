@@ -2,7 +2,7 @@
   <requests>
     <request>
       <id>1</id>
-      <state>PENDING</state>
+      <state>APPROVED</state>
       <type>ADOPTION</type>
       <userId>1</userId>
       <postId>1</postId>
@@ -60,6 +60,7 @@
       <additionalText>Because its cool!</additionalText>
     </request>
     <request>
+      <id>7</id>
       <state>APPROVED</state>
       <type>ANIMAL_REGISTRATION</type>
       <userId>4</userId>

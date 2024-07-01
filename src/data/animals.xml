@@ -6,7 +6,7 @@
       <colour>Brown</colour>
       <born>2024-06-29</born>
       <addressId>1</addressId>
-      <state>NOTADOPTED</state>
+      <state>ADOPTED</state>
       <multimedia>
         <string>src/images/pets/mali_zje.png</string>
       </multimedia>
