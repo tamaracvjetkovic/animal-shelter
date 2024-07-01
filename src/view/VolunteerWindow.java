@@ -319,9 +319,12 @@ public class VolunteerWindow extends JFrame {
         for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
+            // gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER; // Center the component
+            gbc.insets = new Insets(0, 0, 0, 0); // Padding around the component
+            gbc.fill = GridBagConstraints.NONE; // Do not resize the component
 
             // Pet image
             JLabel petImageLabel;

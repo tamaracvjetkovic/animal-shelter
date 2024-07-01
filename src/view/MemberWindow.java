@@ -192,9 +192,12 @@ public class MemberWindow extends JFrame {
         for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds(user)) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
+            // gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER; // Center the component
+            gbc.insets = new Insets(0, 0, 0, 0); // Padding around the component
+            gbc.fill = GridBagConstraints.NONE; // Do not resize the component
 
             // pet image
             JLabel petImageLabel;
@@ -325,13 +328,17 @@ public class MemberWindow extends JFrame {
 
         // third tab: My Pets
         JPanel petsAdoptedPanel = new JPanel();
+        petsAdoptedPanel.setLayout(new BoxLayout(petsAdoptedPanel, BoxLayout.Y_AXIS));
 
         for (PostDTO post : feedController.getAllPostsUserAdopted(user)) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
+            // gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER; // Center the component
+            gbc.insets = new Insets(0, 0, 0, 0); // Padding around the component
+            gbc.fill = GridBagConstraints.NONE; // Do not resize the component
 
             // pet image
             JLabel petImageLabel;
@@ -459,9 +466,12 @@ public class MemberWindow extends JFrame {
         for (PostDTO post : this.posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
+            // gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER; // Center the component
+            gbc.insets = new Insets(0, 0, 0, 0); // Padding around the component
+            gbc.fill = GridBagConstraints.NONE; // Do not resize the component
 
             // pet image
             JLabel petImageLabel;
@@ -713,9 +723,12 @@ public class MemberWindow extends JFrame {
         for (Request request : requestsController.getAllByUser(user)) {
             JPanel infoPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
+            // gbc.fill = GridBagConstraints.BOTH;
             gbc.weightx = 0.33;
             gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER; // Center the component
+            gbc.insets = new Insets(0, 0, 0, 0); // Padding around the component
+            gbc.fill = GridBagConstraints.NONE; // Do not resize the component
 
             // buttons panel
             JPanel buttonsPanel = createButtonPanel(request, requestsPanel, petPanelColor);
