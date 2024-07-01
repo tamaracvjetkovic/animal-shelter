@@ -2,13 +2,20 @@ package view;
 
 import controller.FeedController;
 import controller.RequestsController;
+import domain.enums.MessageOwner;
+import domain.model.Message;
 import domain.model.User;
+import domain.serializeddata.MessagesList;
+import domain.serializeddata.UsersList;
 import dtos.PostDTO;
 import util.UIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MemberWindow extends JFrame {
@@ -17,12 +24,14 @@ public class MemberWindow extends JFrame {
     private FeedController feedController;
     private RequestsController requestsController;
     private ArrayList<PostDTO> posts;
+    private JPanel inboxPanel;
 
     public MemberWindow(User user) {
         this.user = user;
         feedController = new FeedController();
         requestsController = new RequestsController();
         this.posts = feedController.getAllPostsWithAnimalsAndBreeds();
+        inboxPanel = new JPanel();
         setWindowData();
 
         // top panel with login and register buttons
@@ -372,9 +381,10 @@ public class MemberWindow extends JFrame {
         tabbedPane.addTab("Payments", paymentsPanel);
 
         // fifth tab: Inbox
-        JPanel inboxPanel = new JPanel();
-        inboxPanel.add(new JLabel("Inbox will be displayed here."));
-        tabbedPane.addTab("Inbox", inboxPanel);
+        //inboxPanel.add(new JLabel("Inbox will be displayed here."));
+        setInboxPanel();
+        JScrollPane scrollInboxPane = new JScrollPane(inboxPanel);
+        tabbedPane.addTab("Inbox", scrollInboxPane);
 
         // add top panel and tabbed pane to the frame
         add(topPanel, BorderLayout.NORTH);
@@ -492,5 +502,97 @@ public class MemberWindow extends JFrame {
 
             petPanel.add(petPostPanel);
         }
+    }
+
+    public void setInboxPanel() {
+        inboxPanel.removeAll();
+
+        inboxPanel.setLayout(new BoxLayout(inboxPanel, BoxLayout.Y_AXIS));
+        Color messagePanelColor = new Color(207, 198, 176, 234);
+
+        ArrayList<Message> userMessages = MessagesList.getInstance().getAll();
+
+        for (Message message : userMessages) {
+            JPanel messagePostPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 1.0;
+            gbc.weighty = 1.0;
+
+            // panel for message info
+            JPanel messageInfoPanel = new JPanel();
+            messageInfoPanel.setLayout(new BoxLayout(messageInfoPanel, BoxLayout.Y_AXIS));
+            messageInfoPanel.setBackground(messagePanelColor);
+
+            messageInfoPanel.add(new JLabel(" "));
+            messageInfoPanel.add(new JLabel("From: " + MessagesList.getInstance().messageFrom(message)));
+            messageInfoPanel.add(new JLabel("To: " + MessagesList.getInstance().messageTo(message)));
+            messageInfoPanel.add(new JLabel("Content: " + message.getText()));
+            messageInfoPanel.add(new JLabel("Sent at: " + message.getSentAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+            messageInfoPanel.add(new JLabel(" "));
+
+            if (!MessagesList.getInstance().messageFrom(message).equals("shelter")) {
+                messageInfoPanel.setAlignmentX(Component.RIGHT_ALIGNMENT); // Align components to the right
+            } else {
+                addReplyButton(messageInfoPanel, message, this);
+            }
+            gbc.gridx = 0;
+            messagePostPanel.add(messageInfoPanel, gbc);
+
+            // create a line separator - separates messages
+            JPanel lineSeparator = new JPanel();
+            lineSeparator.setBackground(Color.GRAY);
+            lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 1px, width 0 to be adjusted by layout
+            gbc.gridy = 1;
+            inboxPanel.add(lineSeparator, gbc);
+
+            messagePostPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
+            messagePostPanel.setBackground(messagePanelColor);
+
+            inboxPanel.add(messagePostPanel);
+        }
+    }
+
+    public void addReplyButton(JPanel messageInfoPanel, Message message, MemberWindow memberWindow){
+        messageInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align components to the left
+        JButton replyButton = new JButton("Reply");
+        replyButton.setFocusable(false);
+        replyButton.setBackground(new Color(12, 129, 213));  // Set the background color
+        replyButton.setForeground(Color.WHITE);  // Set the text color
+        replyButton.setFocusPainted(false);
+        replyButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        replyButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        replyButton.addActionListener(e -> {
+            JDialog dialog = new JDialog((Frame) null, "Reply", true);
+            dialog.setLayout(new BorderLayout());
+
+            JTextArea textArea = new JTextArea(5, 20);
+            dialog.add(new JScrollPane(textArea), BorderLayout.CENTER);
+
+            JButton sendButton = new JButton("Send");
+            sendButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String replyText = textArea.getText();
+                    Message newMessage = new Message(replyText, MessageOwner.MEMBER, user.getId());
+                    MessagesList.getInstance().addMessage(newMessage);
+                    memberWindow.setInboxPanel();
+                    memberWindow.revalidate();
+                    memberWindow.repaint();
+                    dialog.dispose();
+                }
+            });
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(sendButton);
+            dialog.add(buttonPanel, BorderLayout.SOUTH);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
+
+        messageInfoPanel.add(replyButton);
     }
 }

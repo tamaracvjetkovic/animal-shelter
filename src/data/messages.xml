@@ -24,5 +24,24 @@
       <owner>ANIMALSHELTER</owner>
       <userId>1</userId>
     </message>
+    <message>
+      <text>So great1</text>
+      <sentAt>2024-07-01T02:55:55.954958</sentAt>
+      <owner>MEMBER</owner>
+      <userId>1</userId>
+    </message>
+    <message>
+      <text>Thank you very much.
+I will look into it!</text>
+      <sentAt>2024-07-01T03:01:42.9150101</sentAt>
+      <owner>MEMBER</owner>
+      <userId>1</userId>
+    </message>
+    <message>
+      <text>Glad we were able to help!</text>
+      <sentAt>2024-07-01T03:03:23.9138684</sentAt>
+      <owner>ANIMALSHELTER</owner>
+      <userId>1</userId>
+    </message>
   </messages>
 </messagesList>
