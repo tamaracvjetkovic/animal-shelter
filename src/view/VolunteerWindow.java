@@ -285,13 +285,18 @@ public class VolunteerWindow extends JFrame {
         searchButton.addActionListener(e -> {
             posts.clear();
 
-            String[] tokens = searchField.getText().split(" ");
+            if(searchField.getText().equals("")) {
+                posts = feedController.getAllPostsWithAnimalsAndBreeds();
+            }
+            else {
+                String[] tokens = searchField.getText().split(" ");
 
-            for(String token : tokens) {
-                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+                for(String token : tokens) {
+                    posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+                }
             }
 
-            refreshPetsPanel();
+            refreshPetsPanelForSearch();
         });
 
         JButton addPostButton = new JButton("Add post");
@@ -654,6 +659,13 @@ public class VolunteerWindow extends JFrame {
     public void refreshPetsPanel() {
         petsPanel.removeAll();
         posts = feedController.getAllPostsWithAnimalsAndBreeds();
+        setUpPetsPanel(petsPanel);
+        petsPanel.revalidate();
+        petsPanel.repaint();
+    }
+
+    public void refreshPetsPanelForSearch() {
+        petsPanel.removeAll();
         setUpPetsPanel(petsPanel);
         petsPanel.revalidate();
         petsPanel.repaint();

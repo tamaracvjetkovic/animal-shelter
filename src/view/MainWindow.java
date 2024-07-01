@@ -117,10 +117,15 @@ public class MainWindow extends JFrame {
             posts.clear();
             petPanel.removeAll();
 
-            String[] tokens = searchField.getText().split(" ");
+            if(searchField.getText().equals("")) {
+                posts = feedController.getAllPostsWithAnimalsAndBreeds();
+            }
+            else {
+                String[] tokens = searchField.getText().split(" ");
 
-            for(String token : tokens) {
-                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+                for(String token : tokens) {
+                    posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+                }
             }
 
             setPets(petPanel);
