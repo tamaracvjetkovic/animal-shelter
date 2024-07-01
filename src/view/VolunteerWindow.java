@@ -359,7 +359,7 @@ public class VolunteerWindow extends JFrame {
             viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             viewButton.addActionListener(e -> {
-                PetPostWindow petPostWindow = new PetPostWindow(user, post);
+                PetPostWindow petPostWindow = new PetPostWindow(this,user, post);
                 petPostWindow.setVisible(true);
             });
 
@@ -594,7 +594,7 @@ public class VolunteerWindow extends JFrame {
         return panel;
     }
 
-    private void refresh() {
+    public void refresh() {
         // Clear the existing requests panel
         petsPanel.removeAll();
         requestsPanel.removeAll();

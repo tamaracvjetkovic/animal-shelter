@@ -82,4 +82,12 @@ public class UsersList {
         }
         return null;
     }
+    public User getUserTakingCareOfAnimal(Integer animalId){
+        for(User user : users){
+            if(user.getPostsIds().contains(animalId)){
+                return user;
+            }
+        }
+        return null;
+    }
 }
