@@ -3,22 +3,27 @@
     <account>
       <id>1</id>
       <username>user1</username>
-      <password>pass1</password>
+      <password>e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349</password>
     </account>
     <account>
       <id>2</id>
       <username>user2</username>
-      <password>pass2</password>
+      <password>1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9</password>
     </account>
     <account>
       <id>3</id>
       <username>user3</username>
-      <password>pass3</password>
+      <password>3acb59306ef6e660cf832d1d34c4fba3d88d616f0bb5c2a9e0f82d18ef6fc167</password>
     </account>
     <account>
       <id>4</id>
       <username>Rogan003</username>
-      <password>sifra2</password>
+      <password>1e43e81db0bfc9611d20a93e12aa920964632b789640e56f78abe5112477bf1b</password>
+    </account>
+    <account>
+      <id>5</id>
+      <username>user5</username>
+      <password>0eeac8171768d0cdef3a20fee6db4362d019c91e10662a6b55186336e1a42778</password>
     </account>
   </accounts>
 </accountsList>

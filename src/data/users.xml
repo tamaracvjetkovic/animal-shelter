@@ -52,5 +52,16 @@
         <int>7</int>
       </createdPostsIds>
     </user>
+    <user>
+      <id>5</id>
+      <name>User</name>
+      <lastname>New</lastname>
+      <email>usernew@gmail.com</email>
+      <birthDate>1930-02-03</birthDate>
+      <accountId>5</accountId>
+      <userState>MEMBER</userState>
+      <postsIds/>
+      <createdPostsIds/>
+    </user>
   </users>
 </usersList>

@@ -28,6 +28,7 @@ public class User {
 		this.accountId = accountId;
 		this.userState = state;
 		this.postsIds = new ArrayList<>();
+		this.createdPostsIds = new ArrayList<>();
 	}
 	public User(){};
 	public Integer getId() {

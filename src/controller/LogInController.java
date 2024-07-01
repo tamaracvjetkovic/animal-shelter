@@ -4,12 +4,13 @@ import domain.enums.UserState;
 import domain.model.User;
 import domain.serializeddata.AccountsList;
 import domain.serializeddata.UsersList;
+import util.SecurityUtils;
 
 import java.util.Date;
 
 public class LogInController {
     public User logIn(String username, String password) {
-        return UsersList.getInstance().getByUsernameAndPassword(username, password);
+        return UsersList.getInstance().getByUsernameAndPassword(username, SecurityUtils.generatePasswordHash(password));
     }
 
     public User signUp(String name, String lastname, String email, Date birthDate, String username, String password){
@@ -18,11 +19,12 @@ public class LogInController {
             return null;    //user already exists
         }
 
-        user = UsersList.getInstance().createUser(name,lastname,email, birthDate,username,password,UserState.MEMBER);
+        user = UsersList.getInstance().createUser(name,lastname,email, birthDate,username,
+                SecurityUtils.generatePasswordHash(password),UserState.MEMBER);
         return user;
     }
 
     public void changePassword(User user, String newPassword) {
-        AccountsList.getInstance().changePassword(user.getAccountId(), newPassword);
+        AccountsList.getInstance().changePassword(user.getAccountId(), SecurityUtils.generatePasswordHash(newPassword));
     }
 }
