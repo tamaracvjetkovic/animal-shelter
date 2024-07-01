@@ -2,7 +2,7 @@
   <requests>
     <request>
       <id>1</id>
-      <state>APPROVED</state>
+      <state>PENDING</state>
       <type>ADOPTION</type>
       <userId>1</userId>
       <postId>1</postId>
@@ -51,77 +51,15 @@
       <sentAt>2024-06-30T14:00:00</sentAt>
     </request>
     <request>
+      <id>6</id>
       <state>PENDING</state>
-      <type>VOLUNTEERING</type>
-      <userId>4</userId>
-      <approved/>
-      <rejected/>
-      <sentAt>2024-06-30T15:37:10.563799</sentAt>
-      <additionalText>Because its cool!</additionalText>
-    </request>
-    <request>
-      <id>7</id>
-      <state>APPROVED</state>
-      <type>ANIMAL_REGISTRATION</type>
-      <userId>4</userId>
-      <approved/>
-      <rejected/>
-      <sentAt>2024-06-30T19:00:13.211383</sentAt>
-      <updatedAnimal>
-        <id>6</id>
-        <name>Jezic Zje</name>
-        <colour>Pink</colour>
-        <born>2022-10-20</born>
-        <addressId>0</addressId>
-        <state>NOTADOPTED</state>
-        <multimedia>
-          <string>src/images/pets/mali_zje.png</string>
-        </multimedia>
-        <breedId>1</breedId>
-        <speciesId>0</speciesId>
-      </updatedAnimal>
-    </request>
-    <request>
-      <state>APPROVED</state>
-      <type>ANIMAL_REGISTRATION</type>
-      <userId>4</userId>
-      <approved/>
-      <rejected/>
-      <sentAt>2024-06-30T23:30:42.318526</sentAt>
-      <updatedAnimal>
-        <id>7</id>
-        <name>ZicZic</name>
-        <colour>Pink</colour>
-        <born>2023-04-10</born>
-        <addressId>1</addressId>
-        <state>NOTADOPTED</state>
-        <multimedia>
-          <string>src/images/pets/mali_zje.png</string>
-        </multimedia>
-        <breedId>0</breedId>
-        <speciesId>0</speciesId>
-      </updatedAnimal>
-    </request>
-    <request>
-      <state>APPROVED</state>
-      <type>ANIMAL_REGISTRATION</type>
+      <type>ADOPTION</type>
       <userId>2</userId>
+      <postId>1</postId>
       <approved/>
       <rejected/>
-      <sentAt>2024-07-01T01:00:51.040457</sentAt>
-      <updatedAnimal>
-        <id>9</id>
-        <name>Linda</name>
-        <colour>Yellow</colour>
-        <born>2019-01-17</born>
-        <addressId>2</addressId>
-        <state>NOTADOPTED</state>
-        <multimedia>
-          <string>src/images/pets/mali_zje.png</string>
-        </multimedia>
-        <breedId>2</breedId>
-        <speciesId>2</speciesId>
-      </updatedAnimal>
+      <sentAt>2024-07-01T02:23:35.070766</sentAt>
+      <additionalText></additionalText>
     </request>
   </requests>
 </requestsList>

@@ -23,6 +23,7 @@ public class Request {
 
     public Request(Integer id, RequestState state, RequestType type, Integer userId, Integer postId,
                    Animal animal, String additionalText) {
+        this.id = id;
         this.state = state;
         this.type = type;
         this.userId = userId;
