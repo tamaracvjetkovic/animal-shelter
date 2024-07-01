@@ -1,9 +1,6 @@
 package controller;
 
-import domain.enums.AnimalState;
-import domain.enums.RequestState;
-import domain.enums.RequestType;
-import domain.enums.UserState;
+import domain.enums.*;
 import domain.model.*;
 import domain.serializeddata.*;
 
@@ -72,8 +69,7 @@ public class RequestsController {
 
     //APPROVING AND REJECTING OF REQUESTS
     public void requestRejected(Request req) {
-        req.setState(RequestState.REJECTED);            //request rejected
-        //TO DO: send message to user that request was rejected
+        RequestsList.getInstance().requestRejected(req);
     }
 
     public void adoptionApproved(Request req) {

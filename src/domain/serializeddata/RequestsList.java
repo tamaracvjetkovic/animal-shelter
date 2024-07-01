@@ -1,12 +1,11 @@
 package domain.serializeddata;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import domain.enums.MessageOwner;
 import domain.enums.RequestState;
 import domain.enums.RequestType;
 import domain.enums.UserState;
-import domain.model.Post;
-import domain.model.Request;
-import domain.model.User;
+import domain.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class RequestsList {
             if (request.getType() == RequestType.VOLUNTEERING && request.getState() == RequestState.PENDING && request.getSentAt() != null) {
                 if (request.getSentAt().isBefore(threeDaysAgo)) {
                     if (request.getRejected().size() > request.getApproved().size() || request.getApproved().size() < 3) {
-                        request.setState(RequestState.REJECTED);
+                        requestRejected(request);
                     } else {
                         request.setState(RequestState.APPROVED);
                         User user = UsersList.getInstance().getById(request.getUserId());
@@ -88,6 +87,37 @@ public class RequestsList {
                 }
             }
         }
+    }
+    public void requestRejected(Request req) {
+        System.out.println("Odbijen zahtev");
+        req.setState(RequestState.REJECTED);            //request rejected
+        //send rejection message
+        Post post = PostList.getInstance().getById(req.getPostId());
+        Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+        String animalName = animal.getName();
+        String text = "";
+
+        switch (req.getType()) {
+            case ADOPTION:
+                text = "Your request for adoption of animal "+animalName+" was denied.";
+                break;
+            case TEMPORARY_CARE:
+                text = "Your request for temporary care of animal "+animalName+" was denied.";
+                break;
+            case VOLUNTEERING:
+                text = "Your request for volunteering was denied.";
+                break;
+            case ANIMAL_REGISTRATION:
+                text = "Your request for registration of animal "+animalName+" was denied.";
+                break;
+            case POST_EDITING:
+                text = "Your request for editing post of animal "+animalName+" was denied.";
+                break;
+            default:
+                System.out.println("Nije dobar tip zahteva u requestRejected.");
+        }
+        Message newMessage = new Message(text, MessageOwner.ANIMALSHELTER, req.getUserId());
+        MessagesList.getInstance().addMessage(newMessage);
     }
     public ArrayList<Request> getPendingByUser(User user){
         ArrayList<Request> reqs = new ArrayList<Request>();
