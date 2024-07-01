@@ -24,6 +24,7 @@ public class VolunteerWindow extends JFrame {
     private FeedController feedController;
     private RequestsController requestsController;
     private User user;
+    private JTabbedPane tabbedPane;
     private JPanel requestsPanel;
     private JPanel petsPanel;
     private JPanel messagesPanel;
@@ -116,7 +117,7 @@ public class VolunteerWindow extends JFrame {
         // Add the top panel to the top of the frame
         add(topPanel, BorderLayout.NORTH);
         // Create the tabbed pane
-        JTabbedPane tabbedPane = new JTabbedPane();
+        this.tabbedPane = new JTabbedPane();
         // Create tabs with panels
         petsPanel = createTabPanel("Pets Feed");
         setUpPetsPanel(petsPanel);
@@ -531,7 +532,8 @@ public class VolunteerWindow extends JFrame {
         reqInfoPanel.add(new JLabel("Date of birth: " + formattedDate));
         reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
         if (request.getType() == RequestType.VOLUNTEERING || request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
-            reqInfoPanel.add(new JLabel("User's note: " + request.getAdditionalText()));
+            String note = request.getAdditionalText();
+            reqInfoPanel.add(new JLabel("User's note: " + (note != null ? note : "No note!")));
         }
 
         return reqInfoPanel;
@@ -612,6 +614,7 @@ public class VolunteerWindow extends JFrame {
                 requestsController.postEditingApproved(r);
             }
             JOptionPane.showMessageDialog(panel, "Success!");
+            tabbedPane.setSelectedIndex(0);
             refreshPetsPanel();
             refreshRequestsPanel();
         });
