@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -108,17 +110,6 @@ public class MemberWindow extends JFrame {
         volunteerRequestButton.setFocusable(false);
         volunteerRequestButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        volunteerRequestButton.addActionListener(e -> {
-            VolunteeringRequestDialog volunteeringRequestDialog = new VolunteeringRequestDialog(this);
-            volunteeringRequestDialog.setVisible(true);
-            String reason = volunteeringRequestDialog.getText();
-
-            if(reason != null) {
-                // add text to a request?
-                requestsController.requestToBeVolunteer(this.user, reason);
-            }
-        });
-
         rightPanel.add(viewProfileButton);
         rightPanel.add(volunteerRequestButton);
 
@@ -160,6 +151,8 @@ public class MemberWindow extends JFrame {
         searchButton.setBorder(new EmptyBorder(2, 10, 5, 10));
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        JPanel requestsPanel = new JPanel();
+
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
@@ -178,17 +171,13 @@ public class MemberWindow extends JFrame {
                 }
             }
 
-            setPetsPanel(petPanel, petPanelColor, searchPanel);
+            setPetsPanel(petPanel, petPanelColor, searchPanel, requestsPanel);
         });
 
-        setPetsPanel(petPanel, petPanelColor, searchPanel);
+        setPetsPanel(petPanel, petPanelColor, searchPanel, requestsPanel);
 
         JScrollPane scrollPane = new JScrollPane(petPanel);
         tabbedPane.addTab("Pets", scrollPane);
-
-
-
-
 
         // second tab: My posts
         JPanel postsPanel = new JPanel();
@@ -196,11 +185,6 @@ public class MemberWindow extends JFrame {
 
         JPanel addPostPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton addPostButton = new JButton("Add post");
-
-        addPostButton.addActionListener(e -> {
-            CreatePostDialog createPostDialog = new CreatePostDialog(this, user);
-            createPostDialog.setVisible(true);
-        });
 
         addPostPanel.add(addPostButton);
         postsPanel.add(addPostPanel, BorderLayout.SOUTH);
@@ -268,6 +252,7 @@ public class MemberWindow extends JFrame {
             editButton.addActionListener(e -> {
                 EditPostDialog editPostDialog = new EditPostDialog(this, user, feedController.getAnimalFromPost(post), post.getId());
                 editPostDialog.setVisible(true);
+                this.updateRequests(requestsPanel, petPanelColor);
             });
 
             // set constraints for the view button
@@ -301,105 +286,32 @@ public class MemberWindow extends JFrame {
 
 
 
-
         // second tab: My requests
-        JPanel requestsPanel = new JPanel();
         requestsPanel.setLayout(new BoxLayout(requestsPanel, BoxLayout.Y_AXIS));
 
-        for (Request request : requestsController.getAllByUser(user)) {
-            JPanel infoPanel = new JPanel(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.BOTH;
-            gbc.weightx = 0.33;
-            gbc.weighty = 1.0;
-
-            // buttons panel
-            JPanel buttonsPanel = createButtonPanel(request);
-            gbc.gridx = 0;
-            infoPanel.add(buttonsPanel, gbc);
-
-            // panel for pet info
-            JPanel reqInfoPanel = new JPanel();
-            reqInfoPanel.setLayout(new BoxLayout(reqInfoPanel, BoxLayout.Y_AXIS));
-            reqInfoPanel.setBackground(petPanelColor);
-
-            JLabel type = new JLabel(request.getType().toString());
-            switch (request.getType().toString()) {
-                case "ADOPTION" -> type.setForeground(new Color(67, 177, 26));
-                case "TEMPORARY CARE" -> type.setForeground(new Color(214, 116, 3));
-                case "VOLUNTEERING" -> type.setForeground(new Color(9, 120, 188));
-                case "ANIMAL REGISTRATION" -> type.setForeground(new Color(221, 9, 9));
-                case "POST EDITING" -> type.setForeground(new Color(128, 0, 228));
-            }
-            reqInfoPanel.add(type);
-
-            reqInfoPanel.add(new JLabel(" "));
-            reqInfoPanel.add(new JLabel("User info: "));
-            UsersList usersList = new UsersList();
-            User reqUser = usersList.getInstance().getById(request.getUserId());
-            reqInfoPanel.add(new JLabel("Name: " + reqUser.getName()));
-            reqInfoPanel.add(new JLabel("Lastname: " + reqUser.getLastname()));
-            reqInfoPanel.add(new JLabel("Email: " + reqUser.getEmail()));
-            reqInfoPanel.add(new JLabel("Date of birth: " + reqUser.getBirthDate().toString()));
-            reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
-
-            gbc.gridx = 1;
-            infoPanel.add(reqInfoPanel, gbc);
-            JButton viewButton = new JButton("View animal");
-            viewButton.setFocusable(false);
-            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
-            viewButton.setForeground(Color.WHITE);  // Set the text color
-            viewButton.setFocusPainted(false);
-            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            viewButton.addActionListener(e -> {
-                if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
-                    PostDTO post = feedController.getDTOById(request.getPostId());
-                    PostDialog postDialog = new PostDialog(this, post);
-                } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
-                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
-                } else if (request.getType() == RequestType.POST_EDITING) {
-                    PostDTO post = feedController.getDTOById(request.getPostId());
-                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
-                }
-            });
-
-            if(request.getType() == RequestType.VOLUNTEERING){
-                viewButton.disable();
-                viewButton.setForeground(new Color(0,0,0,0));
-            }
-            // set constraints for the view button
-            gbc.gridx = 2;
-            gbc.gridy = 0;
-            gbc.weightx = 0.0;
-            gbc.weighty = 0.0;
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
-
-            infoPanel.add(viewButton, gbc);
-
-            // create a line separator - separates pets
-            JPanel lineSeparator = new JPanel();
-            lineSeparator.setBackground(Color.GRAY);
-            lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 2px, width 0 to be adjusted by layout
-            gbc.gridy = 1;
-            requestsPanel.add(lineSeparator, gbc);
-
-            infoPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
-            infoPanel.setBackground(new Color(207, 198, 176, 234));
-
-            requestsPanel.add(infoPanel);
-        }
+        updateRequests(requestsPanel, petPanelColor);
 
         JScrollPane scrollRequestsPanel = new JScrollPane(requestsPanel);
 
         tabbedPane.addTab("My requests", scrollRequestsPanel);
 
+        volunteerRequestButton.addActionListener(e -> {
+            VolunteeringRequestDialog volunteeringRequestDialog = new VolunteeringRequestDialog(this);
+            volunteeringRequestDialog.setVisible(true);
+            String reason = volunteeringRequestDialog.getText();
 
+            if(reason != null) {
+                // add text to a request?
+                requestsController.requestToBeVolunteer(this.user, reason);
+                this.updateRequests(requestsPanel, petPanelColor);
+            }
+        });
 
-
-
-
+        addPostButton.addActionListener(e -> {
+            CreatePostDialog createPostDialog = new CreatePostDialog(this, user);
+            createPostDialog.setVisible(true);
+            this.updateRequests(requestsPanel, petPanelColor);
+        });
 
 
 
@@ -541,7 +453,7 @@ public class MemberWindow extends JFrame {
         UIUtils.center(this);
     }
 
-    private void setPetsPanel(JPanel petPanel, Color petPanelColor, JPanel searchPanel) {
+    private void setPetsPanel(JPanel petPanel, Color petPanelColor, JPanel searchPanel, JPanel requestsPanel) {
         petPanel.add(searchPanel, BorderLayout.SOUTH);
 
         for (PostDTO post : this.posts) {
@@ -607,6 +519,13 @@ public class MemberWindow extends JFrame {
             viewButton.addActionListener(e -> {
                 PetPostWindow petPostWindow = new PetPostWindow(this,user, post);
                 petPostWindow.setVisible(true);
+
+                petPostWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        updateRequests(requestsPanel, petPanelColor);
+                    }
+                });
             });
 
             // set constraints for the view button
@@ -725,7 +644,7 @@ public class MemberWindow extends JFrame {
         messageInfoPanel.add(replyButton);
     }
 
-    private JPanel createButtonPanel(Request r) {
+    private JPanel createButtonPanel(Request r, JPanel requestsPanel, Color color) {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -765,6 +684,7 @@ public class MemberWindow extends JFrame {
 
             if (result == JOptionPane.YES_OPTION) {
                 requestsController.deleteRequest(r.getId());
+                this.updateRequests(requestsPanel, color);
             }
         });
 
@@ -785,5 +705,94 @@ public class MemberWindow extends JFrame {
         panel.add(deleteButton, gbc);
 
         return panel;
+    }
+
+    public void updateRequests(JPanel requestsPanel, Color petPanelColor) {
+        requestsPanel.removeAll();
+
+        for (Request request : requestsController.getAllByUser(user)) {
+            JPanel infoPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 0.33;
+            gbc.weighty = 1.0;
+
+            // buttons panel
+            JPanel buttonsPanel = createButtonPanel(request, requestsPanel, petPanelColor);
+            gbc.gridx = 0;
+            infoPanel.add(buttonsPanel, gbc);
+
+            // panel for pet info
+            JPanel reqInfoPanel = new JPanel();
+            reqInfoPanel.setLayout(new BoxLayout(reqInfoPanel, BoxLayout.Y_AXIS));
+            reqInfoPanel.setBackground(petPanelColor);
+
+            JLabel type = new JLabel(request.getType().toString());
+            switch (request.getType().toString()) {
+                case "ADOPTION" -> type.setForeground(new Color(67, 177, 26));
+                case "TEMPORARY CARE" -> type.setForeground(new Color(214, 116, 3));
+                case "VOLUNTEERING" -> type.setForeground(new Color(9, 120, 188));
+                case "ANIMAL REGISTRATION" -> type.setForeground(new Color(221, 9, 9));
+                case "POST EDITING" -> type.setForeground(new Color(128, 0, 228));
+            }
+            reqInfoPanel.add(type);
+
+            reqInfoPanel.add(new JLabel(" "));
+            reqInfoPanel.add(new JLabel("User info: "));
+            UsersList usersList = new UsersList();
+            User reqUser = usersList.getInstance().getById(request.getUserId());
+            reqInfoPanel.add(new JLabel("Name: " + reqUser.getName()));
+            reqInfoPanel.add(new JLabel("Lastname: " + reqUser.getLastname()));
+            reqInfoPanel.add(new JLabel("Email: " + reqUser.getEmail()));
+            reqInfoPanel.add(new JLabel("Date of birth: " + reqUser.getBirthDate().toString()));
+            reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
+
+            gbc.gridx = 1;
+            infoPanel.add(reqInfoPanel, gbc);
+            JButton viewButton = new JButton("View animal");
+            viewButton.setFocusable(false);
+            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            viewButton.setForeground(Color.WHITE);  // Set the text color
+            viewButton.setFocusPainted(false);
+            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            viewButton.addActionListener(e -> {
+                if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    PostDialog postDialog = new PostDialog(this, post);
+                } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
+                } else if (request.getType() == RequestType.POST_EDITING) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
+                }
+            });
+
+            if(request.getType() == RequestType.VOLUNTEERING){
+                viewButton.disable();
+                viewButton.setForeground(new Color(0,0,0,0));
+            }
+            // set constraints for the view button
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            gbc.weightx = 0.0;
+            gbc.weighty = 0.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+            infoPanel.add(viewButton, gbc);
+
+            // create a line separator - separates pets
+            JPanel lineSeparator = new JPanel();
+            lineSeparator.setBackground(Color.GRAY);
+            lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 2px, width 0 to be adjusted by layout
+            gbc.gridy = 1;
+            requestsPanel.add(lineSeparator, gbc);
+
+            infoPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
+            infoPanel.setBackground(new Color(207, 198, 176, 234));
+
+            requestsPanel.add(infoPanel);
+        }
     }
 }
