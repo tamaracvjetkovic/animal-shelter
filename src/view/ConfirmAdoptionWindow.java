@@ -20,7 +20,7 @@ public class ConfirmAdoptionWindow extends JFrame {
     private RequestsController requestsController;
     private FeedController feedController;
 
-    public ConfirmAdoptionWindow(User user, PostDTO post) {
+    public ConfirmAdoptionWindow(Frame parent,User user, PostDTO post) {
         requestsController = new RequestsController();
         feedController = new FeedController();
         setWindowData();
@@ -85,19 +85,26 @@ public class ConfirmAdoptionWindow extends JFrame {
                 if (adoptRadioButton.isSelected()) {
                     if(user.getUserState() == UserState.MEMBER){
                         requestsController.requestAnimalAdoption(user, currentPost, reason);
+                        showMessageDialog(null, "Request for adoption is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     } else if(user.getUserState() == UserState.VOLUNTEER){
                         requestsController.adopt(user, currentPost);
+                        showMessageDialog(null, "Adoption was successful :)");
+
+                        disposeAndRefresh(parent);
                     }
-                    showMessageDialog(null, "Request for adoption is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
+
                     dispose();
                 }
                 else {
                     if(user.getUserState() == UserState.MEMBER){
                         requestsController.requestAnimalTemporaryCare(user, currentPost, reason);
+                        showMessageDialog(null, "Request for temporary care is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
                     } else if(user.getUserState() == UserState.VOLUNTEER){
                         requestsController.fosterCare(user, currentPost);
+                        showMessageDialog(null, "Temporary care was successful :)");
+                        disposeAndRefresh(parent);
                     }
-                    showMessageDialog(null, "Request for temporary care is sent!\nVolunteers will review your request as soon as possible!\n\nThank you for considering this little buddy! :)");
+
                     dispose();
                 }
 
@@ -140,5 +147,15 @@ public class ConfirmAdoptionWindow extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+    }
+    public void disposeAndRefresh(Frame parent){
+        if (parent instanceof PetPostWindow) {
+            Frame gparent = ((PetPostWindow) parent).parent;
+            if(gparent instanceof VolunteerWindow){
+                VolunteerWindow volunteerWindow = (VolunteerWindow) gparent;
+                volunteerWindow.refreshPetsPanel();     //refresh petspanel in volunteer window
+            }
+            ((PetPostWindow) parent).dispose();     //close petpostwindow
+        }
     }
 }

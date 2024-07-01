@@ -27,8 +27,10 @@ public class PetPostWindow extends JFrame {
     private FeedController feedController;
     int likes;
     JPanel commentsPanel;
+    public Frame parent;
 
     public PetPostWindow(Frame parent,User user, PostDTO post) {
+        this.parent = parent;
         feedController = new FeedController();
         setWindowData(post);
         // Top panel for pet name and breed
@@ -229,7 +231,7 @@ public class PetPostWindow extends JFrame {
         adoptButton.setBorder(new EmptyBorder(6, 11, 6, 11));
         adoptButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         adoptButton.addActionListener(e -> {
-            ConfirmAdoptionWindow confirmAdoptionWIndow = new ConfirmAdoptionWindow(user, post);
+            ConfirmAdoptionWindow confirmAdoptionWIndow = new ConfirmAdoptionWindow(this,user, post);
         });
         if (!post.getStatus().equalsIgnoreCase("Not adopted")) {
             adoptButton.setEnabled(false);
