@@ -1,12 +1,18 @@
 package view;
 
+import domain.model.Address;
 import domain.model.Animal;
 import domain.model.Breed;
+import domain.model.Post;
+import domain.serializeddata.AddressList;
+import domain.serializeddata.AnimalList;
 import domain.serializeddata.BreedList;
+import domain.serializeddata.PostList;
 import dtos.PostDTO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 
 public class AnimalDialog extends javax.swing.JDialog {
     public AnimalDialog(Frame parent, Animal animal, PostDTO post) {
@@ -79,9 +85,18 @@ public class AnimalDialog extends javax.swing.JDialog {
         Breed breed = breedList.getInstance().getById(animal.getBreedId());
         petInfoPanel.add(new JLabel("Breed: " + breed));
         petInfoPanel.add(new JLabel("Color: " + animal.getColour()));
-        petInfoPanel.add(new JLabel("Date of birth: " + animal.getBorn().toString()));
-        petInfoPanel.add(new JLabel("State: " +animal.getState()));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(animal.getBorn());
+        petInfoPanel.add(new JLabel("Date of birth: " + formattedDate));
         petInfoPanel.add(new JLabel(" "));
+        JLabel adopted = new JLabel("State: " + animal.getState());
+        switch (animal.getState().toString()) {
+            case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
+            case "Not adopted" -> adopted.setForeground(new Color(214, 116, 3));
+            case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
+            case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
+        }
+        petInfoPanel.add(adopted);
 
         gbc.gridx = 1;
         panel.add(petInfoPanel, gbc);
@@ -145,7 +160,14 @@ public class AnimalDialog extends javax.swing.JDialog {
         petInfoPanel.add(new JLabel("Name: " + post.getName()));
         petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
         petInfoPanel.add(new JLabel("Color: " + post.getColor()));
-        petInfoPanel.add(new JLabel("Date: " + post.getDate()));
+        petInfoPanel.add(new JLabel("Date of birth: " + post.getDate()));
+        PostList postList = new PostList();
+        Post p = postList.getInstance().getById(post.getId());
+        AnimalList animalList = new AnimalList();
+        Animal a = animalList.getInstance().getAnimal(p.getAnimalId());
+        AddressList addressList = new AddressList();
+        Address ads = addressList.getInstance().getAddress(a.getAddressId());
+        petInfoPanel.add(new JLabel("Address: " + ads.getCity() + " " + ads.getStreet() + " " + ads.getNumber()));
         petInfoPanel.add(new JLabel(" "));
 
         JLabel adopted = new JLabel("Status: " + post.getStatus());
