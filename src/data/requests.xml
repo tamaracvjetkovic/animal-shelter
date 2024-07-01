@@ -61,5 +61,39 @@
       <sentAt>2024-07-01T02:23:35.070766</sentAt>
       <additionalText></additionalText>
     </request>
+    <request>
+      <id>7</id>
+      <state>PENDING</state>
+      <type>ADOPTION</type>
+      <userId>4</userId>
+      <postId>5</postId>
+      <approved/>
+      <rejected/>
+      <sentAt>2024-07-01T13:06:04.869524</sentAt>
+      <additionalText>Bocko is sooo nice and looks like a good boy</additionalText>
+    </request>
+    <request>
+      <id>8</id>
+      <state>PENDING</state>
+      <type>POST_EDITING</type>
+      <userId>4</userId>
+      <postId>5</postId>
+      <approved/>
+      <rejected/>
+      <sentAt>2024-07-01T13:26:55.135318</sentAt>
+      <updatedAnimal>
+        <id>0</id>
+        <name>Bocko</name>
+        <colour>Brownn</colour>
+        <born>2022-06-21</born>
+        <addressId>2</addressId>
+        <state>NOTADOPTED</state>
+        <multimedia>
+          <string>src/images/pets/mali_zje.png</string>
+        </multimedia>
+        <breedId>1</breedId>
+        <speciesId>1</speciesId>
+      </updatedAnimal>
+    </request>
   </requests>
 </requestsList>

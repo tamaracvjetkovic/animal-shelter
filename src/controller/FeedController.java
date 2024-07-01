@@ -177,6 +177,10 @@ public class FeedController {
        return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
     }
 
+    public Animal getAnimalFromPostId(int postId) {
+        return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postId).getAnimalId());
+    }
+
     public Address getAddress(int id) {
         return AddressList.getInstance().getAddress(id);
     }
