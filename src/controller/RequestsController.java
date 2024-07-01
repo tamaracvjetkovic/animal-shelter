@@ -161,8 +161,8 @@ public class RequestsController {
         AnimalList animalList = AnimalList.getInstance();
         a.setId(animalList.getInstance().generateId());
         AnimalList.getInstance().addAnimal(a);     //create animal
-        PostList.getInstance().createPost(req.getUpdatedAnimal().getId()); // create post for animal
-        user.addCreatedPostId(req.getPostId());            //post added to users created posts
+        Post p = PostList.getInstance().createPost(req.getUpdatedAnimal().getId()); // create post for animal
+        user.addCreatedPostId(p.getId());            //post added to users created posts
 
     }
     public void animalRegistration(User user, String name, String color, Date born, Address address, AnimalState state, ArrayList<String> multimedia, Integer breedId, Integer speciesId){
