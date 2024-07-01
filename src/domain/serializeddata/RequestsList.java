@@ -91,22 +91,21 @@ public class RequestsList {
     public void requestRejected(Request req) {
         req.setState(RequestState.REJECTED);            //request rejected
         //send rejection message
-        Post post = PostList.getInstance().getById(req.getPostId());
-        String animalName;
-        if(req.getType() == RequestType.ANIMAL_REGISTRATION) {
-            animalName = "";
-        }else{
-            Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
-            animalName = animal.getName();
-        }
-
         String text = "";
-
+        Post post;
+        String animalName;
+        Animal animal;
         switch (req.getType()) {
             case ADOPTION:
+                post = PostList.getInstance().getById(req.getPostId());
+                animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+                animalName = animal.getName();
                 text = "Your request for adoption of animal "+animalName+" was denied.";
                 break;
             case TEMPORARY_CARE:
+                post = PostList.getInstance().getById(req.getPostId());
+                animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+                animalName = animal.getName();
                 text = "Your request for temporary care of animal "+animalName+" was denied.";
                 break;
             case VOLUNTEERING:
@@ -116,6 +115,9 @@ public class RequestsList {
                 text = "Your request for registration of animal was denied.";
                 break;
             case POST_EDITING:
+                post = PostList.getInstance().getById(req.getPostId());
+                animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+                animalName = animal.getName();
                 text = "Your request for editing post of animal "+animalName+" was denied.";
                 break;
             default:
