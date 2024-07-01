@@ -27,6 +27,7 @@ public class VolunteerWindow extends JFrame {
     private JPanel requestsPanel;
     private JPanel petsPanel;
     private JPanel messagesPanel;
+    private ArrayList<PostDTO> posts;
 
     public VolunteerWindow(User user) {
         // Set the title of the frame
@@ -34,6 +35,7 @@ public class VolunteerWindow extends JFrame {
         feedController = new FeedController();
         requestsController = new RequestsController();
         this.user = user;
+        this.posts = feedController.getAllPostsWithAnimalsAndBreeds();
         // Set default close operation
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -280,6 +282,17 @@ public class VolunteerWindow extends JFrame {
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
+        searchButton.addActionListener(e -> {
+            posts.clear();
+
+            String[] tokens = searchField.getText().split(" ");
+
+            for(String token : tokens) {
+                posts.addAll(feedController.getFilteredPosts(token, token, token, token));
+            }
+
+            refreshPetsPanel();
+        });
 
         JButton addPostButton = new JButton("Add post");
         addPostButton.addActionListener(e -> {
@@ -299,7 +312,7 @@ public class VolunteerWindow extends JFrame {
 
         petPanel.add(searchPanel, BorderLayout.SOUTH);
 
-        for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds()) {
+        for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
@@ -592,8 +605,8 @@ public class VolunteerWindow extends JFrame {
                 requestsController.postEditingApproved(r);
             }
             JOptionPane.showMessageDialog(panel, "Success!");
-            refreshRequestsPanel();
             refreshPetsPanel();
+            refreshRequestsPanel();
         });
 
         // Create the "Reject" button
