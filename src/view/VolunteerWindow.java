@@ -611,4 +611,24 @@ public class VolunteerWindow extends JFrame {
         messagesPanel.revalidate();
         messagesPanel.repaint();
     }
+    public void refreshPetsPanel() {
+        petsPanel.removeAll();
+        setUpPetsPanel(petsPanel);
+        petsPanel.revalidate();
+        petsPanel.repaint();
+    }
+
+    public void refreshRequestsPanel() {
+        requestsPanel.removeAll();
+        setUpRequestsPanel(requestsPanel);
+        requestsPanel.revalidate();
+        requestsPanel.repaint();
+    }
+
+    public void refreshInboxPanel() {
+        messagesPanel.removeAll();
+        setUpInboxPanel(messagesPanel);
+        messagesPanel.revalidate();
+        messagesPanel.repaint();
+    }
 }
