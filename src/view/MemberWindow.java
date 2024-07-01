@@ -3,7 +3,9 @@ package view;
 import controller.FeedController;
 import controller.RequestsController;
 import domain.enums.MessageOwner;
+import domain.enums.RequestType;
 import domain.model.Message;
+import domain.model.Request;
 import domain.model.User;
 import domain.serializeddata.MessagesList;
 import domain.serializeddata.UsersList;
@@ -178,6 +180,10 @@ public class MemberWindow extends JFrame {
         JScrollPane scrollPane = new JScrollPane(petPanel);
         tabbedPane.addTab("Pets", scrollPane);
 
+
+
+
+        /*
         // second tab: My posts
         JPanel postsPanel = new JPanel();
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
@@ -282,8 +288,124 @@ public class MemberWindow extends JFrame {
         }
 
         tabbedPane.addTab("Posts", postsPanel);
+        */
 
-        // third tab: Pets I adopted
+
+
+
+
+
+
+        // second tab: My requests
+        JPanel requestsPanel = new JPanel();
+        requestsPanel.setLayout(new BoxLayout(requestsPanel, BoxLayout.Y_AXIS));
+
+        for (Request request : requestsController.getPendingByUser(user)) {
+            JPanel infoPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.weightx = 0.33;
+            gbc.weighty = 1.0;
+
+            // buttons panel
+            JPanel buttonsPanel = createButtonPanel(request);
+            gbc.gridx = 0;
+            infoPanel.add(buttonsPanel, gbc);
+
+            // panel for pet info
+            JPanel reqInfoPanel = new JPanel();
+            reqInfoPanel.setLayout(new BoxLayout(reqInfoPanel, BoxLayout.Y_AXIS));
+            reqInfoPanel.setBackground(petPanelColor);
+
+            JLabel type = new JLabel(request.getType().toString());
+            switch (request.getType().toString()) {
+                case "ADOPTION" -> type.setForeground(new Color(67, 177, 26));
+                case "TEMPORARY CARE" -> type.setForeground(new Color(214, 116, 3));
+                case "VOLUNTEERING" -> type.setForeground(new Color(9, 120, 188));
+                case "ANIMAL REGISTRATION" -> type.setForeground(new Color(221, 9, 9));
+                case "POST EDITING" -> type.setForeground(new Color(128, 0, 228));
+            }
+            reqInfoPanel.add(type);
+
+            reqInfoPanel.add(new JLabel(" "));
+            reqInfoPanel.add(new JLabel("User info: "));
+            UsersList usersList = new UsersList();
+            User reqUser = usersList.getInstance().getById(request.getUserId());
+            reqInfoPanel.add(new JLabel("Name: " + reqUser.getName()));
+            reqInfoPanel.add(new JLabel("Lastname: " + reqUser.getLastname()));
+            reqInfoPanel.add(new JLabel("Email: " + reqUser.getEmail()));
+            reqInfoPanel.add(new JLabel("Date of birth: " + reqUser.getBirthDate().toString()));
+            reqInfoPanel.add(new JLabel("Status: " + reqUser.getUserState()));
+
+            gbc.gridx = 1;
+            infoPanel.add(reqInfoPanel, gbc);
+            JButton viewButton = new JButton("View animal");
+            viewButton.setFocusable(false);
+            viewButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            viewButton.setForeground(Color.WHITE);  // Set the text color
+            viewButton.setFocusPainted(false);
+            viewButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            viewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            viewButton.addActionListener(e -> {
+                if (request.getType() == RequestType.ADOPTION || request.getType() == RequestType.TEMPORARY_CARE) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    PostDialog postDialog = new PostDialog(this, post);
+                } else if (request.getType() == RequestType.ANIMAL_REGISTRATION) {
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), null);
+                } else if (request.getType() == RequestType.POST_EDITING) {
+                    PostDTO post = feedController.getDTOById(request.getPostId());
+                    AnimalDialog animalDialog = new AnimalDialog(this, request.getUpdatedAnimal(), post);
+                }
+            });
+
+            if(request.getType() == RequestType.VOLUNTEERING){
+                viewButton.disable();
+                viewButton.setForeground(new Color(0,0,0,0));
+            }
+            // set constraints for the view button
+            gbc.gridx = 2;
+            gbc.gridy = 0;
+            gbc.weightx = 0.0;
+            gbc.weighty = 0.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets = new Insets(15, 15, 15, 15); // Adjust as needed for padding
+
+            infoPanel.add(viewButton, gbc);
+
+            // create a line separator - separates pets
+            JPanel lineSeparator = new JPanel();
+            lineSeparator.setBackground(Color.GRAY);
+            lineSeparator.setPreferredSize(new Dimension(0, 1)); // Height 2px, width 0 to be adjusted by layout
+            gbc.gridy = 1;
+            requestsPanel.add(lineSeparator, gbc);
+
+            infoPanel.setBorder(new EmptyBorder(7, 0, 7, 0));
+            infoPanel.setBackground(new Color(207, 198, 176, 234));
+
+            requestsPanel.add(infoPanel);
+        }
+
+        JScrollPane scrollRequestsPanel = new JScrollPane(requestsPanel);
+
+        tabbedPane.addTab("My requests", scrollRequestsPanel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // third tab: My Pets
         JPanel petsAdoptedPanel = new JPanel();
 
         for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds(user)) {
@@ -594,5 +716,105 @@ public class MemberWindow extends JFrame {
         });
 
         messageInfoPanel.add(replyButton);
+    }
+
+    private JPanel createButtonPanel(Request r) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Set background color
+        Color petPanelColor = new Color(207, 198, 176, 234);
+        panel.setBackground(petPanelColor);
+
+        // Common properties for buttons
+        Dimension buttonSize = new Dimension(150, 40); // Fixed size for the buttons
+
+        // Create the "Approve" button
+        JButton approveButton = new JButton("Approve");
+        approveButton.setBackground(new Color(67, 177, 26));
+        approveButton.setForeground(Color.WHITE);
+        approveButton.setPreferredSize(buttonSize);
+        approveButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        approveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        approveButton.setToolTipText("Click to approve");
+
+        // Add action listener to the "Approve" button
+        approveButton.addActionListener(e -> {
+            String message = "Do you want to proceed?";
+            int result = JOptionPane.showConfirmDialog(
+                    null, // Parent component; null makes it appear centered on the screen
+                    message, // Message to display
+                    "Confirm", // Title of the dialog
+                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
+                    JOptionPane.QUESTION_MESSAGE // Message type: Question
+            );
+            if (result != JOptionPane.YES_OPTION) {
+                return;
+            }
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                r.addApproved(user.getId());
+            } else if (r.getType() == RequestType.ADOPTION) {
+                requestsController.adoptionApproved(r);
+            } else if (r.getType() == RequestType.TEMPORARY_CARE) {
+                requestsController.fosterCareApproved(r);
+            } else if (r.getType() == RequestType.ANIMAL_REGISTRATION) {
+                requestsController.animalRegistrationApproved(r);
+            } else if (r.getType() == RequestType.POST_EDITING) {
+                requestsController.postEditingApproved(r);
+            }
+            JOptionPane.showMessageDialog(panel, "Success!");
+            //refresh();
+        });
+
+        // Create the "Reject" button
+        JButton rejectButton = new JButton("Reject");
+        rejectButton.setBackground(new Color(221, 9, 9));
+        rejectButton.setForeground(Color.WHITE);
+        rejectButton.setPreferredSize(buttonSize);
+        rejectButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        rejectButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        rejectButton.setToolTipText("Click to reject");
+
+        // Add action listener to the "Reject" button
+        rejectButton.addActionListener(e -> {
+            String message = "Do you want to proceed?";
+            // Show the confirm dialog
+            int result = JOptionPane.showConfirmDialog(
+                    null, // Parent component; null makes it appear centered on the screen
+                    message, // Message to display
+                    "Confirm", // Title of the dialog
+                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
+                    JOptionPane.QUESTION_MESSAGE // Message type: Question
+            );
+            if (result != JOptionPane.YES_OPTION) {
+                return;
+            }
+            if (r.getType() == RequestType.VOLUNTEERING) {
+                r.addRejected(user.getId());
+            } else {
+                requestsController.requestRejected(r);
+            }
+            JOptionPane.showMessageDialog(panel, "Success!");
+            //refresh();
+        });
+
+        // Configure GridBagConstraints for buttons
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(10, 0, 10, 0); // Space around buttons
+
+        // Center the buttons horizontally
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        // Add "Approve" button to the panel
+        gbc.gridy = 0;
+        panel.add(approveButton, gbc);
+
+        // Add "Reject" button to the panel
+        gbc.gridy = 1;
+        panel.add(rejectButton, gbc);
+
+        return panel;
     }
 }

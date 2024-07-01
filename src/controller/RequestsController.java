@@ -24,7 +24,7 @@ public class RequestsController {
 
         return reqs;
     }
-    private ArrayList<Request> getPendingByUser(User user){
+    public ArrayList<Request> getPendingByUser(User user){
         return RequestsList.getInstance().getPendingByUser(user);
     }
 
