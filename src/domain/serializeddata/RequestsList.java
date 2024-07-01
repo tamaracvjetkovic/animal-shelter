@@ -89,12 +89,17 @@ public class RequestsList {
         }
     }
     public void requestRejected(Request req) {
-        System.out.println("Odbijen zahtev");
         req.setState(RequestState.REJECTED);            //request rejected
         //send rejection message
         Post post = PostList.getInstance().getById(req.getPostId());
-        Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
-        String animalName = animal.getName();
+        String animalName;
+        if(req.getType() == RequestType.ANIMAL_REGISTRATION) {
+            animalName = "";
+        }else{
+            Animal animal = AnimalList.getInstance().getAnimal(post.getAnimalId());
+            animalName = animal.getName();
+        }
+
         String text = "";
 
         switch (req.getType()) {
@@ -108,7 +113,7 @@ public class RequestsList {
                 text = "Your request for volunteering was denied.";
                 break;
             case ANIMAL_REGISTRATION:
-                text = "Your request for registration of animal "+animalName+" was denied.";
+                text = "Your request for registration of animal was denied.";
                 break;
             case POST_EDITING:
                 text = "Your request for editing post of animal "+animalName+" was denied.";

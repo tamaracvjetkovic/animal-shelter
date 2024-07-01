@@ -59,20 +59,12 @@ public class MessagesList {
             }
         }
         res.sort(Comparator.comparing(Message::getSentAt));
-        System.out.println("Soritrane poruke za korisnika");
-        for (Message message : res) {
-            System.out.println(message.getSentAt());
-        }
         return res;
     }
     public ArrayList<Message> getAll() {
         ArrayList<Message> res = new ArrayList<>();
         res = messages;
         res.sort(Comparator.comparing(Message::getSentAt));
-        System.out.println("Soritrane poruke za korisnika");
-        for (Message message : res) {
-            System.out.println(message.getSentAt());
-        }
         return res;
     }
     public String messageFrom(Message message){
