@@ -183,7 +183,7 @@ public class MemberWindow extends JFrame {
 
 
 
-        /*
+
         // second tab: My posts
         JPanel postsPanel = new JPanel();
         postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
@@ -288,7 +288,7 @@ public class MemberWindow extends JFrame {
         }
 
         tabbedPane.addTab("Posts", postsPanel);
-        */
+
 
 
 
@@ -730,73 +730,18 @@ public class MemberWindow extends JFrame {
         // Common properties for buttons
         Dimension buttonSize = new Dimension(150, 40); // Fixed size for the buttons
 
-        // Create the "Approve" button
-        JButton approveButton = new JButton("Approve");
-        approveButton.setBackground(new Color(67, 177, 26));
-        approveButton.setForeground(Color.WHITE);
-        approveButton.setPreferredSize(buttonSize);
-        approveButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-        approveButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        approveButton.setToolTipText("Click to approve");
+        // Create the "Delete" button
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.setBackground(new Color(221, 9, 9));
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.setPreferredSize(buttonSize);
+        deleteButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteButton.setToolTipText("Click to reject");
 
-        // Add action listener to the "Approve" button
-        approveButton.addActionListener(e -> {
-            String message = "Do you want to proceed?";
-            int result = JOptionPane.showConfirmDialog(
-                    null, // Parent component; null makes it appear centered on the screen
-                    message, // Message to display
-                    "Confirm", // Title of the dialog
-                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
-                    JOptionPane.QUESTION_MESSAGE // Message type: Question
-            );
-            if (result != JOptionPane.YES_OPTION) {
-                return;
-            }
-            if (r.getType() == RequestType.VOLUNTEERING) {
-                r.addApproved(user.getId());
-            } else if (r.getType() == RequestType.ADOPTION) {
-                requestsController.adoptionApproved(r);
-            } else if (r.getType() == RequestType.TEMPORARY_CARE) {
-                requestsController.fosterCareApproved(r);
-            } else if (r.getType() == RequestType.ANIMAL_REGISTRATION) {
-                requestsController.animalRegistrationApproved(r);
-            } else if (r.getType() == RequestType.POST_EDITING) {
-                requestsController.postEditingApproved(r);
-            }
-            JOptionPane.showMessageDialog(panel, "Success!");
-            //refresh();
-        });
+        // Add action listener to the "Delete" button
+        deleteButton.addActionListener(e -> {
 
-        // Create the "Reject" button
-        JButton rejectButton = new JButton("Reject");
-        rejectButton.setBackground(new Color(221, 9, 9));
-        rejectButton.setForeground(Color.WHITE);
-        rejectButton.setPreferredSize(buttonSize);
-        rejectButton.setBorder(new EmptyBorder(5, 10, 5, 10));
-        rejectButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        rejectButton.setToolTipText("Click to reject");
-
-        // Add action listener to the "Reject" button
-        rejectButton.addActionListener(e -> {
-            String message = "Do you want to proceed?";
-            // Show the confirm dialog
-            int result = JOptionPane.showConfirmDialog(
-                    null, // Parent component; null makes it appear centered on the screen
-                    message, // Message to display
-                    "Confirm", // Title of the dialog
-                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
-                    JOptionPane.QUESTION_MESSAGE // Message type: Question
-            );
-            if (result != JOptionPane.YES_OPTION) {
-                return;
-            }
-            if (r.getType() == RequestType.VOLUNTEERING) {
-                r.addRejected(user.getId());
-            } else {
-                requestsController.requestRejected(r);
-            }
-            JOptionPane.showMessageDialog(panel, "Success!");
-            //refresh();
         });
 
         // Configure GridBagConstraints for buttons
@@ -808,12 +753,12 @@ public class MemberWindow extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         // Add "Approve" button to the panel
-        gbc.gridy = 0;
-        panel.add(approveButton, gbc);
+        //gbc.gridy = 0;
+        //panel.add(editButton, gbc);
 
         // Add "Reject" button to the panel
-        gbc.gridy = 1;
-        panel.add(rejectButton, gbc);
+        gbc.gridy = 0;
+        panel.add(deleteButton, gbc);
 
         return panel;
     }
