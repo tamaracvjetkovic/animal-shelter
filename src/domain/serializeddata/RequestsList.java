@@ -166,4 +166,14 @@ public class RequestsList {
 
         return requests.remove(request) ? request : null;
     }
+
+    public ArrayList<Request> getAllByUser(User user) {
+        ArrayList<Request> reqs = new ArrayList<Request>();
+        for (Request request : requests) {
+            if (request.getUserId().equals(user.getId())) {
+                reqs.add(request);
+            }
+        }
+        return reqs;
+    }
 }

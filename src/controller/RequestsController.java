@@ -26,6 +26,10 @@ public class RequestsController {
         return RequestsList.getInstance().getPendingByUser(user);
     }
 
+    public ArrayList<Request> getAllByUser(User user) {
+        return RequestsList.getInstance().getAllByUser(user);
+    }
+
     public void requestToBeVolunteer(User user, String reason) {
         int id = RequestsList.getInstance().generateId();
         RequestsList.getInstance().addRequest(new Request(id, RequestState.PENDING,

@@ -3,6 +3,7 @@ package view;
 import controller.FeedController;
 import controller.RequestsController;
 import domain.enums.MessageOwner;
+import domain.enums.RequestState;
 import domain.enums.RequestType;
 import domain.model.Message;
 import domain.model.Request;
@@ -305,7 +306,7 @@ public class MemberWindow extends JFrame {
         JPanel requestsPanel = new JPanel();
         requestsPanel.setLayout(new BoxLayout(requestsPanel, BoxLayout.Y_AXIS));
 
-        for (Request request : requestsController.getPendingByUser(user)) {
+        for (Request request : requestsController.getAllByUser(user)) {
             JPanel infoPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;
@@ -744,6 +745,12 @@ public class MemberWindow extends JFrame {
         deleteButton.setBorder(new EmptyBorder(5, 10, 5, 10));
         deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         deleteButton.setToolTipText("Click to reject");
+
+        if(r.getState() != RequestState.PENDING) {
+            deleteButton.setEnabled(false);
+            deleteButton.setBackground(new Color(122, 193, 117));
+            deleteButton.setText("<html><font color = white>Delete</font></html>");
+        }
 
         // Add action listener to the "Delete" button
         deleteButton.addActionListener(e -> {
