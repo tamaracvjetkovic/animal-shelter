@@ -4,6 +4,7 @@ import domain.model.*;
 import domain.serializeddata.*;
 import dtos.PostDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class FeedController {
@@ -20,9 +21,10 @@ public class FeedController {
 
             Animal animal = AnimalList.getInstance().getAnimal(animalId);
             Breed breed = BreedList.getInstance().getById(animal.getBreedId());
-
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = formatter.format(animal.getBorn());
             posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
-                    animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+                    animal.getColour(), formattedDate, animal.getState().toString()));
         }
 
         return posts;
@@ -31,7 +33,7 @@ public class FeedController {
     public ArrayList<PostDTO> getAllPostsWithAnimalsAndBreeds(User user) {
         ArrayList<PostDTO> posts = new ArrayList<>();
 
-        for(Post post : PostList.getInstance().getPosts()) {
+        for (Post post : PostList.getInstance().getPosts()) {
             if (user.getCreatedPostsIds().contains(post.getId())) {
                 int animalId = post.getAnimalId();
 
@@ -49,22 +51,23 @@ public class FeedController {
     public ArrayList<PostDTO> getAllPostsUserAdopted(User user) {
         ArrayList<PostDTO> posts = new ArrayList<>();
 
-        for(Post post : PostList.getInstance().getPosts()) {
+        for (Post post : PostList.getInstance().getPosts()) {
             if (user.getPostsIds().contains(post.getId())) {
                 int animalId = post.getAnimalId();
 
                 Animal animal = AnimalList.getInstance().getAnimal(animalId);
                 Breed breed = BreedList.getInstance().getById(animal.getBreedId());
-
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate = formatter.format(animal.getBorn());
                 posts.add(new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
-                        animal.getColour(), animal.getBorn().toString(), animal.getState().toString()));
+                        animal.getColour(), formattedDate, animal.getState().toString()));
             }
         }
 
         return posts;
     }
 
-    public Post getById(Integer id){
+    public Post getById(Integer id) {
         return PostList.getInstance().getById(id);
     }
 
@@ -76,8 +79,10 @@ public class FeedController {
         int animalId = post.getAnimalId();
         Animal animal = AnimalList.getInstance().getAnimal(animalId);
         Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(animal.getBorn());
         return new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
-                animal.getColour(), animal.getBorn().toString(), animal.getState().toString());
+                animal.getColour(), formattedDate, animal.getState().toString());
     }
 
     public ArrayList<PostDTO> getFilteredPosts(String name, String breed, String status, String color) {
@@ -136,7 +141,7 @@ public class FeedController {
     public String[] getBreedsForPicker() {
         String[] breeds = new String[BreedList.getInstance().getBreeds().size()];
         int i = 0;
-        for(Breed breed : BreedList.getInstance().getBreeds()) {
+        for (Breed breed : BreedList.getInstance().getBreeds()) {
             breeds[i++] = breed.getName();
         }
 
@@ -146,7 +151,7 @@ public class FeedController {
     public String[] getSpeciesForPicker() {
         String[] speciess = new String[SpeciesList.getInstance().getSpeciess().size()];
         int i = 0;
-        for(Species species : SpeciesList.getInstance().getSpeciess()) {
+        for (Species species : SpeciesList.getInstance().getSpeciess()) {
             speciess[i++] = species.getName();
         }
 
@@ -154,8 +159,8 @@ public class FeedController {
     }
 
     public int getBreedId(String name) {
-        for(Breed breed : BreedList.getInstance().getBreeds()) {
-            if(breed.getName().equalsIgnoreCase(name)) {
+        for (Breed breed : BreedList.getInstance().getBreeds()) {
+            if (breed.getName().equalsIgnoreCase(name)) {
                 return breed.getId();
             }
         }
@@ -164,8 +169,8 @@ public class FeedController {
     }
 
     public int getSpeciesId(String name) {
-        for(Species species : SpeciesList.getInstance().getSpeciess()) {
-            if(species.getName().equalsIgnoreCase(name)) {
+        for (Species species : SpeciesList.getInstance().getSpeciess()) {
+            if (species.getName().equalsIgnoreCase(name)) {
                 return species.getId();
             }
         }
@@ -174,7 +179,7 @@ public class FeedController {
     }
 
     public Animal getAnimalFromPost(PostDTO postDTO) {
-       return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
+        return AnimalList.getInstance().getAnimal(PostList.getInstance().getById(postDTO.getId()).getAnimalId());
     }
 
     public Animal getAnimalFromPostId(int postId) {

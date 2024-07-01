@@ -3,9 +3,13 @@ package view;
 import controller.FeedController;
 import controller.RequestsController;
 import domain.enums.AnimalState;
+import domain.enums.UserState;
 import domain.model.Address;
 import domain.model.Animal;
+import domain.model.Post;
 import domain.model.User;
+import domain.serializeddata.AnimalList;
+import domain.serializeddata.PostList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -92,7 +96,9 @@ public class EditPostDialog extends JDialog {
         JLabel birthDateLabel = new JLabel("Birth Date (yyyy-MM-dd):");
         panel.add(birthDateLabel, gbc);
         gbc.gridx++;
-        birthDateField = new JTextField(animal.getBorn().toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(animal.getBorn());
+        birthDateField = new JTextField(formattedDate);
         birthDateField.setPreferredSize(new Dimension(300, 25)); // Set preferred size to 300 pixels width and 25 pixels height
         panel.add(birthDateField, gbc);
 
@@ -152,27 +158,35 @@ public class EditPostDialog extends JDialog {
                 return;
             }
 
-            if(name.isEmpty() || color.isEmpty() || pictureUrl.isEmpty() || selectedPicker1.isEmpty() ||
+            if (name.isEmpty() || color.isEmpty() || pictureUrl.isEmpty() || selectedPicker1.isEmpty() ||
                     selectedPicker2.isEmpty() || birthDateText.isEmpty() || city.isEmpty() ||
                     street.isEmpty() || number.isEmpty() || !number.matches("\\d+")) {
                 JOptionPane.showMessageDialog(this, "Please fill all the required fields with right values.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
+            } else {
                 // Process the data here (e.g., save to database or display)
                 int addressId = -1;
 
-                if(city.equals(address.getCity()) && street.equals(address.getStreet()) &&
-                    number.equals(String.valueOf(address.getNumber()))) {
+                if (city.equals(address.getCity()) && street.equals(address.getStreet()) &&
+                        number.equals(String.valueOf(address.getNumber()))) {
                     addressId = animal.getAddressId();
-                }
-                else {
+                } else {
                     addressId = feedController.createAddress(city, street, number).getId();
                 }
-
-                requestsController.requestPostUpdate(user, postId, new Animal(0, name, color, birthDate, addressId,
-                        AnimalState.NOTADOPTED, new ArrayList<>(Arrays.asList(pictureUrl)),
-                        feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)));
-
+                PostList postList = new PostList();
+                Post p = postList.getInstance().getById(postId);
+                Animal originalAnimal = AnimalList.getInstance().getAnimal(p.getAnimalId());
+                if (user.getUserState() == UserState.VOLUNTEER) {
+                    requestsController.updateAnimal(postId, new Animal(0, name, color, birthDate, addressId,
+                            originalAnimal.getState(), new ArrayList<>(Arrays.asList(pictureUrl)),
+                            feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)));
+                    if (parent instanceof VolunteerWindow) { // Replace ParentClass with the actual name of your parent class
+                        ((VolunteerWindow) parent).refreshPetsPanel();
+                    }
+                } else {
+                    requestsController.requestPostUpdate(user, postId, new Animal(0, name, color, birthDate, addressId,
+                            originalAnimal.getState(), new ArrayList<>(Arrays.asList(pictureUrl)),
+                            feedController.getBreedId(selectedPicker1), feedController.getSpeciesId(selectedPicker2)));
+                }
                 // Close the dialog
                 dispose();
             }

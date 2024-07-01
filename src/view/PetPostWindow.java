@@ -27,11 +27,12 @@ public class PetPostWindow extends JFrame {
     private FeedController feedController;
     int likes;
     JPanel commentsPanel;
+    public Frame parent;
 
     public PetPostWindow(Frame parent,User user, PostDTO post) {
+        this.parent = parent;
         feedController = new FeedController();
         setWindowData(post);
-
         // Top panel for pet name and breed
         JPanel topPanel = new JPanel(new BorderLayout());
         JLabel titleLabel = new JLabel(post.getName() + " (" + post.getBreed() + ")", JLabel.CENTER);
@@ -102,16 +103,13 @@ public class PetPostWindow extends JFrame {
         petInfoPanel.add(new JLabel("Species: " + s.getName()));
         petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
         petInfoPanel.add(new JLabel("Color: " + post.getColor()));
-        petInfoPanel.add(new JLabel("Date: " + post.getDate()));
+        petInfoPanel.add(new JLabel("Date of birth: " + post.getDate()));
 
         if (user.getUserState() == UserState.VOLUNTEER) {
             AddressList addressList = new AddressList();
             Address ads = addressList.getInstance().getAddress(a.getAddressId());
             petInfoPanel.add(new JLabel("Address: " + ads.getCity() + " " + ads.getStreet() + " " + ads.getNumber()));
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = formatter.format(a.getBorn());
-        petInfoPanel.add(new JLabel("Date of birth: " + formattedDate));
 
         JLabel status = new JLabel("Status: " + post.getStatus());
         switch (post.getStatus()) {
@@ -233,7 +231,7 @@ public class PetPostWindow extends JFrame {
         adoptButton.setBorder(new EmptyBorder(6, 11, 6, 11));
         adoptButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         adoptButton.addActionListener(e -> {
-            ConfirmAdoptionWindow confirmAdoptionWIndow = new ConfirmAdoptionWindow(user, post);
+            ConfirmAdoptionWindow confirmAdoptionWIndow = new ConfirmAdoptionWindow(this,user, post);
         });
         if (!post.getStatus().equalsIgnoreCase("Not adopted")) {
             adoptButton.setEnabled(false);
@@ -251,7 +249,7 @@ public class PetPostWindow extends JFrame {
         endFosterCareButton.setBorder(new EmptyBorder(6, 11, 6, 11));
         endFosterCareButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         endFosterCareButton.addActionListener(e -> {endFosterCare(post); if (parent instanceof VolunteerWindow) { // Replace ParentClass with the actual name of your parent class
-            ((VolunteerWindow) parent).refresh();
+            ((VolunteerWindow) parent).refreshPetsPanel();
             showMessageDialog(null, "Foster care is ended\n");
             dispose();
         }});

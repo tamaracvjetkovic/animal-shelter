@@ -1,9 +1,19 @@
 package view;
 
+import domain.model.Address;
+import domain.model.Animal;
+import domain.model.Post;
+import domain.model.Species;
+import domain.serializeddata.AddressList;
+import domain.serializeddata.AnimalList;
+import domain.serializeddata.PostList;
+import domain.serializeddata.SpeciesList;
 import dtos.PostDTO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PostDialog extends JDialog {
     public PostDialog(Frame parent, PostDTO post) {
@@ -38,13 +48,23 @@ public class PostDialog extends JDialog {
         petInfoPanel.setLayout(new BoxLayout(petInfoPanel, BoxLayout.Y_AXIS));
         petInfoPanel.setBackground(petPanelColor);
 
-        petInfoPanel.add(new JLabel(" "));
-        petInfoPanel.add(new JLabel("Name: " + post.getName()));
+        PostList postList = new PostList();
+        Post p = postList.getInstance().getById(post.getId());
+        AnimalList animalList = new AnimalList();
+        Animal a = animalList.getInstance().getAnimal(p.getAnimalId());
+
+        petInfoPanel.add(new JLabel("Pet name: " + post.getName()));
+        SpeciesList sList = new SpeciesList();
+        Species s = sList.getInstance().getSpecies(a.getSpeciesId());
+        petInfoPanel.add(new JLabel("Species: " + s.getName()));
         petInfoPanel.add(new JLabel("Breed: " + post.getBreed()));
         petInfoPanel.add(new JLabel("Color: " + post.getColor()));
-        petInfoPanel.add(new JLabel("Date: " + post.getDate()));
-        petInfoPanel.add(new JLabel(" "));
+        petInfoPanel.add(new JLabel("Date of birth: " + post.getDate()));
 
+        AddressList addressList = new AddressList();
+        Address ads = addressList.getInstance().getAddress(a.getAddressId());
+        petInfoPanel.add(new JLabel("Address: " + ads.getCity() + " " + ads.getStreet() + " " + ads.getNumber()));
+        petInfoPanel.add(new JLabel(" "));
         JLabel adopted = new JLabel("Status: " + post.getStatus());
         switch (post.getStatus()) {
             case "Adopted" -> adopted.setForeground(new Color(67, 177, 26));
@@ -52,6 +72,7 @@ public class PostDialog extends JDialog {
             case "In foster care" -> adopted.setForeground(new Color(9, 120, 188));
             case "Under treatment" -> adopted.setForeground(new Color(221, 9, 9));
         }
+
         petInfoPanel.add(adopted);
 
         gbc.gridx = 1;
