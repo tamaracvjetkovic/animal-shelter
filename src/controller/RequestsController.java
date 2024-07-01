@@ -196,4 +196,8 @@ public class RequestsController {
         user.removePostId(post.getId());                //rmeove post from users posts
 
     }
+
+    public Request deleteRequest(int id){
+        return RequestsList.getInstance().deleteRequest(id);
+    }
 }

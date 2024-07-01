@@ -741,7 +741,18 @@ public class MemberWindow extends JFrame {
 
         // Add action listener to the "Delete" button
         deleteButton.addActionListener(e -> {
+            String message = "Do you want to proceed?";
+            int result = JOptionPane.showConfirmDialog(
+                    this, // Parent component; null makes it appear centered on the screen
+                    message, // Message to display
+                    "Confirm", // Title of the dialog
+                    JOptionPane.YES_NO_OPTION, // Option type: Yes/No
+                    JOptionPane.QUESTION_MESSAGE // Message type: Question
+            );
 
+            if (result == JOptionPane.YES_OPTION) {
+                requestsController.deleteRequest(r.getId());
+            }
         });
 
         // Configure GridBagConstraints for buttons

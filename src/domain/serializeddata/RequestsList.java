@@ -113,4 +113,20 @@ public class RequestsList {
     public boolean hasUserVoted(Request req,User user) {
         return req.getApproved().contains(user.getId()) || req.getRejected().contains(user.getId());
     }
+
+    public Request getRequestById(int id) {
+        for (Request request : requests) {
+            if (request.getId() == id) {
+                return request;
+            }
+        }
+
+        return null;
+    }
+
+    public Request deleteRequest(int id) {
+        Request request = getRequestById(id);
+
+        return requests.remove(request) ? request : null;
+    }
 }
