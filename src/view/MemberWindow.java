@@ -246,6 +246,12 @@ public class MemberWindow extends JFrame {
 
             // "Edit" button
             JButton editButton = new JButton("Edit");
+            editButton.setFocusable(false);
+            editButton.setBackground(new Color(163, 153, 131));  // Set the background color
+            editButton.setForeground(Color.WHITE);  // Set the text color
+            editButton.setFocusPainted(false);
+            editButton.setBorder(new EmptyBorder(5, 10, 5, 10));
+            editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
             editButton.addActionListener(e -> {
                 EditPostDialog editPostDialog = new EditPostDialog(this, user, feedController.getAnimalFromPost(post), post.getId());
