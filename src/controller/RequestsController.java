@@ -194,6 +194,12 @@ public class RequestsController {
         }
         animal.setState(AnimalState.NOTADOPTED);        //change state od animal abck to NOTADOPTED
         user.removePostId(post.getId());                //rmeove post from users posts
-
+    }
+    public void updateAnimal(Integer postId, Animal updatedAnimal){
+        Post post = PostList.getInstance().getById(postId);
+        if(post == null) return;
+        updatedAnimal.setId(post.getAnimalId());
+        System.out.println("Updated animal je "+updatedAnimal.toString());
+        AnimalList.getInstance().updateAnimal(updatedAnimal);
     }
 }
