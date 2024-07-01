@@ -635,6 +635,7 @@ public class VolunteerWindow extends JFrame {
                 r.addRejected(user.getId());
             } else {
                 requestsController.requestRejected(r);
+                refreshInboxPanel();
             }
             JOptionPane.showMessageDialog(panel, "Success!");
             refreshRequestsPanel();
