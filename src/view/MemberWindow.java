@@ -408,7 +408,7 @@ public class MemberWindow extends JFrame {
         // third tab: My Pets
         JPanel petsAdoptedPanel = new JPanel();
 
-        for (PostDTO post : feedController.getAllPostsWithAnimalsAndBreeds(user)) {
+        for (PostDTO post : feedController.getAllPostsUserAdopted(user)) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.BOTH;

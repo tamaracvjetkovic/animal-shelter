@@ -311,7 +311,6 @@ public class VolunteerWindow extends JFrame {
         searchPanel.add(addBreedAndSpeciesButton);
 
         petPanel.add(searchPanel, BorderLayout.SOUTH);
-
         for (PostDTO post : posts) {
             JPanel petPostPanel = new JPanel(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
@@ -653,6 +652,7 @@ public class VolunteerWindow extends JFrame {
 
     public void refreshPetsPanel() {
         petsPanel.removeAll();
+        posts = feedController.getAllPostsWithAnimalsAndBreeds();
         setUpPetsPanel(petsPanel);
         petsPanel.revalidate();
         petsPanel.repaint();

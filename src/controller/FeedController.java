@@ -78,7 +78,7 @@ public class FeedController {
         }
         int animalId = post.getAnimalId();
         Animal animal = AnimalList.getInstance().getAnimal(animalId);
-        Breed breed = BreedList.getInstance().getBreedByAnimalId(animalId);
+        Breed breed = BreedList.getInstance().getBreedByAnimalId(animal.getBreedId());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(animal.getBorn());
         return new PostDTO(post.getId(), animal.getMultimedia().get(0), animal.getName(), breed.getName(),
