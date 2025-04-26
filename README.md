@@ -1,6 +1,6 @@
 # Animal Shelter 🦔🐾
 
-A GUI application for an animal shelter organization.
+A GUI prototype application for an animal shelter organization.
 
 ---
 
