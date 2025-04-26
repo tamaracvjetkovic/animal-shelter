@@ -1,4 +1,4 @@
-# Animal Shelter 🐾
+# Animal Shelter 🦔🐾
 
 A GUI application for an animal shelter organization.
 
