@@ -4,7 +4,7 @@ A GUI prototype application for an animal shelter organization.
 
 ---
 
-This was a university project for the course "Software Specification and Modeling", taken in the 4th semester of the Software Engineering and Information Technologies program.
+This was a university project, done in the team of four, for the course "Software Specification and Modeling", taken in the 4th semester of the Software Engineering and Information Technologies program.
 
 The ``goal`` of the project was to:
 - practice gathering requirements and writing a project specification based on meeting with the professor acting as a real-life client,
