@@ -46,4 +46,3 @@ Date: July, 2024.
 To use this application, follow the next steps:
 1) clone this repo,
 2) run the program in IntelliJ
-   
